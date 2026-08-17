@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Computer Vision — Exam Prep</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header class="site-header">
+    <h1>Computer Vision</h1>
+    <p>Exam Prep · 12 Questions · Units I, II &amp; III</p>
+  </header>
+
+  <div class="section-nav">
+    <button class="section-btn active" onclick="showSection('s1')">Unit I — Q1–Q3</button>
+    <button class="section-btn" onclick="showSection('s2')">Unit II — Q4–Q10</button>
+    <button class="section-btn" onclick="showSection('s3')">Unit III — Q11–Q12</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════
+       UNIT I — Q1, Q2, Q3
+  ═══════════════════════════════════════════════ -->
+  <div class="section-panel active" id="s1">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('s1',0)">Q1 · History</button>
+      <button class="tab-btn" onclick="showTab('s1',1)">Q2 · OpenCV Setup</button>
+      <button class="tab-btn" onclick="showTab('s1',2)">Q3 · Cross-Platform</button>
+    </div>
+
+    <!-- Q1 -->
+    <div class="tab-content active" id="s1-tab-0">
+      <div class="question-block">
+        <h2 class="q-title">Q1. Explain the historical development of computer vision with a neat graph showing its major milestones. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>What is Computer Vision?</h3>
+          <p>Computer Vision (CV) is an interdisciplinary field of Artificial Intelligence that enables computational systems to acquire, process, analyse, and understand real-world digital images and video sequences, essentially teaching machines to "see" and derive meaning from visual data the way humans do.</p>
+
+          <h3>The 5-Stage Vision Pipeline</h3>
+          <p>Before tracing its history, it helps to understand the pipeline every CV system follows, since the historical milestones map onto improvements at each stage:</p>
+          <ol>
+            <li><strong>Image Acquisition</strong> — capturing visual input via RGB sensors, depth cameras (Kinect), thermal imagers, or medical scanners</li>
+            <li><strong>Preprocessing</strong> — noise reduction, resizing, colour-space conversion (BGR→Grayscale/HSV), intensity normalisation</li>
+            <li><strong>Feature Extraction</strong> — isolating edges, gradients, and descriptors using classical operators (Canny, Harris, SIFT) or CNNs</li>
+            <li><strong>Analysis &amp; Understanding</strong> — classification, object localisation, segmentation, tracking</li>
+            <li><strong>Decision Making &amp; Action</strong> — converting inference into alerts, robotic actuation, or visual overlays</li>
+          </ol>
+
+          <h3>Historical Milestones, Decade by Decade</h3>
+
+          <h4>1940s–1950s: Biological Foundations</h4>
+          <p>The field's theoretical roots go back to the <strong>McCulloch-Pitts neuron model (1943)</strong>, the first mathematical model of a biological neuron, and <strong>Rosenblatt's Perceptron (1958)</strong>, which established the fundamental logic of pattern recognition that vision systems would later depend on.</p>
+
+          <h4>1960s: The Field is Born</h4>
+          <p>Computer Vision formally began with the <strong>MIT Summer Vision Project (1966)</strong>, an ambitious (and famously over-optimistic) attempt to solve "the vision problem" in a single summer. <strong>Larry Roberts</strong> pioneered 3D polyhedral scene analysis, showing that 2D images could be interpreted as projections of 3D block-shaped objects.</p>
+
+          <h4>1970s: The Computational Theory of Vision</h4>
+          <p><strong>David Marr</strong> formulated a structured computational paradigm for vision, proposing a three-stage representation: <strong>Primal Sketch → 2.5D Sketch → 3D Model</strong>. This decade also produced foundational edge-detection filters that remain conceptually important today.</p>
+
+          <h4>1980s–1990s: Statistical Modelling Era</h4>
+          <p>The field shifted toward statistical approaches: stereo disparity estimation for depth perception, Optical Character Recognition (OCR), and industrial inspection lines for manufacturing quality control.</p>
+
+          <h4>2000s: Handcrafted Features</h4>
+          <p>This decade is defined by handcrafted feature descriptors and statistical classifiers — most notably <strong>SIFT (Scale-Invariant Feature Transform)</strong> by David Lowe, and the <strong>Viola-Jones framework</strong>, which enabled real-time face detection for the first time.</p>
+
+          <h4>2010s–Present: The Deep Learning Revolution</h4>
+          <p>The modern era was triggered by <strong>AlexNet (2012)</strong>, whose dramatic win at the ImageNet competition proved deep Convolutional Neural Networks could outperform handcrafted methods by a wide margin. This drove the development of modern architectures like <strong>YOLO</strong> and <strong>Faster R-CNN</strong> for object detection, and more recently <strong>Vision Transformers (ViTs)</strong>, which apply the transformer architecture (originally built for language) to image patches.</p>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
+              <line x1="60" y1="250" x2="680" y2="250" stroke="var(--border)" stroke-width="2"/>
+              <line x1="60" y1="250" x2="60" y2="30" stroke="var(--border)" stroke-width="2"/>
+              <text x="20" y="20" fill="var(--text-muted)" font-size="11">Sophistication</text>
+              <text x="600" y="270" fill="var(--text-muted)" font-size="11">Time →</text>
+
+              <path d="M 60,240 C 150,238 200,230 260,215 C 330,200 380,170 450,130 C 520,90 570,60 660,40"
+                    fill="none" stroke="var(--accent)" stroke-width="3"/>
+
+              <circle cx="90" cy="242" r="5" fill="var(--warning)"/>
+              <text x="75" y="264" fill="var(--text)" font-size="10">1943/58</text>
+              <text x="70" y="278" fill="var(--text-muted)" font-size="9">Neuron/Perceptron</text>
+
+              <circle cx="180" cy="232" r="5" fill="var(--warning)"/>
+              <text x="150" y="215" fill="var(--text)" font-size="10">1966</text>
+              <text x="120" y="200" fill="var(--text-muted)" font-size="9">MIT Vision Project</text>
+
+              <circle cx="290" cy="205" r="5" fill="var(--warning)"/>
+              <text x="255" y="188" fill="var(--text)" font-size="10">1970s</text>
+              <text x="230" y="173" fill="var(--text-muted)" font-size="9">Marr's paradigm</text>
+
+              <circle cx="400" cy="150" r="5" fill="var(--warning)"/>
+              <text x="345" y="140" fill="var(--text)" font-size="10">1980s–90s</text>
+              <text x="345" y="125" fill="var(--text-muted)" font-size="9">Stereo, OCR</text>
+
+              <circle cx="490" cy="105" r="5" fill="var(--success)"/>
+              <text x="460" y="95" fill="var(--text)" font-size="10">2000s</text>
+              <text x="430" y="80" fill="var(--text-muted)" font-size="9">SIFT, Viola-Jones</text>
+
+              <circle cx="600" cy="55" r="6" fill="var(--success)"/>
+              <text x="560" y="45" fill="var(--text)" font-size="10">2012–Now</text>
+              <text x="540" y="30" fill="var(--text-muted)" font-size="9">AlexNet, YOLO, ViT</text>
+            </svg>
+            <p class="svg-caption">Fig. Exponential growth curve of CV milestones, 1940s to present</p>
+          </div>
+
+          <div class="callout good">
+            <strong>Key trend:</strong> Every decade shows a shift from biologically-inspired theory (1940s–50s) → geometric/rule-based reasoning (1960s–70s) → statistical methods (1980s–2000s) → data-driven deep learning (2010s onward). The pace of progress has accelerated sharply since 2012.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="tab-content" id="s1-tab-1">
+      <div class="question-block">
+        <h2 class="q-title">Q2. Describe the procedure for installing and configuring OpenCV on Windows and explain the purpose of each major step. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Overview</h3>
+          <p>OpenCV (Open Source Computer Vision Library) can be installed on Windows in two common ways: via <strong>pip</strong> (for Python development, the fastest route) or by <strong>building from source with CMake</strong> (needed for C++ development or custom hardware acceleration). Both are described below along with the purpose of each step.</p>
+
+          <h3>Method 1: Python Installation via pip (Most Common)</h3>
+          <table>
+            <tr><th>Step</th><th>Command / Action</th><th>Purpose</th></tr>
+            <tr><td>1</td><td>Install Python (3.7+) from python.org, ensuring "Add to PATH" is checked</td><td>Provides the interpreter and package manager (pip) OpenCV's Python bindings run on</td></tr>
+            <tr><td>2</td><td><code>python -m venv cv_env</code> then activate it</td><td>Creates an isolated virtual environment so OpenCV's dependencies don't conflict with other projects</td></tr>
+            <tr><td>3</td><td><code>pip install opencv-python</code></td><td>Installs the core library (main modules only — <code>imgproc</code>, <code>core</code>, <code>highgui</code>, etc.)</td></tr>
+            <tr><td>4</td><td><code>pip install opencv-contrib-python</code> (optional)</td><td>Adds extra/experimental modules (SIFT, extended <code>dnn</code> features) not in the main distribution</td></tr>
+            <tr><td>5</td><td><code>python -c "import cv2; print(cv2.__version__)"</code></td><td>Verifies the installation succeeded and confirms the version installed</td></tr>
+          </table>
+
+          <h3>Method 2: Building from Source with CMake (for C++ / custom builds)</h3>
+          <table>
+            <tr><th>Step</th><th>Action</th><th>Purpose</th></tr>
+            <tr><td>1</td><td>Install <strong>Visual Studio</strong> (with C++ build tools) and <strong>CMake</strong></td><td>Visual Studio provides the native Windows compiler; CMake is the meta-build system that generates the Visual Studio project files from OpenCV's source</td></tr>
+            <tr><td>2</td><td>Download the OpenCV source (and optionally <code>opencv_contrib</code>) from GitHub</td><td>Source code is required to compile a custom build, e.g. with GPU acceleration enabled</td></tr>
+            <tr><td>3</td><td>Run <code>cmake-gui</code>, set source/build directories, click <em>Configure</em> then <em>Generate</em></td><td>CMake reads <code>CMakeLists.txt</code> and produces a Visual Studio solution tailored to the installed toolchain and selected options (e.g. <code>WITH_CUDA=ON</code>)</td></tr>
+            <tr><td>4</td><td>Open the generated <code>.sln</code> in Visual Studio, build the <code>ALL_BUILD</code> and then <code>INSTALL</code> targets</td><td>Compiles OpenCV's C++ source into linkable libraries (.lib/.dll) and installs headers to the target directory</td></tr>
+            <tr><td>5</td><td>Add the OpenCV <code>bin</code> folder to the Windows <strong>PATH</strong> environment variable</td><td>Lets the OS locate OpenCV's DLLs at runtime when any program using OpenCV is executed</td></tr>
+            <tr><td>6</td><td>Configure project settings (Include/Library directories, linker dependencies) in Visual Studio</td><td>Tells the compiler where to find OpenCV headers and the linker which <code>.lib</code> files to bind against</td></tr>
+          </table>
+
+          <h3>Common Post-Install Verification</h3>
+          <p>Regardless of method, a minimal test program is run to confirm the setup: reading an image with <code>cv2.imread()</code> or <code>cv::imread()</code>, checking it isn't empty, and displaying it. A successful display confirms the library, its GUI backend, and the codecs are all correctly linked.</p>
+
+          <div class="callout warn">
+            <strong>Common pitfalls:</strong> forgetting to add Python/CMake to PATH, mismatched architecture (32-bit vs 64-bit) between Python and OpenCV binaries, and missing Visual C++ Redistributables when running compiled C++ OpenCV applications.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="tab-content" id="s1-tab-2">
+      <div class="question-block">
+        <h2 class="q-title">Q3. Explain the concept of cross-platform development workflow in OpenCV. Why is it important in practical computer vision applications? <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>What "Cross-Platform" Means for OpenCV</h3>
+          <p>OpenCV is designed to be written once and deployed across Windows, Linux, macOS, Android, and iOS without rewriting the core image-processing logic. This is achieved through three coordinated mechanisms: a unified build system, a hardware abstraction layer, and OS-independent backend routing.</p>
+
+          <h3>1. CMake — The Meta-Build System</h3>
+          <p>OpenCV's cross-platform build relies on <strong>CMake</strong>, which reads a single <code>CMakeLists.txt</code> configuration file and generates the appropriate <em>native</em> build environment for whichever platform it runs on: Visual Studio solutions on Windows, Makefiles or Ninja files on Linux, and Xcode projects on macOS. The developer maintains one build description; CMake handles translating it to each platform's native toolchain.</p>
+
+          <h3>2. Hardware Abstraction Layer (HAL)</h3>
+          <p>Different CPUs support different vector instruction sets — x86 processors use <strong>AVX</strong>, ARM processors (mobile/embedded) use <strong>NEON</strong>. OpenCV's HAL automatically translates image-processing instructions to the target-specific vector registers <strong>without requiring the source code to change</strong>. The same <code>cv2.GaussianBlur()</code> call compiles down to AVX instructions on a laptop and NEON instructions on a phone.</p>
+
+          <h3>3. OS-Independent Backends</h3>
+          <p>Functions like <code>cv::VideoCapture</code> need to talk to completely different underlying camera/media APIs per OS. OpenCV's abstraction layer routes these calls seamlessly: <strong>Media Foundation</strong> on Windows, <strong>V4L (Video4Linux)</strong> on Linux, and <strong>AVFoundation</strong> on macOS — all through the same unified API surface the developer codes against.</p>
+
+          <h3>4. Hardware Acceleration Layer</h3>
+          <p>Beyond CPU vectorisation, OpenCV natively supports acceleration via <strong>CUDA</strong> (NVIDIA GPUs), <strong>OpenCL</strong> (heterogeneous compute across GPU/CPU/FPGA), and <strong>Intel IPP/OpenVINO</strong> — again selected transparently based on what hardware is available at runtime or compile-configuration.</p>
+
+          <h3>Why This Matters in Practice</h3>
+          <ul>
+            <li><strong>Write once, deploy everywhere:</strong> A vision pipeline developed and tested on a Windows laptop can be deployed to an embedded Linux device or an Android app with minimal code changes.</li>
+            <li><strong>Performance portability:</strong> The same code automatically benefits from whatever acceleration hardware (GPU, SIMD) is present, without the developer hand-tuning per platform.</li>
+            <li><strong>Faster iteration:</strong> Teams don't need separate platform-specific codebases, which reduces bugs from divergent implementations and speeds up development.</li>
+            <li><strong>Real-world deployment diversity:</strong> CV applications run on an unusually wide hardware spread — security cameras (embedded Linux), phones (Android/iOS), industrial robots (custom RTOS-adjacent Linux), and desktop research systems (Windows/macOS) — making portability a practical necessity, not a luxury.</li>
+          </ul>
+
+          <div class="callout good">
+            <strong>Summary:</strong> Cross-platform capability in OpenCV is not just "the code compiles everywhere" — it is achieved through CMake (build translation), HAL (instruction-set translation), and OS-independent backends (API translation), together allowing identical high-level code to run efficiently on radically different hardware and operating systems.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end Unit I -->
+
+
+  <!-- ═══════════════════════════════════════════════
+       UNIT II — Q4 to Q10
+  ═══════════════════════════════════════════════ -->
+  <div class="section-panel" id="s2">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('s2',0)">Q4 · Image as Matrix</button>
+      <button class="tab-btn" onclick="showTab('s2',1)">Q5 · Black Image Fix</button>
+      <button class="tab-btn" onclick="showTab('s2',2)">Q6 · Traversal + LUT</button>
+      <button class="tab-btn" onclick="showTab('s2',3)">Q7 · Pixel Access</button>
+      <button class="tab-btn" onclick="showTab('s2',4)">Q8 · Masks + Blending</button>
+      <button class="tab-btn" onclick="showTab('s2',5)">Q9 · Mat Implementation</button>
+      <button class="tab-btn" onclick="showTab('s2',6)">Q10 · DFT</button>
+    </div>
+
+    <!-- Q4 -->
+    <div class="tab-content active" id="s2-tab-0">
+      <div class="question-block">
+        <h2 class="q-title">Q4. Analyze how an image is represented as a matrix and examine the relationship between image dimensions, pixels, and matrix elements. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Image as a Matrix</h3>
+          <p>Digitally, an image is a discrete 2D (or 3D, for colour) array of numbers. Each element of this array is a <strong>pixel</strong> (picture element), and its value represents the intensity or colour sampled at that spatial location. In OpenCV, this array is stored inside a <code>cv::Mat</code> object — the fundamental data structure of the library.</p>
+
+          <h3>Dimensions and Their Meaning</h3>
+          <ul>
+            <li><strong>Rows &amp; Columns:</strong> A grayscale image of size <code>rows × cols</code> (commonly written <code>height × width</code>) has exactly <code>rows × cols</code> pixel values — one intensity value per matrix cell.</li>
+            <li><strong>Channels:</strong> A colour image adds a third dimension — <em>channels</em> — typically 3 for BGR (Blue, Green, Red as OpenCV orders them) or 4 with an added Alpha (transparency) channel. So a colour image is really <code>rows × cols × channels</code> individual values.</li>
+            <li><strong>Bit-depth:</strong> Each value itself has a type/precision — e.g. <code>CV_8U</code> (8-bit unsigned, 0–255, the most common for standard images), <code>CV_32F</code> (32-bit float, used in intermediate computations like DFT), etc.</li>
+          </ul>
+
+          <h3>Relationship: Pixels ↔ Matrix Elements</h3>
+          <p>Every pixel maps one-to-one to a matrix element (or, for colour images, a small group of <code>channels</code> contiguous elements). For a 3-channel BGR image, the data is stored in <strong>row-major, interleaved</strong> order: <code>B₀ G₀ R₀ B₁ G₁ R₁ …</code> — meaning the three channel values of one pixel sit next to each other in memory before the next pixel begins.</p>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg">
+              <rect x="20" y="30" width="220" height="150" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
+              <text x="130" y="20" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Matrix Header</text>
+              <text x="35" y="55" fill="var(--text)" font-size="11">rows, cols, dims</text>
+              <text x="35" y="78" fill="var(--text)" font-size="11">type: CV_8UC3</text>
+              <text x="35" y="101" fill="var(--text)" font-size="11">step[0], step[1]</text>
+              <text x="35" y="124" fill="var(--text)" font-size="11">refcount pointer</text>
+              <text x="35" y="147" fill="var(--text)" font-size="11">data pointer ───┐</text>
+
+              <line x1="240" y1="150" x2="300" y2="150" stroke="var(--accent-hover)" stroke-width="2" marker-end="url(#arrow)"/>
+
+              <rect x="300" y="70" width="320" height="40" fill="var(--surface2)" stroke="var(--border)"/>
+              <text x="460" y="60" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Dynamic Data Block (row-major, interleaved)</text>
+              <text x="315" y="95" fill="var(--text)" font-size="10">B₀G₀R₀</text>
+              <text x="370" y="95" fill="var(--text)" font-size="10">B₁G₁R₁</text>
+              <text x="425" y="95" fill="var(--text)" font-size="10">B₂G₂R₂</text>
+              <text x="480" y="95" fill="var(--text)" font-size="10">B₃G₃R₃</text>
+              <text x="535" y="95" fill="var(--text-muted)" font-size="10">…</text>
+
+              <defs>
+                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                  <path d="M0,0 L6,3 L0,6 Z" fill="var(--accent-hover)"/>
+                </marker>
+              </defs>
+            </svg>
+            <p class="svg-caption">Fig. cv::Mat header (metadata) pointing to the contiguous pixel data block</p>
+          </div>
+
+          <h3>Direct Pixel Addressing</h3>
+          <p>OpenCV uses a <strong>strided addressing scheme</strong> so any pixel can be located directly without scanning the array. Given <code>step[0]</code> (bytes per row, including any padding) and <code>step[1]</code> (bytes per element):</p>
+          <div class="callout">
+            Address(y, x) = data + (y · step[0]) + (x · step[1])
+          </div>
+          <p>This formula is what makes operations like cropping (NumPy slicing: <code>image[y1:y2, x1:x2]</code>) and Region-of-Interest extraction efficient — they simply compute new offsets into the <em>same</em> underlying data block rather than copying pixels.</p>
+
+          <h3>Summary Table</h3>
+          <table>
+            <tr><th>Image Concept</th><th>Matrix Equivalent</th></tr>
+            <tr><td>Image height</td><td>Number of rows</td></tr>
+            <tr><td>Image width</td><td>Number of columns</td></tr>
+            <tr><td>Colour channels (B, G, R)</td><td>Interleaved depth per element</td></tr>
+            <tr><td>One pixel (grayscale)</td><td>One matrix element</td></tr>
+            <tr><td>One pixel (colour)</td><td>A group of <code>channels</code> contiguous elements</td></tr>
+            <tr><td>Total pixel count</td><td>rows × cols</td></tr>
+            <tr><td>Total stored values</td><td>rows × cols × channels</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="tab-content" id="s2-tab-1">
+      <div class="question-block">
+        <h2 class="q-title">Q5. A program successfully loads an image, but the displayed image appears completely black. Analyze the possible causes and suggest suitable solutions. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Why This Happens Even Though "Loading Succeeded"</h3>
+          <p>"Successfully loads" typically means <code>cv2.imread()</code> didn't return <code>None</code> — but a non-empty matrix can still <em>display</em> as black for several independent reasons spanning data type, colour space, display environment, and content itself.</p>
+
+          <table>
+            <tr><th>Cause</th><th>Why It Produces Black</th><th>Solution</th></tr>
+            <tr>
+              <td><strong>Wrong data type / scale</strong></td>
+              <td>Image stored as float (e.g. <code>CV_32F</code>) with values in range [0, 1], but the display routine expects [0, 255] <code>uint8</code>. Small floats round down to near-zero when cast, rendering as black.</td>
+              <td>Scale explicitly: <code>img = (img * 255).astype('uint8')</code>, or use <code>cv2.normalize()</code> before display.</td>
+            </tr>
+            <tr>
+              <td><strong>Incorrect colour-space conversion</strong></td>
+              <td>Displaying a BGR image through a pipeline expecting RGB (or vice-versa) doesn't literally turn it black — but converting to the wrong single-channel space (e.g. extracting an empty Alpha channel) will.</td>
+              <td>Verify the conversion flag, e.g. <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code>, and check <code>img.shape</code> matches expectations (3 channels vs 4).</td>
+            </tr>
+            <tr>
+              <td><strong>imshow() called without waitKey()</strong></td>
+              <td>In a local Python script, <code>cv2.imshow()</code> opens a window but the OS doesn't get a chance to render/refresh it before the script exits or moves on — the window appears but shows nothing/black.</td>
+              <td>Always follow with <code>cv2.waitKey(0)</code> and <code>cv2.destroyAllWindows()</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Using cv2.imshow() in Google Colab</strong></td>
+              <td>Colab's remote/headless backend doesn't support native GUI windows at all — the call may silently fail or crash the kernel, which can appear as a black/blank output.</td>
+              <td>Use the Colab-specific patch: <code>from google.colab.patches import cv2_imshow; cv2_imshow(img)</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Wrong colour order in Matplotlib</strong></td>
+              <td>Matplotlib's <code>plt.imshow()</code> expects RGB, but OpenCV images are natively BGR. Channel-swapped images can look very dark/wrong-toned depending on content, sometimes near-black for certain images.</td>
+              <td>Convert first: <code>plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))</code>.</td>
+            </tr>
+            <tr>
+              <td><strong>Uninitialized / all-zero matrix</strong></td>
+              <td>If the image was created with <code>np.zeros()</code> for a placeholder and never actually filled with the loaded data (e.g. a bug in the read path before display), it is genuinely all-black data, not a display issue.</td>
+              <td>Print <code>img.max()</code> and <code>img.min()</code> to confirm actual pixel content before assuming a display bug.</td>
+            </tr>
+            <tr>
+              <td><strong>Wrong file path silently loading a different/corrupt file</strong></td>
+              <td><code>imread()</code> can return a valid but tiny/blank placeholder if pointed at a broken or unexpected file, without raising an error.</td>
+              <td>Check <code>img.shape</code> and <code>img is not None</code> immediately after loading, and confirm the path is correct.</td>
+            </tr>
+          </table>
+
+          <h3>Systematic Debugging Approach</h3>
+          <ol>
+            <li>Print <code>img.shape</code>, <code>img.dtype</code>, <code>img.min()</code>, <code>img.max()</code> right after loading — this immediately distinguishes a data problem from a display problem.</li>
+            <li>If min/max show real variation, the issue is in the <strong>display/render path</strong> (colour space, scaling, or environment).</li>
+            <li>If min/max are both 0, the issue is <strong>upstream</strong> — the actual image data was never populated correctly.</li>
+          </ol>
+
+          <div class="callout good">
+            <strong>Conclusion:</strong> A "black image" bug is rarely one single cause — it's a checklist problem spanning data type/scaling, colour-space handling, and environment-specific display quirks (script vs. Colab vs. Jupyter). Diagnosing starts by separating "is the data actually black" from "is the display making it look black."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="tab-content" id="s2-tab-2">
+      <div class="question-block">
+        <h2 class="q-title">Q6. List any three image traversal methods and state the purpose of lookup table-based intensity transformation. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Part A — Image Traversal Methods</h3>
+          <p>Image traversal is the systematic order in which pixel locations in a 2D array are visited by an algorithm. The traversal order chosen affects computational efficiency (cache locality), compression performance, and correctness of region-based operations. Three important methods:</p>
+
+          <h4>1. Raster Scan (Row-Major) Traversal</h4>
+          <p>Pixels are visited row by row, left to right, top to bottom — matching the natural memory layout of a 2D array (row-major order).</p>
+          <pre><code>for row = 0 to height-1:
+    for col = 0 to width-1:
+        visit(image[row][col])</code></pre>
+          <p>Complexity is O(H×W) with excellent intra-row cache locality, but incurs a discontinuous jump at the end of every row. Used in display rendering, basic filters, and video scanning.</p>
+
+          <h4>2. Boustrophedon (Serpentine / Zigzag Row) Traversal</h4>
+          <p>Named after the ox-plowing pattern — alternates scan direction on each row (even rows left→right, odd rows right→left), which avoids the large jump raster scan makes at each line break and maintains spatial continuity between consecutive rows. Used in hardware scanners, dot-matrix/thermal printers, and robotic scan paths.</p>
+
+          <h4>3. Zigzag Diagonal Traversal (JPEG-style)</h4>
+          <p>Applied to 8×8 DCT coefficient blocks (not raw pixels). After the Discrete Cosine Transform and quantisation, energy concentrates at the top-left (low frequency); the diagonal zigzag groups the resulting trailing zero coefficients together for efficient Run-Length Encoding. Used in JPEG still-image compression and MPEG intra-frame video coding.</p>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg">
+              <!-- Raster -->
+              <text x="70" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Raster</text>
+              <g transform="translate(20,25)">
+                <path d="M5,5 L95,5 M5,45 L95,45 M5,85 L95,85" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+                <line x1="5" y1="5" x2="5" y2="45" stroke="var(--text-dim)" stroke-dasharray="2,2"/>
+                <line x1="5" y1="45" x2="5" y2="85" stroke="var(--text-dim)" stroke-dasharray="2,2"/>
+              </g>
+              <!-- Boustrophedon -->
+              <text x="290" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Boustrophedon</text>
+              <g transform="translate(240,25)">
+                <path d="M5,5 L95,5 L95,45 L5,45 L5,85 L95,85" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+              </g>
+              <!-- Zigzag diagonal -->
+              <text x="510" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Zigzag Diagonal</text>
+              <g transform="translate(460,25)">
+                <path d="M5,5 L45,5 L5,45 L5,45 L85,5 L45,45 L5,85 L45,85 L85,45 L85,45" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
+              </g>
+              <defs>
+                <marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
+                  <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--accent)"/>
+                </marker>
+              </defs>
+            </svg>
+            <p class="svg-caption">Fig. Three traversal path patterns compared</p>
+          </div>
+
+          <h3>Part B — Purpose of LUT-Based Intensity Transformation</h3>
+          <p>A <strong>Lookup Table (LUT)</strong> is a precomputed 1×256 array (for standard 8-bit images) mapping every possible input intensity (0–255) directly to its output intensity: <code>y = LUT[x]</code>.</p>
+
+          <h4>Why It's Needed</h4>
+          <p>Real-time video processing must transform millions of pixels per second — a standard 1080p stream at 60fps processes over 124 million pixels/sec. Calculating a non-linear formula (logarithmic, gamma, etc.) individually for every single pixel creates severe latency and CPU load.</p>
+
+          <h4>How It Solves This</h4>
+          <p>Instead of evaluating the formula millions of times, the LUT approach computes it <strong>only 256 times</strong> to populate the table. Afterwards, each pixel's raw value is used directly as a memory index into the array, returning the precomputed result instantly — an O(1) lookup per pixel instead of a full calculation per pixel.</p>
+
+          <h4>Applications</h4>
+          <ul>
+            <li><strong>Histogram equalisation:</strong> the image's Cumulative Distribution Function (CDF) is converted into a 256-value LUT to redistribute intensities and boost contrast.</li>
+            <li><strong>False-colour / artistic filters:</strong> mapping grayscale intensities into separate colour channels for heatmaps (thermal imaging) or stylised palettes (sepia).</li>
+            <li>Implemented via <code>cv2.LUT()</code> in Python / <code>cv::LUT</code> in C++, residing in the <code>imgproc</code> module.</li>
+          </ul>
+
+          <div class="callout good">
+            <strong>Key insight:</strong> LUTs trade a tiny, fixed amount of memory (256 entries) for a massive reduction in repeated computation — the core efficiency principle behind virtually all non-linear intensity transformations (negative, log, gamma, histogram equalisation) in real-time CV pipelines.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="tab-content" id="s2-tab-3">
+      <div class="question-block">
+        <h2 class="q-title">Q7. Explain pixel-level access in OpenCV and discuss its importance in image processing. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>What is Pixel-Level Access?</h3>
+          <p>Pixel-level access refers to directly reading or modifying the intensity/colour value stored at a specific (row, column) location of an image matrix. OpenCV (via its Python/NumPy bindings) offers several access paradigms, each with a different performance profile.</p>
+
+          <h3>Access Methods Compared</h3>
+          <table>
+            <tr><th>Method</th><th>Syntax</th><th>Mechanism &amp; Speed</th><th>Best Use Case</th></tr>
+            <tr>
+              <td><strong>Naive Indexing</strong></td>
+              <td><code>img[y, x]</code></td>
+              <td>High Python interpreter overhead per element access — the slowest option</td>
+              <td>Simple debugging, single pixel checks</td>
+            </tr>
+            <tr>
+              <td><strong>NumPy Scalar Access</strong></td>
+              <td><code>img.item(y, x, c)</code> / <code>.itemset()</code></td>
+              <td>Bypasses Python object instantiation to access the underlying C buffer directly</td>
+              <td>Custom iterative loops where vectorisation isn't feasible</td>
+            </tr>
+            <tr>
+              <td><strong>Vectorised Operations</strong></td>
+              <td><code>255 - img</code>, array slicing</td>
+              <td>SIMD/C-backend batch memory operations — fastest execution by far</td>
+              <td>Global thresholds, whole-image filters, and masks</td>
+            </tr>
+          </table>
+
+          <h3>The Underlying Addressing Mechanism</h3>
+          <p>Whichever syntax is used, OpenCV ultimately resolves a pixel's memory location using the strided addressing formula built on the <code>cv::Mat</code>'s <code>step[]</code> values:</p>
+          <div class="callout">Address(y, x) = data + (y · step[0]) + (x · step[1])</div>
+          <p>where <code>step[0]</code> is the byte stride from one row to the next (including any padding for alignment) and <code>step[1]</code> is the byte size of one element across channels. This is what makes direct pixel access and slicing efficient — it's pure pointer arithmetic, no searching.</p>
+
+          <h3>Why Pixel-Level Access Matters in Image Processing</h3>
+          <ul>
+            <li><strong>Foundation of all higher operations:</strong> Filtering, thresholding, morphology, and feature extraction all ultimately reduce to reading and writing pixel values — understanding access patterns is understanding performance.</li>
+            <li><strong>Custom algorithm implementation:</strong> Any operation not already provided by OpenCV's built-in functions (custom masks, novel transformations) must be hand-implemented via pixel access.</li>
+            <li><strong>Region-of-Interest (ROI) manipulation:</strong> Editing or extracting a sub-region of an image relies on correctly addressing a pixel range, e.g. <code>image[y1:y2, x1:x2]</code>.</li>
+            <li><strong>Performance-critical decisions:</strong> Choosing the wrong access method (e.g. naive Python loops over millions of pixels) can make a real-time pipeline unusably slow — this is why vectorised operations are strongly preferred in production code.</li>
+          </ul>
+
+          <div class="callout warn">
+            <strong>Practical rule:</strong> Never loop pixel-by-pixel in pure Python over a full image if it can be avoided. Use NumPy vectorised operations or OpenCV's built-in C-backed functions — the performance gap between naive indexing and vectorised operations can be 100× or more on large images.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="tab-content" id="s2-tab-4">
+      <div class="question-block">
+        <h2 class="q-title">Q8. Explain mask operations and image blending with suitable examples. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Part A — Mask Operations</h3>
+          <p>A <strong>mask</strong> is typically a binary (or grayscale) image of the same spatial dimensions as the target image, used to selectively include or exclude regions during an operation. Mask-based processing underlies convolution/filtering: a small 2D weight matrix — the <strong>kernel</strong> — is slid across the image, and at each position the overlapping region is combined via an element-wise multiply-and-sum:</p>
+          <div class="callout">g(x, y) = Σᵢ Σⱼ f(x+i, y+j) · h(i, j)</div>
+          <p>where <code>f</code> is the input image, <code>h</code> is the kernel/mask, and <code>g</code> is the filtered output. Depending on the weight profile chosen, masking produces very different effects:</p>
+          <table>
+            <tr><th>Mask Type</th><th>Weight Profile</th><th>Effect</th></tr>
+            <tr><td>Smoothing / Blur (e.g. Gaussian)</td><td>All-positive weights summing to 1.0</td><td>Low-pass filter — blocks high-frequency noise/edges, preserves overall brightness</td></tr>
+            <tr><td>Sharpening</td><td>Strong positive centre, surrounded by negative weights, summing to 1.0</td><td>High-pass filter — amplifies local intensity differences (edges look crisper)</td></tr>
+            <tr><td>Edge Detection (Sobel, Prewitt)</td><td>Balanced positive/negative weights summing to exactly 0</td><td>Measures spatial gradient; flat regions output ~0, edges produce strong response</td></tr>
+          </table>
+
+          <h4>Colour-Image Masking</h4>
+          <p>For a 3-channel RGB image, one 3D <strong>filter</strong> (containing three separate 2D kernels, one per channel) is applied: each kernel independently convolves its assigned channel, and the three channel outputs are summed at each pixel to produce a single unified 2D feature map.</p>
+
+          <h4>Cross-Correlation vs. Convolution</h4>
+          <p>Both slide a kernel across the image computing a weighted sum, but differ in kernel orientation: cross-correlation places the kernel over the image patch as-is; true convolution first flips the kernel 180° before sliding. Convolution's associative and commutative properties (which cross-correlation lacks) are why frameworks like CNNs favour the term "convolution" even though many implementations technically perform cross-correlation.</p>
+
+          <h3>Part B — Image Blending</h3>
+          <p>Image blending combines two or more images into a single output by mixing pixel values — typically a <strong>weighted combination</strong> — producing a smooth fusion rather than a hard overlay.</p>
+
+          <h4>Linear (Alpha) Blending Formula</h4>
+          <div class="callout">dst = α · img1 + β · img2 + γ  &nbsp;→&nbsp; <code>cv2.addWeighted(img1, alpha, img2, beta, gamma)</code></div>
+          <ul>
+            <li><strong>α, β (weights):</strong> decimal fractions between 0.0 and 1.0. In standard blending, α + β = 1.0 — if they exceed 1.0 the result overexposes/blows out to white; if they total less than 1.0 the result looks unnaturally dark.</li>
+            <li><strong>γ (offset):</strong> a scalar (typically an integer, -255 to +255) added uniformly after blending — positive brightens, negative darkens, and it's usually 0 in standard blending scenarios.</li>
+          </ul>
+
+          <h4>Worked Example</h4>
+          <p>Blending two 50%-opacity images: <code>cv2.addWeighted(img1, 0.5, img2, 0.5, 0)</code> — each image contributes equally, producing a ghost-like double-exposure effect, commonly used for cross-fade transitions.</p>
+
+          <h4>Applications of Blending</h4>
+          <ul>
+            <li><strong>Panorama stitching</strong> — smoothly merging overlapping regions of multiple photos</li>
+            <li><strong>Transitions/fades</strong> — cross-fading between images in video editing</li>
+            <li><strong>Watermarking</strong> — overlaying a semi-transparent logo</li>
+            <li><strong>Augmented Reality</strong> — blending virtual objects with the live camera feed</li>
+            <li><strong>Compositing</strong> — merging foreground and background (green-screen effects)</li>
+            <li><strong>HDR imaging</strong> — combining multiple exposures into one high-dynamic-range image</li>
+          </ul>
+
+          <div class="callout good">
+            <strong>Connection between the two:</strong> Masks define <em>what/where</em> to combine (a spatial weighting), while blending defines <em>how much</em> of each source contributes. Multi-band (pyramid) blending, for instance, combines both ideas — applying different blend weights at different pyramid levels to hide seams in panorama stitching.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="tab-content" id="s2-tab-5">
+      <div class="question-block">
+        <h2 class="q-title">Q9. Implement an OpenCV operation to access and modify selected pixel values using the Mat structure. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Recap: What Underlies This Operation</h3>
+          <p>Since Python OpenCV represents a <code>cv::Mat</code> as a NumPy array, "accessing/modifying selected pixel values" means reading and writing into that array using one of OpenCV's standard access paradigms (naive indexing, <code>.item()/.itemset()</code>, or vectorised slicing), each trading off simplicity for speed as discussed in Q7.</p>
+
+          <h3>Implementation — Single Pixel Access and Modification</h3>
+          <pre><code>import cv2
+import numpy as np
+
+img = cv2.imread('sample.jpg')          # loads as BGR, shape (H, W, 3)
+
+# --- Read a single pixel ---
+pixel = img[100, 150]                   # returns [B, G, R] at row=100, col=150
+print("Original BGR:", pixel)
+
+# --- Faster read using .item() (recommended for scalar access) ---
+b = img.item(100, 150, 0)
+g = img.item(100, 150, 1)
+r = img.item(100, 150, 2)
+print("B,G,R via item():", b, g, r)
+
+# --- Modify a single pixel (set it to pure red) ---
+img[100, 150] = [0, 0, 255]             # BGR order: Blue=0, Green=0, Red=255
+
+# --- Faster modification using .itemset() ---
+img.itemset((100, 150, 2), 255)         # set only the Red channel</code></pre>
+
+          <h3>Implementation — Selected Region (ROI) Access and Modification</h3>
+          <pre><code># Access a rectangular Region of Interest (ROI)
+roi = img[50:150, 200:300]              # rows 50-149, cols 200-299
+
+# Modify: paint the entire ROI white
+img[50:150, 200:300] = [255, 255, 255]
+
+# Copy one region onto another location
+patch = img[0:80, 0:80].copy()          # deep copy — independent of original
+img[300:380, 300:380] = patch           # paste patch elsewhere</code></pre>
+
+          <h3>Implementation — Vectorised Modification of Selected Values</h3>
+          <pre><code># Set all pixels below an intensity threshold to black (mask-style selection)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+mask = gray < 50
+img[mask] = [0, 0, 0]
+
+# Saturated arithmetic — safely brighten without overflow wraparound
+brightened = cv2.add(img, np.array([40.0]))   # clamps at 255 automatically</code></pre>
+
+          <h3>Why <code>.item()</code>/<code>.itemset()</code> and Saturated Arithmetic Matter</h3>
+          <ul>
+            <li><code>img[y,x] = value</code> works but carries Python-level overhead per call; <code>.itemset()</code> bypasses this for single-value scalar writes, giving a meaningful speed-up in tight loops.</li>
+            <li>Plain NumPy addition (<code>img + 40</code>) can silently <strong>wrap around</strong> using modulo arithmetic (a pixel at 250 + 40 wraps to 34 instead of clamping at 255). OpenCV's <code>cv2.add()</code>/<code>cv2.subtract()</code> instead use <strong>saturated arithmetic</strong>, clamping to [0, 255] and avoiding this artifact — critical when "modifying pixel values" involves arithmetic, not just assignment.</li>
+          </ul>
+
+          <h3>Verification Step</h3>
+          <pre><code>cv2.imshow('Modified', img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+cv2.imwrite('modified_output.jpg', img)</code></pre>
+
+          <div class="callout good">
+            <strong>Summary:</strong> Pixel modification in OpenCV ranges from single-coordinate writes (<code>.itemset()</code>), to slice-based ROI edits, to fully vectorised boolean-mask edits — the right choice depends on whether one pixel, a rectangular block, or a scattered/conditional set of pixels needs to change.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="tab-content" id="s2-tab-6">
+      <div class="question-block">
+        <h2 class="q-title">Q10. An image looks satisfactory in the spatial domain but contains unwanted periodic patterns. Analyze why frequency-domain processing using DFT may be more appropriate. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Spatial Domain vs. Frequency Domain</h3>
+          <p>The <strong>spatial domain</strong> represents an image as a grid of pixel intensities directly. The <strong>frequency domain</strong> expresses the same image as a sum of sinusoidal basis waves oscillating at various frequencies, directions, and amplitudes. The conversion between them is the <strong>2D Discrete Fourier Transform (DFT)</strong>:</p>
+          <div class="callout">F(u, v) = Σₓ₌₀^(M-1) Σᵧ₌₀^(N-1) f(x, y) · e^(−j2π(ux/M + vy/N))</div>
+          <p>This decomposes an M×N image f(x, y) into orthogonal complex frequency components F(u, v). Each F(u,v) has a <strong>magnitude</strong> (strength/presence of that frequency) and a <strong>phase</strong> (its positional/spatial structure).</p>
+
+          <h3>Why Periodic Patterns are the Key Clue</h3>
+          <p>A <strong>periodic noise pattern</strong> — for example, scan-line interference, moiré patterns, or repetitive electrical/mechanical noise from an imaging sensor — is, by definition, a signal that repeats at a fixed spatial interval. In the spatial domain, this looks like a subtle, hard-to-isolate texture spread across the entire image, making it very difficult to target with a normal spatial filter (like a Gaussian blur) without also blurring genuine image detail.</p>
+          <p>In the <strong>frequency domain</strong>, however, a periodic pattern with a fixed spatial frequency does not spread out — it concentrates into a small number of <strong>sharp, isolated peaks</strong> at the specific frequency (and its harmonics) corresponding to the repetition rate of the noise. This is the core reason DFT-based processing is more appropriate here: <strong>periodic structure that is diffuse and hard to isolate spatially becomes compact and easy to isolate spectrally.</strong></p>
+
+          <h3>Spectrum Organisation</h3>
+          <p>After computing the DFT and applying <code>fftshift</code> to center it: low frequencies (the DC component, broad shading, general shapes) sit at the centre, while high frequencies (fine texture, sharp edges, noise) spread radially toward the edges.</p>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="150" cy="100" r="80" fill="none" stroke="var(--border)" stroke-width="1"/>
+              <circle cx="150" cy="100" r="55" fill="none" stroke="var(--border)" stroke-width="1"/>
+              <circle cx="150" cy="100" r="28" fill="var(--accent)" opacity="0.7"/>
+              <text x="150" y="105" fill="#fff" font-size="9" text-anchor="middle">Low</text>
+              <text x="150" y="30" fill="var(--text-muted)" font-size="10" text-anchor="middle">High freq (edges, noise)</text>
+              <text x="150" y="185" fill="var(--text-muted)" font-size="10" text-anchor="middle">Spectrum (fftshift)</text>
+              <!-- periodic noise peaks -->
+              <circle cx="200" cy="60" r="4" fill="var(--danger)"/>
+              <circle cx="100" cy="140" r="4" fill="var(--danger)"/>
+              <text x="330" y="30" fill="var(--text)" font-size="10">Periodic noise → isolated bright</text>
+              <text x="330" y="45" fill="var(--text)" font-size="10">peaks at fixed frequency (red dots)</text>
+
+              <!-- LPF vs HPF masks -->
+              <rect x="360" y="60" width="70" height="70" fill="#000" stroke="var(--border)"/>
+              <circle cx="395" cy="95" r="22" fill="#fff"/>
+              <text x="395" y="145" fill="var(--text-muted)" font-size="9" text-anchor="middle">Low-Pass Mask</text>
+
+              <rect x="470" y="60" width="70" height="70" fill="#fff" stroke="var(--border)"/>
+              <circle cx="505" cy="95" r="22" fill="#000"/>
+              <text x="505" y="145" fill="var(--text-muted)" font-size="9" text-anchor="middle">High-Pass Mask</text>
+            </svg>
+            <p class="svg-caption">Fig. Frequency spectrum with isolated periodic-noise peaks, and LPF/HPF binary masks</p>
+          </div>
+
+          <h3>The Filtering Pipeline</h3>
+          <p>Once the noise is isolated as sharp spectral peaks, it can be surgically removed by multiplying the spectrum with a mask that <strong>notches out</strong> just those frequencies, then inverting back to the spatial domain:</p>
+          <div class="callout">Input Image → DFT → fftshift → × Notch/Filter Mask → IDFT → Cleaned Output Image</div>
+          <p>Because only the specific offending frequencies are suppressed (not a broad frequency band), the rest of the image's genuine detail is preserved — something a general-purpose spatial smoothing filter cannot achieve without also destroying real edges and texture.</p>
+
+          <h3>Why Spatial-Domain Filtering Falls Short Here</h3>
+          <ul>
+            <li>A spatial low-pass filter (e.g. Gaussian blur) would suppress the periodic noise <em>only</em> by also blurring genuine high-frequency detail (edges, texture) — an unacceptable trade-off when the image otherwise looks fine.</li>
+            <li>There is no simple spatial kernel that selectively targets "this exact repetition interval" without frequency-domain analysis to first identify what that interval even is.</li>
+          </ul>
+
+          <div class="callout good">
+            <strong>Conclusion:</strong> DFT is more appropriate precisely because periodic degradation is a frequency-domain phenomenon by nature — it manifests as concentrated, identifiable peaks in the spectrum, allowing targeted removal (notch filtering) that spatial-domain methods cannot achieve without collateral loss of detail.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end Unit II -->
+
+
+  <!-- ═══════════════════════════════════════════════
+       UNIT III — Q11, Q12
+  ═══════════════════════════════════════════════ -->
+  <div class="section-panel" id="s3">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('s3',0)">Q11 · Morphology</button>
+      <button class="tab-btn" onclick="showTab('s3',1)">Q12 · Erosion &amp; Dilation</button>
+    </div>
+
+    <!-- Q11 -->
+    <div class="tab-content active" id="s3-tab-0">
+      <div class="question-block">
+        <h2 class="q-title">Q11. Define morphological transformations and list the basic morphological operations used in image processing. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Definition</h3>
+          <p><strong>Morphological transformations</strong> are non-linear image operations that process images based on their <strong>shape</strong>. They are typically applied to binary images (though grayscale variants also exist) and operate by "probing" the image with a small shape called a <strong>structuring element</strong> (or kernel). Morphology is rooted in set theory — the image is treated as a set of pixel coordinates, and operations combine this set with the structuring element using set operations such as union and intersection.</p>
+
+          <h3>The Structuring Element</h3>
+          <p>A small binary matrix (e.g. 3×3, 5×5) that defines the neighbourhood shape used to probe the image. Common shapes include rectangle, ellipse, and cross — e.g. created in OpenCV with <code>cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))</code>.</p>
+
+          <h3>Why Morphological Operations Are Used</h3>
+          <ul>
+            <li>Removing small noise specks (isolated white/black dots)</li>
+            <li>Filling small holes inside objects</li>
+            <li>Separating touching objects</li>
+            <li>Extracting object boundaries</li>
+            <li>Skeletonising shapes for structural analysis</li>
+            <li>Pre/post-processing in OCR, document scanning, and object detection</li>
+          </ul>
+
+          <h3>The Two Fundamental Operations</h3>
+          <p>All morphological transformations build on two base operations — <strong>erosion</strong> and <strong>dilation</strong> (detailed fully in Q12) — which are then combined to form higher-level operations:</p>
+
+          <table>
+            <tr><th>Operation</th><th>Formula (Conceptual)</th><th>Effect</th></tr>
+            <tr><td><strong>Opening</strong></td><td>Erosion → Dilation</td><td>Removes small white noise, smooths object outlines</td></tr>
+            <tr><td><strong>Closing</strong></td><td>Dilation → Erosion</td><td>Fills small black holes inside objects</td></tr>
+            <tr><td><strong>Morphological Gradient</strong></td><td>Dilation − Erosion</td><td>Outlines the boundary of an object</td></tr>
+            <tr><td><strong>Top Hat</strong></td><td>Original − Opening</td><td>Highlights small bright details smaller than the kernel</td></tr>
+            <tr><td><strong>Black Hat</strong></td><td>Closing − Original</td><td>Highlights small dark details smaller than the kernel</td></tr>
+          </table>
+
+          <h3>Basic Morphological Operations — Summary List</h3>
+          <ol>
+            <li><strong>Erosion</strong> (<code>cv2.erode()</code>) — shrinks foreground regions</li>
+            <li><strong>Dilation</strong> (<code>cv2.dilate()</code>) — grows foreground regions</li>
+            <li><strong>Opening</strong> — erosion followed by dilation</li>
+            <li><strong>Closing</strong> — dilation followed by erosion</li>
+            <li><strong>Morphological Gradient</strong> — edge/boundary extraction</li>
+            <li><strong>Top Hat</strong> — isolates small bright features</li>
+            <li><strong>Black Hat</strong> — isolates small dark features</li>
+          </ol>
+
+          <div class="callout good">
+            <strong>Key insight:</strong> Every higher-level morphological operation in the table is just a specific combination or difference of erosion and dilation — mastering those two operations (Q12) is sufficient to derive the behaviour of all the others.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="tab-content" id="s3-tab-1">
+      <div class="question-block">
+        <h2 class="q-title">Q12. Explain erosion and dilation with suitable examples and describe their effects on image objects. <span class="marks-badge">8M</span></h2>
+        <div class="answer-body">
+
+          <h3>Erosion</h3>
+          <p>Erosion shrinks the boundaries of foreground (white) objects. A pixel in the original image is retained as foreground (1) only if <strong>all</strong> the pixels under the structuring element are also foreground; otherwise it is set to background (0):</p>
+          <div class="callout">dst(x, y) = min over (x′,y′) in kernel of src(x + x′, y + y′)</div>
+          <p>In OpenCV: <code>eroded = cv2.erode(image, kernel, iterations=1)</code></p>
+
+          <h4>Effects of Erosion</h4>
+          <ul>
+            <li>Shrinks white regions</li>
+            <li>Removes small white noise specks entirely</li>
+            <li>Detaches thinly-connected objects</li>
+            <li>Thins object boundaries</li>
+          </ul>
+          <p><em>Example:</em> In a binary image containing a large white blob with a single stray white pixel nearby, erosion with a 3×3 kernel makes the stray pixel disappear completely (it has no fully-foreground 3×3 neighbourhood), while the large blob shrinks slightly at its edges.</p>
+
+          <h3>Dilation</h3>
+          <p>Dilation expands the boundaries of foreground objects. A pixel becomes foreground if <strong>at least one</strong> pixel under the structuring element is foreground:</p>
+          <div class="callout">dst(x, y) = max over (x′,y′) in kernel of src(x + x′, y + y′)</div>
+          <p>In OpenCV: <code>dilated = cv2.dilate(image, kernel, iterations=1)</code></p>
+
+          <h4>Effects of Dilation</h4>
+          <ul>
+            <li>Grows white regions</li>
+            <li>Fills small black holes/gaps inside objects</li>
+            <li>Connects nearby broken components (e.g. broken text characters)</li>
+            <li>Thickens object boundaries</li>
+          </ul>
+          <p><em>Example:</em> In a binary image of handwritten text with small gaps in some pen strokes, dilation with a 3×3 kernel thickens the strokes and bridges the small gaps, making the text more continuous and easier to recognise.</p>
+
+          <div class="svg-wrap">
+            <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
+              <text x="100" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Original</text>
+              <g transform="translate(50,30)">
+                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
+                <rect x="20" y="20" width="60" height="60" fill="var(--text)"/>
+                <rect x="90" y="10" width="8" height="8" fill="var(--text)"/>
+              </g>
+
+              <text x="300" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Eroded (shrinks, removes speck)</text>
+              <g transform="translate(250,30)">
+                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
+                <rect x="35" y="35" width="30" height="30" fill="var(--text)"/>
+              </g>
+
+              <text x="500" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Dilated (grows, fills gaps)</text>
+              <g transform="translate(450,30)">
+                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
+                <rect x="5" y="5" width="90" height="90" fill="var(--text)"/>
+              </g>
+
+              <text x="100" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">blob + stray speck</text>
+              <text x="300" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">speck gone, blob shrinks</text>
+              <text x="500" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">blob + speck both grow &amp; merge</text>
+            </svg>
+            <p class="svg-caption">Fig. 3×3 kernel applied to a blob with a stray speck — erosion removes it, dilation merges it in</p>
+          </div>
+
+          <h3>Erosion vs. Dilation — Comparison</h3>
+          <table>
+            <tr><th>Property</th><th>Erosion</th><th>Dilation</th></tr>
+            <tr><td>Effect on white regions</td><td>Shrinks</td><td>Grows</td></tr>
+            <tr><td>Removes small noise</td><td>Yes</td><td>No — can worsen noise by growing it</td></tr>
+            <tr><td>Fills small holes</td><td>No</td><td>Yes</td></tr>
+            <tr><td>Typical use</td><td>Cleaning stray specks, separating touching objects</td><td>Bridging gaps, connecting broken parts</td></tr>
+            <tr><td>Rule</td><td>Foreground only if ALL kernel pixels are foreground (AND)</td><td>Foreground if ANY kernel pixel is foreground (OR)</td></tr>
+          </table>
+
+          <h3>Worked Example (5×5 Binary Patch, 3×3 All-Ones Kernel)</h3>
+          <p>A 3×3 solid white square within a 5×5 patch: when <strong>eroded</strong>, it is eaten into from every side and shrinks down to a thin central region (or a single pixel, depending on exact kernel size); when <strong>dilated</strong>, the same square grows outward so that nearly the entire 5×5 patch becomes white.</p>
+
+          <div class="callout good">
+            <strong>Conclusion:</strong> Erosion and dilation are dual, opposite operations — one is "AND across the kernel" (shrink), the other is "OR across the kernel" (grow). Every higher-order morphological operation (opening, closing, gradient, top hat, black hat) is built by chaining or subtracting these two in different orders, which is exactly why they are considered the foundation of morphological image processing.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end Unit III -->
+
+</div><!-- end page-wrapper -->
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  function showTab(section, i) {
+    const panel = document.getElementById(section);
+    panel.querySelectorAll('.tab-content').forEach((el, idx) => {
+      el.classList.toggle('active', idx === i);
+    });
+    panel.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === i);
+    });
+  }
+</script>
+</body>
+</html>
