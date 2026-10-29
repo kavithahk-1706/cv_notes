@@ -3,804 +3,992 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Computer Vision — Exam Prep</title>
+  <title>Computer Vision — Mid 2 Important Questions</title>
   <link rel="stylesheet" href="styles.css">
+  <script>
+    window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] } };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.82rem;
+      line-height: 1.65;
+      margin: 14px 0;
+      color: var(--text);
+    }
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.82rem;
+      background: var(--surface2);
+      padding: 2px 5px;
+      border-radius: 3px;
+      color: var(--accent-hover);
+    }
+    pre code { background: none; padding: 0; color: var(--text); font-size: 0.82rem; }
+    .cmt { color: var(--text-muted); }
+
+    .formula {
+      background: var(--surface2);
+      border-radius: var(--radius);
+      padding: 10px 16px;
+      margin: 14px 0;
+      overflow-x: auto;
+      text-align: center;
+    }
+    .diagram {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin: 14px 0;
+      overflow-x: auto;
+    }
+    .diagram svg { width: 100%; height: auto; display: block; min-width: 520px; }
+    .diagram .caption { text-align: center; color: var(--text-muted); font-size: 0.78rem; margin-top: 6px; }
+    .box  { fill: var(--surface); stroke: var(--accent); stroke-width: 1.5; }
+    .box2 { fill: var(--surface); stroke: var(--success); stroke-width: 1.5; }
+    .box3 { fill: var(--surface); stroke: var(--warning); stroke-width: 1.5; }
+    .box4 { fill: var(--surface); stroke: var(--danger); stroke-width: 1.5; }
+    .lbl  { fill: var(--text); font-size: 12px; font-family: system-ui, sans-serif; text-anchor: middle; }
+    .lbl-s{ fill: var(--text-muted); font-size: 10px; font-family: system-ui, sans-serif; text-anchor: middle; }
+    .arr  { stroke: var(--text-muted); stroke-width: 1.5; fill: none; marker-end: url(#ah); }
+    .dash { stroke: var(--text-dim); stroke-width: 1.2; fill: none; stroke-dasharray: 4 3; }
+    .mono { font-family: 'Courier New', monospace; }
+  </style>
 </head>
 <body>
+<!-- shared arrowhead marker -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#888"/>
+    </marker>
+  </defs>
+</svg>
+
 <div class="page-wrapper">
 
   <header class="site-header">
-    <h1>Computer Vision</h1>
-    <p>Exam Prep · 12 Questions · Units I, II &amp; III</p>
+    <h1>Computer Vision — Mid 2</h1>
+    <p>Exam Prep · 12 Important Questions · Units 3, 4 &amp; 5 · OpenCV (Python)</p>
   </header>
 
   <div class="section-nav">
-    <button class="section-btn active" onclick="showSection('s1')">Unit I — Q1–Q3</button>
-    <button class="section-btn" onclick="showSection('s2')">Unit II — Q4–Q10</button>
-    <button class="section-btn" onclick="showSection('s3')">Unit III — Q11–Q12</button>
+    <button class="section-btn active" onclick="showSection('s3', this)">Section I — Unit 3</button>
+    <button class="section-btn" onclick="showSection('s4', this)">Section II — Unit 4</button>
+    <button class="section-btn" onclick="showSection('s5', this)">Section III — Unit 5</button>
   </div>
 
-  <!-- ═══════════════════════════════════════════════
-       UNIT I — Q1, Q2, Q3
-  ═══════════════════════════════════════════════ -->
-  <div class="section-panel active" id="s1">
+  <!-- ═══════════════ SECTION I — Unit 3: Q1, Q2 ═══════════════ -->
+  <div class="section-panel active" id="s3">
     <div class="tabs" role="tablist">
-      <button class="tab-btn active" onclick="showTab('s1',0)">Q1 · History</button>
-      <button class="tab-btn" onclick="showTab('s1',1)">Q2 · OpenCV Setup</button>
-      <button class="tab-btn" onclick="showTab('s1',2)">Q3 · Cross-Platform</button>
+      <button class="tab-btn active" onclick="showTab('s3',0)">Q1 · Custom Filter &amp; Borders</button>
+      <button class="tab-btn" onclick="showTab('s3',1)">Q2 · Remap &amp; Affine</button>
     </div>
 
     <!-- Q1 -->
-    <div class="tab-content active" id="s1-tab-0">
+    <div class="tab-content active" id="s3-tab-0">
       <div class="question-block">
-        <h2 class="q-title">Q1. Explain the historical development of computer vision with a neat graph showing its major milestones. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q1. Design a custom image filter and explain how different border-handling methods affect the filtering result.</h2>
         <div class="answer-body">
 
-          <h3>What is Computer Vision?</h3>
-          <p>Computer Vision (CV) is an interdisciplinary field of Artificial Intelligence that enables computational systems to acquire, process, analyse, and understand real-world digital images and video sequences, essentially teaching machines to "see" and derive meaning from visual data the way humans do.</p>
+          <h3>What is a Custom (Linear) Filter?</h3>
+          <p>A <strong>linear filter</strong> slides a small matrix called a <strong>kernel</strong> over the image. At every pixel, the new value is the <span class="highlight">weighted sum of its neighbours</span>, with weights taken from the kernel. By choosing the kernel values ourselves we design a <em>custom</em> filter (blur, sharpen, edge, emboss…).</p>
+          <div class="formula">\[ g(x,y) \;=\; \sum_{i=-a}^{a}\;\sum_{j=-b}^{b} K(i,j)\; f(x+i,\; y+j) \]</div>
+          <p style="font-size:0.85rem;color:var(--text-muted);">\(f\) = input image, \(K\) = kernel of size \((2a+1)\times(2b+1)\), \(g\) = output. (Strictly this is correlation; OpenCV's <code>filter2D</code> computes exactly this.)</p>
 
-          <h3>The 5-Stage Vision Pipeline</h3>
-          <p>Before tracing its history, it helps to understand the pipeline every CV system follows, since the historical milestones map onto improvements at each stage:</p>
+          <h3>Designing the Filter — Step by Step</h3>
           <ol>
-            <li><strong>Image Acquisition</strong> — capturing visual input via RGB sensors, depth cameras (Kinect), thermal imagers, or medical scanners</li>
-            <li><strong>Preprocessing</strong> — noise reduction, resizing, colour-space conversion (BGR→Grayscale/HSV), intensity normalisation</li>
-            <li><strong>Feature Extraction</strong> — isolating edges, gradients, and descriptors using classical operators (Canny, Harris, SIFT) or CNNs</li>
-            <li><strong>Analysis &amp; Understanding</strong> — classification, object localisation, segmentation, tracking</li>
-            <li><strong>Decision Making &amp; Action</strong> — converting inference into alerts, robotic actuation, or visual overlays</li>
+            <li><strong>Decide the effect:</strong> e.g. sharpen the image.</li>
+            <li><strong>Choose kernel size:</strong> 3×3 (small = local effect, fast).</li>
+            <li><strong>Choose weights:</strong> boost the centre pixel, subtract the neighbours → edges get exaggerated.</li>
+            <li><strong>Check the sum:</strong> sum = 1 → overall brightness preserved; sum = 0 → only edges remain (dark background).</li>
+            <li><strong>Pick a border mode</strong> and apply.</li>
           </ol>
 
-          <h3>Historical Milestones, Decade by Decade</h3>
+          <table>
+            <tr><th>Filter</th><th>Kernel</th><th>Sum</th><th>Effect</th></tr>
+            <tr><td>Box blur</td><td>\(\frac{1}{9}\begin{bmatrix}1&amp;1&amp;1\\1&amp;1&amp;1\\1&amp;1&amp;1\end{bmatrix}\)</td><td>1</td><td>Averages neighbours → smooth</td></tr>
+            <tr><td><strong>Sharpen (our design)</strong></td><td>\(\begin{bmatrix}0&amp;-1&amp;0\\-1&amp;5&amp;-1\\0&amp;-1&amp;0\end{bmatrix}\)</td><td>1</td><td>Crisper edges, same brightness</td></tr>
+            <tr><td>Edge (Laplacian)</td><td>\(\begin{bmatrix}0&amp;1&amp;0\\1&amp;-4&amp;1\\0&amp;1&amp;0\end{bmatrix}\)</td><td>0</td><td>Only edges visible</td></tr>
+            <tr><td>Emboss</td><td>\(\begin{bmatrix}-2&amp;-1&amp;0\\-1&amp;1&amp;1\\0&amp;1&amp;2\end{bmatrix}\)</td><td>1</td><td>3D "raised" look</td></tr>
+          </table>
 
-          <h4>1940s–1950s: Biological Foundations</h4>
-          <p>The field's theoretical roots go back to the <strong>McCulloch-Pitts neuron model (1943)</strong>, the first mathematical model of a biological neuron, and <strong>Rosenblatt's Perceptron (1958)</strong>, which established the fundamental logic of pattern recognition that vision systems would later depend on.</p>
+          <h3>Code</h3>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg")
+k = np.array([[0,-1,0], [-1,5,-1], [0,-1,0]], np.float32)   <span class="cmt"># sharpen kernel</span>
+out = cv2.filter2D(img, -1, k, borderType=cv2.BORDER_REFLECT)  <span class="cmt"># -1 = same depth as input</span></code></pre>
 
-          <h4>1960s: The Field is Born</h4>
-          <p>Computer Vision formally began with the <strong>MIT Summer Vision Project (1966)</strong>, an ambitious (and famously over-optimistic) attempt to solve "the vision problem" in a single summer. <strong>Larry Roberts</strong> pioneered 3D polyhedral scene analysis, showing that 2D images could be interpreted as projections of 3D block-shaped objects.</p>
+          <h3>Why Border Handling is Needed</h3>
+          <p>At the edge of the image, part of the kernel falls <em>outside</em> the image — those pixels don't exist. OpenCV <strong>pads</strong> the image with imaginary pixels; the border mode decides <em>what</em> those pixels are.</p>
 
-          <h4>1970s: The Computational Theory of Vision</h4>
-          <p><strong>David Marr</strong> formulated a structured computational paradigm for vision, proposing a three-stage representation: <strong>Primal Sketch → 2.5D Sketch → 3D Model</strong>. This decade also produced foundational edge-detection filters that remain conceptually important today.</p>
-
-          <h4>1980s–1990s: Statistical Modelling Era</h4>
-          <p>The field shifted toward statistical approaches: stereo disparity estimation for depth perception, Optical Character Recognition (OCR), and industrial inspection lines for manufacturing quality control.</p>
-
-          <h4>2000s: Handcrafted Features</h4>
-          <p>This decade is defined by handcrafted feature descriptors and statistical classifiers — most notably <strong>SIFT (Scale-Invariant Feature Transform)</strong> by David Lowe, and the <strong>Viola-Jones framework</strong>, which enabled real-time face detection for the first time.</p>
-
-          <h4>2010s–Present: The Deep Learning Revolution</h4>
-          <p>The modern era was triggered by <strong>AlexNet (2012)</strong>, whose dramatic win at the ImageNet competition proved deep Convolutional Neural Networks could outperform handcrafted methods by a wide margin. This drove the development of modern architectures like <strong>YOLO</strong> and <strong>Faster R-CNN</strong> for object detection, and more recently <strong>Vision Transformers (ViTs)</strong>, which apply the transformer architecture (originally built for language) to image patches.</p>
-
-          <div class="svg-wrap">
-            <svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg">
-              <line x1="60" y1="250" x2="680" y2="250" stroke="var(--border)" stroke-width="2"/>
-              <line x1="60" y1="250" x2="60" y2="30" stroke="var(--border)" stroke-width="2"/>
-              <text x="20" y="20" fill="var(--text-muted)" font-size="11">Sophistication</text>
-              <text x="600" y="270" fill="var(--text-muted)" font-size="11">Time →</text>
-
-              <path d="M 60,240 C 150,238 200,230 260,215 C 330,200 380,170 450,130 C 520,90 570,60 660,40"
-                    fill="none" stroke="var(--accent)" stroke-width="3"/>
-
-              <circle cx="90" cy="242" r="5" fill="var(--warning)"/>
-              <text x="75" y="264" fill="var(--text)" font-size="10">1943/58</text>
-              <text x="70" y="278" fill="var(--text-muted)" font-size="9">Neuron/Perceptron</text>
-
-              <circle cx="180" cy="232" r="5" fill="var(--warning)"/>
-              <text x="150" y="215" fill="var(--text)" font-size="10">1966</text>
-              <text x="120" y="200" fill="var(--text-muted)" font-size="9">MIT Vision Project</text>
-
-              <circle cx="290" cy="205" r="5" fill="var(--warning)"/>
-              <text x="255" y="188" fill="var(--text)" font-size="10">1970s</text>
-              <text x="230" y="173" fill="var(--text-muted)" font-size="9">Marr's paradigm</text>
-
-              <circle cx="400" cy="150" r="5" fill="var(--warning)"/>
-              <text x="345" y="140" fill="var(--text)" font-size="10">1980s–90s</text>
-              <text x="345" y="125" fill="var(--text-muted)" font-size="9">Stereo, OCR</text>
-
-              <circle cx="490" cy="105" r="5" fill="var(--success)"/>
-              <text x="460" y="95" fill="var(--text)" font-size="10">2000s</text>
-              <text x="430" y="80" fill="var(--text-muted)" font-size="9">SIFT, Viola-Jones</text>
-
-              <circle cx="600" cy="55" r="6" fill="var(--success)"/>
-              <text x="560" y="45" fill="var(--text)" font-size="10">2012–Now</text>
-              <text x="540" y="30" fill="var(--text-muted)" font-size="9">AlexNet, YOLO, ViT</text>
+          <div class="diagram">
+            <svg viewBox="0 0 520 170" xmlns="http://www.w3.org/2000/svg">
+              <rect x="60" y="20" width="250" height="130" fill="none" stroke="#555" stroke-dasharray="4 3"/>
+              <rect class="box" x="90" y="45" width="190" height="80"/>
+              <text class="lbl" x="185" y="90">Image</text>
+              <rect x="70" y="30" width="60" height="60" fill="none" stroke="#fbbf24" stroke-width="2"/>
+              <text class="lbl-s" x="100" y="64" style="fill:#fbbf24">kernel</text>
+              <text class="lbl-s" x="185" y="15">padded region (imaginary pixels)</text>
+              <text class="lbl" x="420" y="70">Kernel at corner:</text>
+              <text class="lbl-s" x="420" y="88">most of it lies outside</text>
+              <text class="lbl-s" x="420" y="104">→ border mode fills the gap</text>
             </svg>
-            <p class="svg-caption">Fig. Exponential growth curve of CV milestones, 1940s to present</p>
+            <div class="caption">Fig: At borders the kernel overlaps pixels that do not exist</div>
           </div>
 
+          <h3>Border Modes (example row <span class="mono">abcdefgh</span>)</h3>
+          <table>
+            <tr><th>Mode</th><th>Padding</th><th>Effect on result</th></tr>
+            <tr><td><code>BORDER_CONSTANT</code></td><td class="mono">000|abcdefgh|000</td><td>Fills with a fixed value (black). Blurring creates <span class="danger">dark frames</span> at edges; edge filters show fake edges along the border.</td></tr>
+            <tr><td><code>BORDER_REPLICATE</code></td><td class="mono">aaa|abcdefgh|hhh</td><td>Repeats the last pixel. No dark frame, but slight <em>smearing/streaks</em> at edges.</td></tr>
+            <tr><td><code>BORDER_REFLECT</code></td><td class="mono">cba|abcdefgh|hgf</td><td>Mirror image (edge pixel repeated). Smooth, natural edges.</td></tr>
+            <tr><td><code>BORDER_REFLECT_101</code> (default)</td><td class="mono">dcb|abcdefgh|gfe</td><td>Mirror without repeating edge pixel. <span class="success">Most natural</span>; OpenCV's default.</td></tr>
+            <tr><td><code>BORDER_WRAP</code></td><td class="mono">fgh|abcdefgh|abc</td><td>Wraps from the opposite side. Fine for repeating textures; otherwise the left edge gets <span class="danger">mixed with right-edge content</span>.</td></tr>
+          </table>
+
+          <div class="callout">
+            <strong>Effect summary:</strong> Only the outer \(\lfloor k/2 \rfloor\) pixels (1 pixel for 3×3, 2 for 5×5) are affected — the interior is identical for all modes. Larger kernels → wider affected strip → border choice matters more. Reflection-based modes give the least visible artifacts.
+          </div>
+<pre><code>pad = cv2.copyMakeBorder(img, 20,20,20,20, cv2.BORDER_REFLECT)  <span class="cmt"># see the padding yourself</span></code></pre>
+
           <div class="callout good">
-            <strong>Key trend:</strong> Every decade shows a shift from biologically-inspired theory (1940s–50s) → geometric/rule-based reasoning (1960s–70s) → statistical methods (1980s–2000s) → data-driven deep learning (2010s onward). The pace of progress has accelerated sharply since 2012.
+            <strong>Conclusion:</strong> A custom filter is just a kernel we design; its sum controls brightness and its pattern controls the effect. Border handling decides how edges look — constant gives dark frames, reflect gives the most natural result.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q2 -->
-    <div class="tab-content" id="s1-tab-1">
+    <div class="tab-content" id="s3-tab-1">
       <div class="question-block">
-        <h2 class="q-title">Q2. Describe the procedure for installing and configuring OpenCV on Windows and explain the purpose of each major step. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q2. Apply remapping and affine transformation techniques to transform an image, explaining the steps and expected output.</h2>
         <div class="answer-body">
 
-          <h3>Overview</h3>
-          <p>OpenCV (Open Source Computer Vision Library) can be installed on Windows in two common ways: via <strong>pip</strong> (for Python development, the fastest route) or by <strong>building from source with CMake</strong> (needed for C++ development or custom hardware acceleration). Both are described below along with the purpose of each step.</p>
+          <h3>1. Remapping</h3>
+          <p><strong>Remapping</strong> moves pixels to new positions using two lookup maps. For every output pixel \((x,y)\), we say <em>which input pixel</em> to take:</p>
+          <div class="formula">\[ \text{dst}(x,y) \;=\; \text{src}\big(\,\text{map}_x(x,y),\; \text{map}_y(x,y)\,\big) \]</div>
+          <p>Since the map values can be fractional, the pixel value is found by <strong>interpolation</strong> (nearest, bilinear, bicubic).</p>
 
-          <h3>Method 1: Python Installation via pip (Most Common)</h3>
+          <h4>Steps</h4>
+          <ol>
+            <li>Read the image; get height \(h\) and width \(w\).</li>
+            <li>Create two float32 arrays <code>map_x</code>, <code>map_y</code> of size \(h \times w\).</li>
+            <li>Fill them with the rule, e.g. horizontal flip: \(\text{map}_x = w-1-x,\ \text{map}_y = y\).</li>
+            <li>Call <code>cv2.remap()</code> with an interpolation method.</li>
+          </ol>
+<pre><code>h, w = img.shape[:2]
+map_x, map_y = np.meshgrid(np.arange(w), np.arange(h))      <span class="cmt"># x and y of every pixel</span>
+map_x = (w - 1 - map_x).astype(np.float32)                  <span class="cmt"># flip left-right</span>
+map_y = map_y.astype(np.float32)
+flipped = cv2.remap(img, map_x, map_y, cv2.INTER_LINEAR)</code></pre>
           <table>
-            <tr><th>Step</th><th>Command / Action</th><th>Purpose</th></tr>
-            <tr><td>1</td><td>Install Python (3.7+) from python.org, ensuring "Add to PATH" is checked</td><td>Provides the interpreter and package manager (pip) OpenCV's Python bindings run on</td></tr>
-            <tr><td>2</td><td><code>python -m venv cv_env</code> then activate it</td><td>Creates an isolated virtual environment so OpenCV's dependencies don't conflict with other projects</td></tr>
-            <tr><td>3</td><td><code>pip install opencv-python</code></td><td>Installs the core library (main modules only — <code>imgproc</code>, <code>core</code>, <code>highgui</code>, etc.)</td></tr>
-            <tr><td>4</td><td><code>pip install opencv-contrib-python</code> (optional)</td><td>Adds extra/experimental modules (SIFT, extended <code>dnn</code> features) not in the main distribution</td></tr>
-            <tr><td>5</td><td><code>python -c "import cv2; print(cv2.__version__)"</code></td><td>Verifies the installation succeeded and confirms the version installed</td></tr>
+            <tr><th>Map rule</th><th>Expected output</th></tr>
+            <tr><td>\(\text{map}_x = w-1-x\)</td><td>Mirror image (left ↔ right)</td></tr>
+            <tr><td>\(\text{map}_y = h-1-y\)</td><td>Upside-down image</td></tr>
+            <tr><td>\(\text{map}_y = y + 10\sin(x/20)\)</td><td>Wavy / ripple effect</td></tr>
+            <tr><td>Maps from camera calibration</td><td>Lens distortion removed (undistortion)</td></tr>
           </table>
 
-          <h3>Method 2: Building from Source with CMake (for C++ / custom builds)</h3>
+          <h3>2. Affine Transformation</h3>
+          <p>An <strong>affine transform</strong> is any combination of <strong>translation, rotation, scaling and shearing</strong>. It keeps <span class="highlight">straight lines straight and parallel lines parallel</span> (a rectangle can become a parallelogram, but never a trapezium). It is a 2×3 matrix:</p>
+          <div class="formula">\[ \begin{bmatrix} x' \\ y' \end{bmatrix} = \begin{bmatrix} a_{11} &amp; a_{12} &amp; t_x \\ a_{21} &amp; a_{22} &amp; t_y \end{bmatrix} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix} \]</div>
+          <p>Rotation by \(\theta\) about centre with scale \(s\) (what <code>getRotationMatrix2D</code> returns), with \(\alpha = s\cos\theta,\ \beta = s\sin\theta\):</p>
+          <div class="formula">\[ M = \begin{bmatrix} \alpha &amp; \beta &amp; (1-\alpha)c_x - \beta c_y \\ -\beta &amp; \alpha &amp; \beta c_x + (1-\alpha)c_y \end{bmatrix} \]</div>
+          <p>Since there are 6 unknowns, <strong>3 point pairs</strong> (6 equations) fully define an affine transform.</p>
+
+          <div class="diagram">
+            <svg viewBox="0 0 560 190" xmlns="http://www.w3.org/2000/svg">
+              <rect class="box" x="40" y="40" width="130" height="110"/>
+              <circle cx="40" cy="40" r="4" fill="#fbbf24"/><circle cx="170" cy="40" r="4" fill="#fbbf24"/><circle cx="40" cy="150" r="4" fill="#fbbf24"/>
+              <text class="lbl-s" x="40" y="30">P1</text><text class="lbl-s" x="170" y="30">P2</text><text class="lbl-s" x="28" y="168">P3</text>
+              <text class="lbl" x="105" y="100">Original</text>
+              <path class="arr" d="M200,95 L290,95"/>
+              <text class="lbl-s" x="245" y="85">warpAffine(M)</text>
+              <polygon class="box2" points="340,60 480,40 510,140 370,160"/>
+              <circle cx="340" cy="60" r="4" fill="#fbbf24"/><circle cx="480" cy="40" r="4" fill="#fbbf24"/><circle cx="370" cy="160" r="4" fill="#fbbf24"/>
+              <text class="lbl-s" x="330" y="50">P1'</text><text class="lbl-s" x="490" y="32">P2'</text><text class="lbl-s" x="360" y="178">P3'</text>
+              <text class="lbl" x="425" y="105">Transformed</text>
+            </svg>
+            <div class="caption">Fig: 3 point pairs define M; rectangle → parallelogram (parallel sides stay parallel)</div>
+          </div>
+
+          <h4>Steps</h4>
+          <ol>
+            <li>Choose 3 source points and where they should go (or an angle + scale for rotation).</li>
+            <li>Compute \(M\): <code>cv2.getAffineTransform()</code> or <code>cv2.getRotationMatrix2D()</code>.</li>
+            <li>Apply with <code>cv2.warpAffine(img, M, (w, h))</code> — internally it builds the remap tables and interpolates.</li>
+          </ol>
+<pre><code>src = np.float32([[0,0], [w-1,0], [0,h-1]])
+dst = np.float32([[0,h*0.33], [w*0.85,h*0.25], [w*0.15,h*0.7]])
+M = cv2.getAffineTransform(src, dst)                <span class="cmt"># 2x3 matrix</span>
+warped = cv2.warpAffine(img, M, (w, h))
+
+R = cv2.getRotationMatrix2D((w/2, h/2), 30, 0.6)    <span class="cmt"># rotate 30°, scale 0.6</span>
+rotated = cv2.warpAffine(img, R, (w, h))</code></pre>
+
+          <h4>Expected Output</h4>
+          <ul>
+            <li><strong>Warp:</strong> image appears sheared/tilted into a parallelogram; straight lines stay straight.</li>
+            <li><strong>Rotation:</strong> image rotated 30° anticlockwise, shrunk to 60% around the centre.</li>
+            <li>Uncovered areas are <strong>black</strong> (default <code>BORDER_CONSTANT</code>) — the border modes from Q1 apply here too.</li>
+          </ul>
+
           <table>
-            <tr><th>Step</th><th>Action</th><th>Purpose</th></tr>
-            <tr><td>1</td><td>Install <strong>Visual Studio</strong> (with C++ build tools) and <strong>CMake</strong></td><td>Visual Studio provides the native Windows compiler; CMake is the meta-build system that generates the Visual Studio project files from OpenCV's source</td></tr>
-            <tr><td>2</td><td>Download the OpenCV source (and optionally <code>opencv_contrib</code>) from GitHub</td><td>Source code is required to compile a custom build, e.g. with GPU acceleration enabled</td></tr>
-            <tr><td>3</td><td>Run <code>cmake-gui</code>, set source/build directories, click <em>Configure</em> then <em>Generate</em></td><td>CMake reads <code>CMakeLists.txt</code> and produces a Visual Studio solution tailored to the installed toolchain and selected options (e.g. <code>WITH_CUDA=ON</code>)</td></tr>
-            <tr><td>4</td><td>Open the generated <code>.sln</code> in Visual Studio, build the <code>ALL_BUILD</code> and then <code>INSTALL</code> targets</td><td>Compiles OpenCV's C++ source into linkable libraries (.lib/.dll) and installs headers to the target directory</td></tr>
-            <tr><td>5</td><td>Add the OpenCV <code>bin</code> folder to the Windows <strong>PATH</strong> environment variable</td><td>Lets the OS locate OpenCV's DLLs at runtime when any program using OpenCV is executed</td></tr>
-            <tr><td>6</td><td>Configure project settings (Include/Library directories, linker dependencies) in Visual Studio</td><td>Tells the compiler where to find OpenCV headers and the linker which <code>.lib</code> files to bind against</td></tr>
+            <tr><th>Aspect</th><th>Remap</th><th>Affine</th></tr>
+            <tr><td>Flexibility</td><td>Any arbitrary per-pixel mapping (even curved)</td><td>Only linear: rotate/scale/shear/translate</td></tr>
+            <tr><td>Defined by</td><td>Two full-size maps</td><td>One 2×3 matrix (6 numbers)</td></tr>
+            <tr><td>Lines</td><td>Can bend</td><td>Stay straight and parallel</td></tr>
           </table>
 
-          <h3>Common Post-Install Verification</h3>
-          <p>Regardless of method, a minimal test program is run to confirm the setup: reading an image with <code>cv2.imread()</code> or <code>cv::imread()</code>, checking it isn't empty, and displaying it. A successful display confirms the library, its GUI backend, and the codecs are all correctly linked.</p>
-
-          <div class="callout warn">
-            <strong>Common pitfalls:</strong> forgetting to add Python/CMake to PATH, mismatched architecture (32-bit vs 64-bit) between Python and OpenCV binaries, and missing Visual C++ Redistributables when running compiled C++ OpenCV applications.
+          <div class="callout good">
+            <strong>Conclusion:</strong> Remapping is the general "pick pixel from here" tool; affine transformation is a special, compact case of it, described by a 2×3 matrix from 3 point pairs.
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTION II — Unit 4: Q3–Q7 ═══════════════ -->
+  <div class="section-panel" id="s4">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('s4',0)">Q3 · Feature Detection</button>
+      <button class="tab-btn" onclick="showTab('s4',1)">Q4 · Descriptors &amp; Matching</button>
+      <button class="tab-btn" onclick="showTab('s4',2)">Q5 · FLANN Matching</button>
+      <button class="tab-btn" onclick="showTab('s4',3)">Q6 · Cascade Classifiers</button>
+      <button class="tab-btn" onclick="showTab('s4',4)">Q7 · Real-time Recognition</button>
     </div>
 
     <!-- Q3 -->
-    <div class="tab-content" id="s1-tab-2">
+    <div class="tab-content active" id="s4-tab-0">
       <div class="question-block">
-        <h2 class="q-title">Q3. Explain the concept of cross-platform development workflow in OpenCV. Why is it important in practical computer vision applications? <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q3. Define feature detection and list its major applications in computer vision.</h2>
         <div class="answer-body">
 
-          <h3>What "Cross-Platform" Means for OpenCV</h3>
-          <p>OpenCV is designed to be written once and deployed across Windows, Linux, macOS, Android, and iOS without rewriting the core image-processing logic. This is achieved through three coordinated mechanisms: a unified build system, a hardware abstraction layer, and OS-independent backend routing.</p>
+          <h3>Definition</h3>
+          <p><strong>Feature detection</strong> is the process of finding <span class="highlight">distinctive, repeatable points or regions</span> in an image — corners, edges, blobs — that can be reliably found again in another image of the same scene, even after rotation, scaling or lighting change. These points are called <strong>keypoints</strong> (or interest points).</p>
 
-          <h3>1. CMake — The Meta-Build System</h3>
-          <p>OpenCV's cross-platform build relies on <strong>CMake</strong>, which reads a single <code>CMakeLists.txt</code> configuration file and generates the appropriate <em>native</em> build environment for whichever platform it runs on: Visual Studio solutions on Windows, Makefiles or Ninja files on Linux, and Xcode projects on macOS. The developer maintains one build description; CMake handles translating it to each platform's native toolchain.</p>
+          <div class="callout">
+            <strong>Intuition:</strong> A patch on a flat wall looks the same if you shift it → useless. A patch on an edge changes only across the edge. A patch on a <em>corner</em> changes in every direction → unique → a good feature.
+          </div>
 
-          <h3>2. Hardware Abstraction Layer (HAL)</h3>
-          <p>Different CPUs support different vector instruction sets — x86 processors use <strong>AVX</strong>, ARM processors (mobile/embedded) use <strong>NEON</strong>. OpenCV's HAL automatically translates image-processing instructions to the target-specific vector registers <strong>without requiring the source code to change</strong>. The same <code>cv2.GaussianBlur()</code> call compiles down to AVX instructions on a laptop and NEON instructions on a phone.</p>
-
-          <h3>3. OS-Independent Backends</h3>
-          <p>Functions like <code>cv::VideoCapture</code> need to talk to completely different underlying camera/media APIs per OS. OpenCV's abstraction layer routes these calls seamlessly: <strong>Media Foundation</strong> on Windows, <strong>V4L (Video4Linux)</strong> on Linux, and <strong>AVFoundation</strong> on macOS — all through the same unified API surface the developer codes against.</p>
-
-          <h3>4. Hardware Acceleration Layer</h3>
-          <p>Beyond CPU vectorisation, OpenCV natively supports acceleration via <strong>CUDA</strong> (NVIDIA GPUs), <strong>OpenCL</strong> (heterogeneous compute across GPU/CPU/FPGA), and <strong>Intel IPP/OpenVINO</strong> — again selected transparently based on what hardware is available at runtime or compile-configuration.</p>
-
-          <h3>Why This Matters in Practice</h3>
+          <h3>Properties of a Good Feature</h3>
           <ul>
-            <li><strong>Write once, deploy everywhere:</strong> A vision pipeline developed and tested on a Windows laptop can be deployed to an embedded Linux device or an Android app with minimal code changes.</li>
-            <li><strong>Performance portability:</strong> The same code automatically benefits from whatever acceleration hardware (GPU, SIMD) is present, without the developer hand-tuning per platform.</li>
-            <li><strong>Faster iteration:</strong> Teams don't need separate platform-specific codebases, which reduces bugs from divergent implementations and speeds up development.</li>
-            <li><strong>Real-world deployment diversity:</strong> CV applications run on an unusually wide hardware spread — security cameras (embedded Linux), phones (Android/iOS), industrial robots (custom RTOS-adjacent Linux), and desktop research systems (Windows/macOS) — making portability a practical necessity, not a luxury.</li>
+            <li><strong>Repeatability:</strong> detected again in another view of the same scene.</li>
+            <li><strong>Distinctiveness:</strong> its neighbourhood looks different from other features.</li>
+            <li><strong>Invariance:</strong> robust to rotation, scale, illumination, noise.</li>
+            <li><strong>Locality &amp; efficiency:</strong> small region (survives occlusion) and fast to compute.</li>
           </ul>
 
+          <h3>Types of Features &amp; Detectors</h3>
+          <table>
+            <tr><th>Type</th><th>Detector</th><th>Key idea</th></tr>
+            <tr><td>Edges</td><td>Canny, Sobel</td><td>Large intensity gradient in one direction</td></tr>
+            <tr><td>Corners</td><td>Harris, Shi-Tomasi, FAST</td><td>Large gradient in two directions</td></tr>
+            <tr><td>Blobs</td><td>SIFT (DoG), SURF, MSER</td><td>Regions differing from surroundings, found at multiple scales</td></tr>
+            <tr><td>Combined</td><td>ORB (FAST + BRIEF)</td><td>Fast, rotation-invariant, free to use</td></tr>
+          </table>
+
+          <h4>Harris Corner Response</h4>
+          <div class="formula">\[ M = \sum_{x,y} w(x,y) \begin{bmatrix} I_x^2 &amp; I_x I_y \\ I_x I_y &amp; I_y^2 \end{bmatrix}, \qquad R = \det(M) - k\,(\operatorname{trace} M)^2 \]</div>
+          <p>\(R\) large positive → corner; \(R\) negative → edge; \(|R|\) small → flat region. (\(k \approx 0.04\)–\(0.06\))</p>
+
+<pre><code>gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+orb = cv2.ORB_create(500)                         <span class="cmt"># up to 500 keypoints</span>
+kps = orb.detect(gray, None)
+out = cv2.drawKeypoints(img, kps, None, color=(0,255,0))</code></pre>
+
+          <h3>Major Applications</h3>
+          <table>
+            <tr><th>Application</th><th>How features are used</th></tr>
+            <tr><td><strong>Image stitching / panoramas</strong></td><td>Match features in overlapping photos → compute homography → blend</td></tr>
+            <tr><td><strong>Object recognition</strong></td><td>Match features of a known object (logo, book cover) in a scene</td></tr>
+            <tr><td><strong>Object tracking</strong></td><td>Follow keypoints frame-to-frame (optical flow)</td></tr>
+            <tr><td><strong>3D reconstruction / SfM</strong></td><td>Matched points across views → triangulate 3D structure</td></tr>
+            <tr><td><strong>SLAM &amp; robot navigation</strong></td><td>Track landmarks to localise a robot/drone while mapping</td></tr>
+            <tr><td><strong>Augmented reality</strong></td><td>Find a marker/surface to anchor virtual objects</td></tr>
+            <tr><td><strong>Image registration</strong></td><td>Align medical or satellite images taken at different times</td></tr>
+            <tr><td><strong>Image retrieval</strong></td><td>Search similar images using bag-of-visual-words of features</td></tr>
+            <tr><td><strong>Motion/video stabilisation</strong></td><td>Estimate camera shake from feature motion and cancel it</td></tr>
+          </table>
+
           <div class="callout good">
-            <strong>Summary:</strong> Cross-platform capability in OpenCV is not just "the code compiles everywhere" — it is achieved through CMake (build translation), HAL (instruction-set translation), and OS-independent backends (API translation), together allowing identical high-level code to run efficiently on radically different hardware and operating systems.
+            <strong>Conclusion:</strong> Feature detection reduces an image to a small set of unique, stable points — the foundation for matching, stitching, tracking, AR and 3D vision.
           </div>
         </div>
       </div>
     </div>
-  </div><!-- end Unit I -->
-
-
-  <!-- ═══════════════════════════════════════════════
-       UNIT II — Q4 to Q10
-  ═══════════════════════════════════════════════ -->
-  <div class="section-panel" id="s2">
-    <div class="tabs" role="tablist">
-      <button class="tab-btn active" onclick="showTab('s2',0)">Q4 · Image as Matrix</button>
-      <button class="tab-btn" onclick="showTab('s2',1)">Q5 · Black Image Fix</button>
-      <button class="tab-btn" onclick="showTab('s2',2)">Q6 · Traversal + LUT</button>
-      <button class="tab-btn" onclick="showTab('s2',3)">Q7 · Pixel Access</button>
-      <button class="tab-btn" onclick="showTab('s2',4)">Q8 · Masks + Blending</button>
-      <button class="tab-btn" onclick="showTab('s2',5)">Q9 · Mat Implementation</button>
-      <button class="tab-btn" onclick="showTab('s2',6)">Q10 · DFT</button>
-    </div>
 
     <!-- Q4 -->
-    <div class="tab-content active" id="s2-tab-0">
+    <div class="tab-content" id="s4-tab-1">
       <div class="question-block">
-        <h2 class="q-title">Q4. Analyze how an image is represented as a matrix and examine the relationship between image dimensions, pixels, and matrix elements. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q4. Describe the main stages involved in computing feature descriptors and matching features between images.</h2>
         <div class="answer-body">
 
-          <h3>Image as a Matrix</h3>
-          <p>Digitally, an image is a discrete 2D (or 3D, for colour) array of numbers. Each element of this array is a <strong>pixel</strong> (picture element), and its value represents the intensity or colour sampled at that spatial location. In OpenCV, this array is stored inside a <code>cv::Mat</code> object — the fundamental data structure of the library.</p>
+          <h3>Overview</h3>
+          <p>A keypoint only tells us <em>where</em> something interesting is. A <strong>descriptor</strong> is a vector that describes <em>what the neighbourhood looks like</em>, so that the same point can be recognised in another image. Matching = finding descriptors that are closest to each other.</p>
 
-          <h3>Dimensions and Their Meaning</h3>
+          <div class="chain">
+            <div class="chain-item">1. Pre-process</div><div class="chain-arrow">→</div>
+            <div class="chain-item">2. Detect keypoints</div><div class="chain-arrow">→</div>
+            <div class="chain-item">3. Assign scale &amp; orientation</div><div class="chain-arrow">→</div>
+            <div class="chain-item">4. Compute descriptor</div><div class="chain-arrow">→</div>
+            <div class="chain-item">5. Match</div><div class="chain-arrow">→</div>
+            <div class="chain-item">6. Filter + verify</div>
+          </div>
+
+          <h3>Stages</h3>
+          <h4>1. Pre-processing</h4>
+          <p>Convert to grayscale, optionally resize/denoise (Gaussian blur) so gradients are stable.</p>
+          <h4>2. Keypoint Detection</h4>
+          <p>Find corners/blobs (FAST, Harris, DoG). Each keypoint stores \((x, y)\), size and response strength.</p>
+          <h4>3. Scale &amp; Orientation Assignment</h4>
+          <p>Scale comes from an image pyramid (which level the point was found at). Orientation = dominant gradient direction around the point. The descriptor is computed in this <em>rotated, scaled</em> frame → <strong>rotation &amp; scale invariance</strong>.</p>
+          <h4>4. Descriptor Computation</h4>
+          <table>
+            <tr><th>Descriptor</th><th>How it is built</th><th>Size / type</th><th>Distance</th></tr>
+            <tr><td><strong>SIFT</strong></td><td>16×16 patch → 4×4 cells → 8-bin gradient histograms each</td><td>128 floats</td><td>Euclidean (L2)</td></tr>
+            <tr><td><strong>ORB</strong></td><td>256 random pixel-pair intensity comparisons (rotated BRIEF)</td><td>256 bits (32 bytes)</td><td>Hamming</td></tr>
+            <tr><td>BRISK / AKAZE</td><td>Binary comparisons on sampling patterns</td><td>Binary</td><td>Hamming</td></tr>
+          </table>
+          <p>Descriptors are normalised so brightness/contrast changes have little effect.</p>
+
+          <h4>5. Matching</h4>
+          <p>For each descriptor in image 1, find the nearest descriptor in image 2:</p>
+          <div class="formula">\[ d_{L2}(\mathbf{a},\mathbf{b}) = \sqrt{\sum_i (a_i - b_i)^2} \qquad\qquad d_{H}(\mathbf{a},\mathbf{b}) = \text{popcount}(\mathbf{a} \oplus \mathbf{b}) \]</div>
           <ul>
-            <li><strong>Rows &amp; Columns:</strong> A grayscale image of size <code>rows × cols</code> (commonly written <code>height × width</code>) has exactly <code>rows × cols</code> pixel values — one intensity value per matrix cell.</li>
-            <li><strong>Channels:</strong> A colour image adds a third dimension — <em>channels</em> — typically 3 for BGR (Blue, Green, Red as OpenCV orders them) or 4 with an added Alpha (transparency) channel. So a colour image is really <code>rows × cols × channels</code> individual values.</li>
-            <li><strong>Bit-depth:</strong> Each value itself has a type/precision — e.g. <code>CV_8U</code> (8-bit unsigned, 0–255, the most common for standard images), <code>CV_32F</code> (32-bit float, used in intermediate computations like DFT), etc.</li>
+            <li><strong>Brute-Force (BF):</strong> compare with every descriptor — exact, slow for large sets.</li>
+            <li><strong>FLANN:</strong> approximate nearest neighbour — much faster (Q5).</li>
           </ul>
 
-          <h3>Relationship: Pixels ↔ Matrix Elements</h3>
-          <p>Every pixel maps one-to-one to a matrix element (or, for colour images, a small group of <code>channels</code> contiguous elements). For a 3-channel BGR image, the data is stored in <strong>row-major, interleaved</strong> order: <code>B₀ G₀ R₀ B₁ G₁ R₁ …</code> — meaning the three channel values of one pixel sit next to each other in memory before the next pixel begins.</p>
+          <h4>6. Filtering &amp; Geometric Verification</h4>
+          <ul>
+            <li><strong>Cross-check:</strong> keep a match only if A→B and B→A agree.</li>
+            <li><strong>Lowe's ratio test:</strong> keep if best distance is clearly smaller than 2nd best (Q5).</li>
+            <li><strong>RANSAC:</strong> fit a homography/fundamental matrix; matches that don't fit the geometry are outliers and are removed.</li>
+          </ul>
 
-          <div class="svg-wrap">
-            <svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg">
-              <rect x="20" y="30" width="220" height="150" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5"/>
-              <text x="130" y="20" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Matrix Header</text>
-              <text x="35" y="55" fill="var(--text)" font-size="11">rows, cols, dims</text>
-              <text x="35" y="78" fill="var(--text)" font-size="11">type: CV_8UC3</text>
-              <text x="35" y="101" fill="var(--text)" font-size="11">step[0], step[1]</text>
-              <text x="35" y="124" fill="var(--text)" font-size="11">refcount pointer</text>
-              <text x="35" y="147" fill="var(--text)" font-size="11">data pointer ───┐</text>
+<pre><code>orb = cv2.ORB_create()
+kp1, des1 = orb.detectAndCompute(gray1, None)     <span class="cmt"># stages 2–4 in one call</span>
+kp2, des2 = orb.detectAndCompute(gray2, None)
+bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+matches = sorted(bf.match(des1, des2), key=lambda m: m.distance)
+out = cv2.drawMatches(img1, kp1, img2, kp2, matches[:30], None)</code></pre>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Each <code>match</code> has <code>queryIdx</code> (index in image 1), <code>trainIdx</code> (index in image 2) and <code>distance</code> (smaller = better).</p>
 
-              <line x1="240" y1="150" x2="300" y2="150" stroke="var(--accent-hover)" stroke-width="2" marker-end="url(#arrow)"/>
-
-              <rect x="300" y="70" width="320" height="40" fill="var(--surface2)" stroke="var(--border)"/>
-              <text x="460" y="60" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Dynamic Data Block (row-major, interleaved)</text>
-              <text x="315" y="95" fill="var(--text)" font-size="10">B₀G₀R₀</text>
-              <text x="370" y="95" fill="var(--text)" font-size="10">B₁G₁R₁</text>
-              <text x="425" y="95" fill="var(--text)" font-size="10">B₂G₂R₂</text>
-              <text x="480" y="95" fill="var(--text)" font-size="10">B₃G₃R₃</text>
-              <text x="535" y="95" fill="var(--text-muted)" font-size="10">…</text>
-
-              <defs>
-                <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
-                  <path d="M0,0 L6,3 L0,6 Z" fill="var(--accent-hover)"/>
-                </marker>
-              </defs>
-            </svg>
-            <p class="svg-caption">Fig. cv::Mat header (metadata) pointing to the contiguous pixel data block</p>
+          <div class="callout good">
+            <strong>Conclusion:</strong> Detect → describe → match → verify. Detectors give location, descriptors give identity, and filtering (ratio test + RANSAC) removes wrong matches.
           </div>
-
-          <h3>Direct Pixel Addressing</h3>
-          <p>OpenCV uses a <strong>strided addressing scheme</strong> so any pixel can be located directly without scanning the array. Given <code>step[0]</code> (bytes per row, including any padding) and <code>step[1]</code> (bytes per element):</p>
-          <div class="callout">
-            Address(y, x) = data + (y · step[0]) + (x · step[1])
-          </div>
-          <p>This formula is what makes operations like cropping (NumPy slicing: <code>image[y1:y2, x1:x2]</code>) and Region-of-Interest extraction efficient — they simply compute new offsets into the <em>same</em> underlying data block rather than copying pixels.</p>
-
-          <h3>Summary Table</h3>
-          <table>
-            <tr><th>Image Concept</th><th>Matrix Equivalent</th></tr>
-            <tr><td>Image height</td><td>Number of rows</td></tr>
-            <tr><td>Image width</td><td>Number of columns</td></tr>
-            <tr><td>Colour channels (B, G, R)</td><td>Interleaved depth per element</td></tr>
-            <tr><td>One pixel (grayscale)</td><td>One matrix element</td></tr>
-            <tr><td>One pixel (colour)</td><td>A group of <code>channels</code> contiguous elements</td></tr>
-            <tr><td>Total pixel count</td><td>rows × cols</td></tr>
-            <tr><td>Total stored values</td><td>rows × cols × channels</td></tr>
-          </table>
         </div>
       </div>
     </div>
 
     <!-- Q5 -->
-    <div class="tab-content" id="s2-tab-1">
+    <div class="tab-content" id="s4-tab-2">
       <div class="question-block">
-        <h2 class="q-title">Q5. A program successfully loads an image, but the displayed image appears completely black. Analyze the possible causes and suggest suitable solutions. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q5. Apply FLANN-based feature matching to identify corresponding keypoints in two images. Explain the major steps.</h2>
         <div class="answer-body">
 
-          <h3>Why This Happens Even Though "Loading Succeeded"</h3>
-          <p>"Successfully loads" typically means <code>cv2.imread()</code> didn't return <code>None</code> — but a non-empty matrix can still <em>display</em> as black for several independent reasons spanning data type, colour space, display environment, and content itself.</p>
-
+          <h3>What is FLANN?</h3>
+          <p><strong>FLANN</strong> (Fast Library for Approximate Nearest Neighbours) finds the closest descriptors <em>approximately</em> using smart search structures instead of comparing against every descriptor. For thousands of keypoints it is <span class="highlight">much faster than brute-force</span> with almost the same accuracy.</p>
           <table>
-            <tr><th>Cause</th><th>Why It Produces Black</th><th>Solution</th></tr>
-            <tr>
-              <td><strong>Wrong data type / scale</strong></td>
-              <td>Image stored as float (e.g. <code>CV_32F</code>) with values in range [0, 1], but the display routine expects [0, 255] <code>uint8</code>. Small floats round down to near-zero when cast, rendering as black.</td>
-              <td>Scale explicitly: <code>img = (img * 255).astype('uint8')</code>, or use <code>cv2.normalize()</code> before display.</td>
-            </tr>
-            <tr>
-              <td><strong>Incorrect colour-space conversion</strong></td>
-              <td>Displaying a BGR image through a pipeline expecting RGB (or vice-versa) doesn't literally turn it black — but converting to the wrong single-channel space (e.g. extracting an empty Alpha channel) will.</td>
-              <td>Verify the conversion flag, e.g. <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code>, and check <code>img.shape</code> matches expectations (3 channels vs 4).</td>
-            </tr>
-            <tr>
-              <td><strong>imshow() called without waitKey()</strong></td>
-              <td>In a local Python script, <code>cv2.imshow()</code> opens a window but the OS doesn't get a chance to render/refresh it before the script exits or moves on — the window appears but shows nothing/black.</td>
-              <td>Always follow with <code>cv2.waitKey(0)</code> and <code>cv2.destroyAllWindows()</code>.</td>
-            </tr>
-            <tr>
-              <td><strong>Using cv2.imshow() in Google Colab</strong></td>
-              <td>Colab's remote/headless backend doesn't support native GUI windows at all — the call may silently fail or crash the kernel, which can appear as a black/blank output.</td>
-              <td>Use the Colab-specific patch: <code>from google.colab.patches import cv2_imshow; cv2_imshow(img)</code>.</td>
-            </tr>
-            <tr>
-              <td><strong>Wrong colour order in Matplotlib</strong></td>
-              <td>Matplotlib's <code>plt.imshow()</code> expects RGB, but OpenCV images are natively BGR. Channel-swapped images can look very dark/wrong-toned depending on content, sometimes near-black for certain images.</td>
-              <td>Convert first: <code>plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))</code>.</td>
-            </tr>
-            <tr>
-              <td><strong>Uninitialized / all-zero matrix</strong></td>
-              <td>If the image was created with <code>np.zeros()</code> for a placeholder and never actually filled with the loaded data (e.g. a bug in the read path before display), it is genuinely all-black data, not a display issue.</td>
-              <td>Print <code>img.max()</code> and <code>img.min()</code> to confirm actual pixel content before assuming a display bug.</td>
-            </tr>
-            <tr>
-              <td><strong>Wrong file path silently loading a different/corrupt file</strong></td>
-              <td><code>imread()</code> can return a valid but tiny/blank placeholder if pointed at a broken or unexpected file, without raising an error.</td>
-              <td>Check <code>img.shape</code> and <code>img is not None</code> immediately after loading, and confirm the path is correct.</td>
-            </tr>
+            <tr><th>Descriptor type</th><th>FLANN index</th><th>Idea</th></tr>
+            <tr><td>Float (SIFT, SURF)</td><td><strong>KD-Tree</strong> (randomised, several trees)</td><td>Splits descriptor space along dimensions, searches only nearby branches</td></tr>
+            <tr><td>Binary (ORB, BRISK)</td><td><strong>LSH</strong> (Locality Sensitive Hashing)</td><td>Similar descriptors fall into the same hash bucket</td></tr>
           </table>
 
-          <h3>Systematic Debugging Approach</h3>
+          <h3>Major Steps</h3>
           <ol>
-            <li>Print <code>img.shape</code>, <code>img.dtype</code>, <code>img.min()</code>, <code>img.max()</code> right after loading — this immediately distinguishes a data problem from a display problem.</li>
-            <li>If min/max show real variation, the issue is in the <strong>display/render path</strong> (colour space, scaling, or environment).</li>
-            <li>If min/max are both 0, the issue is <strong>upstream</strong> — the actual image data was never populated correctly.</li>
+            <li><strong>Load both images</strong> in grayscale (query image = object, train image = scene).</li>
+            <li><strong>Detect keypoints &amp; compute descriptors</strong> with SIFT (<code>detectAndCompute</code>).</li>
+            <li><strong>Set FLANN parameters:</strong> index (KD-tree, 5 trees) and search (<code>checks</code> = how many leaves to visit; higher = more accurate, slower).</li>
+            <li><strong>k-NN match with k = 2</strong> → best and second-best match for every descriptor.</li>
+            <li><strong>Lowe's ratio test</strong> → keep only unambiguous matches.</li>
+            <li><strong>(Optional) RANSAC homography</strong> to remove remaining outliers and locate the object.</li>
+            <li><strong>Draw the matches</strong>.</li>
           </ol>
 
+          <div class="formula">\[ \text{Keep match if:}\quad \frac{d_{\text{best}}}{d_{\text{2nd best}}} \;\lt\; 0.7 \]</div>
+          <p>If the best and second-best are almost equally close, the point is ambiguous (e.g. repeated window patterns) → rejected.</p>
+
+<pre><code>sift = cv2.SIFT_create()
+kp1, des1 = sift.detectAndCompute(img1, None)
+kp2, des2 = sift.detectAndCompute(img2, None)
+
+flann = cv2.FlannBasedMatcher(dict(algorithm=1, trees=5), dict(checks=50))  <span class="cmt"># 1 = KD-tree</span>
+pairs = flann.knnMatch(des1, des2, k=2)                                     <span class="cmt"># best 2 per point</span>
+
+good = [m for m, n in pairs if m.distance &lt; 0.7 * n.distance]              <span class="cmt"># ratio test</span>
+out = cv2.drawMatches(img1, kp1, img2, kp2, good, None)</code></pre>
+
+          <div class="diagram">
+            <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
+              <rect class="box" x="20" y="30" width="180" height="140"/>
+              <text class="lbl-s" x="110" y="22">Image 1 (object)</text>
+              <rect class="box" x="400" y="30" width="180" height="140"/>
+              <text class="lbl-s" x="490" y="22">Image 2 (scene)</text>
+              <circle cx="70" cy="70" r="4" fill="#4ade80"/><circle cx="140" cy="60" r="4" fill="#4ade80"/>
+              <circle cx="100" cy="120" r="4" fill="#4ade80"/><circle cx="160" cy="140" r="4" fill="#f87171"/>
+              <circle cx="450" cy="90" r="4" fill="#4ade80"/><circle cx="520" cy="80" r="4" fill="#4ade80"/>
+              <circle cx="480" cy="140" r="4" fill="#4ade80"/><circle cx="430" cy="50" r="4" fill="#f87171"/>
+              <line x1="70" y1="70" x2="450" y2="90" stroke="#4ade80"/>
+              <line x1="140" y1="60" x2="520" y2="80" stroke="#4ade80"/>
+              <line x1="100" y1="120" x2="480" y2="140" stroke="#4ade80"/>
+              <line x1="160" y1="140" x2="430" y2="50" stroke="#f87171" stroke-dasharray="4 3"/>
+              <text class="lbl-s" x="300" y="190">green = kept (consistent) · red dashed = rejected by ratio test / RANSAC</text>
+            </svg>
+            <div class="caption">Fig: Corresponding keypoints after FLANN + ratio test</div>
+          </div>
+
+          <h3>Expected Output &amp; Parameters</h3>
+          <ul>
+            <li>Lines connect the same physical points in both images; good matches run roughly parallel (consistent geometry).</li>
+            <li><code>trees</code> ↑ / <code>checks</code> ↑ → more accurate, slower.</li>
+            <li>Ratio threshold 0.7–0.8: lower = fewer but more reliable matches.</li>
+            <li>For ORB use LSH: <code>dict(algorithm=6, table_number=6, key_size=12, multi_probe_level=1)</code>.</li>
+          </ul>
+
+          <table>
+            <tr><th>Aspect</th><th>Brute-Force</th><th>FLANN</th></tr>
+            <tr><td>Result</td><td>Exact nearest neighbour</td><td>Approximate (very close)</td></tr>
+            <tr><td>Speed on large sets</td><td class="danger">Slow — \(O(N\cdot M)\)</td><td class="success">Fast</td></tr>
+            <tr><td>Best for</td><td>Small sets, binary descriptors</td><td>Large sets, real-time, SIFT</td></tr>
+          </table>
+
           <div class="callout good">
-            <strong>Conclusion:</strong> A "black image" bug is rarely one single cause — it's a checklist problem spanning data type/scaling, colour-space handling, and environment-specific display quirks (script vs. Colab vs. Jupyter). Diagnosing starts by separating "is the data actually black" from "is the display making it look black."
+            <strong>Conclusion:</strong> FLANN + k-NN + ratio test gives fast and reliable correspondences between two images; RANSAC on top makes them geometrically consistent.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q6 -->
-    <div class="tab-content" id="s2-tab-2">
+    <div class="tab-content" id="s4-tab-3">
       <div class="question-block">
-        <h2 class="q-title">Q6. List any three image traversal methods and state the purpose of lookup table-based intensity transformation. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q6. Analyze the working of cascade classifiers and discuss how scale, illumination, and pose variations affect their detection performance.</h2>
         <div class="answer-body">
 
-          <h3>Part A — Image Traversal Methods</h3>
-          <p>Image traversal is the systematic order in which pixel locations in a 2D array are visited by an algorithm. The traversal order chosen affects computational efficiency (cache locality), compression performance, and correctness of region-based operations. Three important methods:</p>
+          <h3>Cascade Classifier (Viola–Jones)</h3>
+          <p>A <strong>cascade classifier</strong> detects objects (classically faces) by scanning a window across the image and passing it through a <span class="highlight">chain of increasingly strict classifiers</span>. Most windows are background and get rejected in the first cheap stages, which makes it fast enough for real time.</p>
 
-          <h4>1. Raster Scan (Row-Major) Traversal</h4>
-          <p>Pixels are visited row by row, left to right, top to bottom — matching the natural memory layout of a 2D array (row-major order).</p>
-          <pre><code>for row = 0 to height-1:
-    for col = 0 to width-1:
-        visit(image[row][col])</code></pre>
-          <p>Complexity is O(H×W) with excellent intra-row cache locality, but incurs a discontinuous jump at the end of every row. Used in display rendering, basic filters, and video scanning.</p>
-
-          <h4>2. Boustrophedon (Serpentine / Zigzag Row) Traversal</h4>
-          <p>Named after the ox-plowing pattern — alternates scan direction on each row (even rows left→right, odd rows right→left), which avoids the large jump raster scan makes at each line break and maintains spatial continuity between consecutive rows. Used in hardware scanners, dot-matrix/thermal printers, and robotic scan paths.</p>
-
-          <h4>3. Zigzag Diagonal Traversal (JPEG-style)</h4>
-          <p>Applied to 8×8 DCT coefficient blocks (not raw pixels). After the Discrete Cosine Transform and quantisation, energy concentrates at the top-left (low frequency); the diagonal zigzag groups the resulting trailing zero coefficients together for efficient Run-Length Encoding. Used in JPEG still-image compression and MPEG intra-frame video coding.</p>
-
-          <div class="svg-wrap">
-            <svg viewBox="0 0 620 160" xmlns="http://www.w3.org/2000/svg">
-              <!-- Raster -->
-              <text x="70" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Raster</text>
-              <g transform="translate(20,25)">
-                <path d="M5,5 L95,5 M5,45 L95,45 M5,85 L95,85" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
-                <line x1="5" y1="5" x2="5" y2="45" stroke="var(--text-dim)" stroke-dasharray="2,2"/>
-                <line x1="5" y1="45" x2="5" y2="85" stroke="var(--text-dim)" stroke-dasharray="2,2"/>
-              </g>
-              <!-- Boustrophedon -->
-              <text x="290" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Boustrophedon</text>
-              <g transform="translate(240,25)">
-                <path d="M5,5 L95,5 L95,45 L5,45 L5,85 L95,85" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
-              </g>
-              <!-- Zigzag diagonal -->
-              <text x="510" y="15" fill="var(--accent-hover)" font-size="11" text-anchor="middle">Zigzag Diagonal</text>
-              <g transform="translate(460,25)">
-                <path d="M5,5 L45,5 L5,45 L5,45 L85,5 L45,45 L5,85 L45,85 L85,45 L85,45" stroke="var(--accent)" stroke-width="2" fill="none" marker-end="url(#arr2)"/>
-              </g>
-              <defs>
-                <marker id="arr2" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto">
-                  <path d="M0,0 L5,2.5 L0,5 Z" fill="var(--accent)"/>
-                </marker>
-              </defs>
+          <h3>Working — 4 Key Ideas</h3>
+          <h4>1. Haar-like Features</h4>
+          <p>Rectangles of black and white regions; feature value = sum(white pixels) − sum(black pixels). E.g. eye region is darker than cheeks below it.</p>
+          <h4>2. Integral Image</h4>
+          <p>Lets the sum of any rectangle be computed with just <strong>4 lookups</strong>, regardless of size:</p>
+          <div class="formula">\[ II(x,y) = \sum_{x' \le x,\ y' \le y} I(x',y') \qquad \text{Sum}_{ABCD} = II(D) - II(B) - II(C) + II(A) \]</div>
+          <h4>3. AdaBoost</h4>
+          <p>From ~160,000 possible features, AdaBoost picks a small set of the best ones and combines these weak classifiers into a strong one: \(H(x) = \text{sign}\left(\sum_t \alpha_t h_t(x)\right)\).</p>
+          <h4>4. The Cascade</h4>
+          <div class="diagram">
+            <svg viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
+              <rect class="box" x="10" y="40" width="90" height="50" rx="8"/><text class="lbl" x="55" y="62">Window</text><text class="lbl-s" x="55" y="78">(sub-image)</text>
+              <rect class="box3" x="140" y="40" width="90" height="50" rx="8"/><text class="lbl" x="185" y="62">Stage 1</text><text class="lbl-s" x="185" y="78">2 features</text>
+              <rect class="box3" x="270" y="40" width="90" height="50" rx="8"/><text class="lbl" x="315" y="62">Stage 2</text><text class="lbl-s" x="315" y="78">10 features</text>
+              <rect class="box3" x="400" y="40" width="90" height="50" rx="8"/><text class="lbl" x="445" y="62">Stage N</text><text class="lbl-s" x="445" y="78">many features</text>
+              <rect class="box2" x="530" y="40" width="95" height="50" rx="8"/><text class="lbl" x="577" y="70">FACE ✓</text>
+              <path class="arr" d="M100,65 L140,65"/><path class="arr" d="M230,65 L270,65"/><path class="arr" d="M360,65 L400,65"/><path class="arr" d="M490,65 L530,65"/>
+              <text class="lbl-s" x="250" y="58">pass</text><text class="lbl-s" x="380" y="58">pass</text><text class="lbl-s" x="510" y="58">pass</text>
+              <rect class="box4" x="230" y="125" width="220" height="34" rx="8"/><text class="lbl" x="340" y="146">Reject → not object (most windows)</text>
+              <path class="arr" d="M185,90 L280,125"/><path class="arr" d="M315,90 L330,125"/><path class="arr" d="M445,90 L400,125"/>
             </svg>
-            <p class="svg-caption">Fig. Three traversal path patterns compared</p>
+            <div class="caption">Fig: Early cheap stages discard most background; only true objects survive all stages</div>
           </div>
+          <p>The window slides over the image at many positions and many <strong>scales</strong> (image pyramid). Overlapping detections are grouped (<code>minNeighbors</code>).</p>
 
-          <h3>Part B — Purpose of LUT-Based Intensity Transformation</h3>
-          <p>A <strong>Lookup Table (LUT)</strong> is a precomputed 1×256 array (for standard 8-bit images) mapping every possible input intensity (0–255) directly to its output intensity: <code>y = LUT[x]</code>.</p>
+<pre><code>face = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+gray = cv2.equalizeHist(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY))   <span class="cmt"># helps with lighting</span>
+boxes = face.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(30,30))
+for (x, y, w, h) in boxes:
+    cv2.rectangle(img, (x, y), (x+w, y+h), (0,255,0), 2)</code></pre>
 
-          <h4>Why It's Needed</h4>
-          <p>Real-time video processing must transform millions of pixels per second — a standard 1080p stream at 60fps processes over 124 million pixels/sec. Calculating a non-linear formula (logarithmic, gamma, etc.) individually for every single pixel creates severe latency and CPU load.</p>
+          <h3>Effect of Variations on Performance</h3>
+          <table>
+            <tr><th>Variation</th><th>Effect</th><th>Mitigation</th></tr>
+            <tr><td><strong>Scale</strong></td><td>Detector is trained at a fixed window (e.g. 24×24). Objects of other sizes are found only if the pyramid reaches that scale. Large <code>scaleFactor</code> skips sizes → <span class="danger">missed detections</span>; tiny objects below <code>minSize</code> are never found.</td><td>Smaller <code>scaleFactor</code> (1.05) = more accurate but slower; tune <code>minSize</code>/<code>maxSize</code></td></tr>
+            <tr><td><strong>Illumination</strong></td><td>Haar features use <em>differences</em> of regions, so uniform brightness change is partly tolerated (window variance normalisation). But strong shadows, side lighting or back-light reverse the dark/bright pattern → <span class="danger">misses &amp; false positives</span>.</td><td>Histogram equalisation / CLAHE; train with varied lighting; LBP cascades are more robust</td></tr>
+            <tr><td><strong>Pose</strong></td><td>Trained on <em>frontal, upright</em> faces. Profile views, tilt beyond ~±15°, or looking up/down break the feature layout → <span class="danger">detection fails</span>. Occlusion (mask, hand) has the same effect.</td><td>Separate cascades (e.g. <code>haarcascade_profileface</code>), rotate the image and re-run, or use CNN detectors</td></tr>
+          </table>
 
-          <h4>How It Solves This</h4>
-          <p>Instead of evaluating the formula millions of times, the LUT approach computes it <strong>only 256 times</strong> to populate the table. Afterwards, each pixel's raw value is used directly as a memory index into the array, returning the precomputed result instantly — an O(1) lookup per pixel instead of a full calculation per pixel.</p>
-
-          <h4>Applications</h4>
+          <h3>Strengths vs Limitations</h3>
           <ul>
-            <li><strong>Histogram equalisation:</strong> the image's Cumulative Distribution Function (CDF) is converted into a 256-value LUT to redistribute intensities and boost contrast.</li>
-            <li><strong>False-colour / artistic filters:</strong> mapping grayscale intensities into separate colour channels for heatmaps (thermal imaging) or stylised palettes (sepia).</li>
-            <li>Implemented via <code>cv2.LUT()</code> in Python / <code>cv::LUT</code> in C++, residing in the <code>imgproc</code> module.</li>
+            <li><span class="success">Strengths:</span> very fast on CPU, real-time, low memory, no GPU needed.</li>
+            <li><span class="danger">Limitations:</span> sensitive to pose/lighting, more false positives, rigid objects only; largely replaced by deep detectors (YOLO, SSD) where accuracy matters.</li>
           </ul>
 
           <div class="callout good">
-            <strong>Key insight:</strong> LUTs trade a tiny, fixed amount of memory (256 entries) for a massive reduction in repeated computation — the core efficiency principle behind virtually all non-linear intensity transformations (negative, log, gamma, histogram equalisation) in real-time CV pipelines.
+            <strong>Conclusion:</strong> Haar features + integral image + AdaBoost + cascade = fast detection. Scale is handled by the pyramid (speed–accuracy trade-off), while illumination and especially pose changes are its main weaknesses.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q7 -->
-    <div class="tab-content" id="s2-tab-3">
+    <div class="tab-content" id="s4-tab-4">
       <div class="question-block">
-        <h2 class="q-title">Q7. Explain pixel-level access in OpenCV and discuss its importance in image processing. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q7. Evaluate the effectiveness of feature matching and video analysis for real-time object recognition, considering reliability and processing speed.</h2>
         <div class="answer-body">
 
-          <h3>What is Pixel-Level Access?</h3>
-          <p>Pixel-level access refers to directly reading or modifying the intensity/colour value stored at a specific (row, column) location of an image matrix. OpenCV (via its Python/NumPy bindings) offers several access paradigms, each with a different performance profile.</p>
+          <h3>The Real-Time Requirement</h3>
+          <p>Real time usually means <strong>≥ 25–30 FPS</strong>, i.e. at most ~33 ms per frame for <em>everything</em> (capture, detect, match, draw). So every method must be judged on two axes:</p>
+          <div class="formula">\[ \text{FPS} = \frac{1}{t_{\text{frame}}} \qquad\qquad \text{Precision} = \frac{TP}{TP+FP},\quad \text{Recall} = \frac{TP}{TP+FN} \]</div>
 
-          <h3>Access Methods Compared</h3>
+          <h3>1. Feature Matching for Recognition</h3>
+          <p>Recognise a known object by matching its stored descriptors against each frame, then verifying with RANSAC homography.</p>
           <table>
-            <tr><th>Method</th><th>Syntax</th><th>Mechanism &amp; Speed</th><th>Best Use Case</th></tr>
-            <tr>
-              <td><strong>Naive Indexing</strong></td>
-              <td><code>img[y, x]</code></td>
-              <td>High Python interpreter overhead per element access — the slowest option</td>
-              <td>Simple debugging, single pixel checks</td>
-            </tr>
-            <tr>
-              <td><strong>NumPy Scalar Access</strong></td>
-              <td><code>img.item(y, x, c)</code> / <code>.itemset()</code></td>
-              <td>Bypasses Python object instantiation to access the underlying C buffer directly</td>
-              <td>Custom iterative loops where vectorisation isn't feasible</td>
-            </tr>
-            <tr>
-              <td><strong>Vectorised Operations</strong></td>
-              <td><code>255 - img</code>, array slicing</td>
-              <td>SIMD/C-backend batch memory operations — fastest execution by far</td>
-              <td>Global thresholds, whole-image filters, and masks</td>
-            </tr>
+            <tr><th>Choice</th><th>Reliability</th><th>Speed</th><th>Verdict</th></tr>
+            <tr><td>SIFT + FLANN</td><td class="success">High — scale/rotation invariant, distinctive</td><td class="danger">Slow (~10× ORB)</td><td>Accurate, struggles to hit 30 FPS on CPU</td></tr>
+            <tr><td>ORB + BF-Hamming</td><td>Medium — less robust to big scale/blur</td><td class="success">Very fast (bit operations)</td><td>Best for real-time on CPU / mobile</td></tr>
+            <tr><td>AKAZE / BRISK</td><td>Good</td><td>Medium</td><td>Middle ground</td></tr>
+          </table>
+          <p><strong>Reliability issues:</strong> fails on textureless objects (plain mug), motion blur, repeated patterns and strong viewpoint change. Ratio test + RANSAC + a minimum inlier count (e.g. ≥ 10) is needed to avoid false recognitions.</p>
+
+          <h3>2. Video Analysis Techniques</h3>
+          <p>Video has <strong>temporal redundancy</strong> — consecutive frames are almost identical. Exploiting this gives big speed gains:</p>
+          <table>
+            <tr><th>Technique</th><th>Use</th><th>Speed</th><th>Reliability</th></tr>
+            <tr><td>Background subtraction (MOG2)</td><td>Find moving regions; run recognition only there</td><td class="success">Very fast</td><td>Fails with camera motion, lighting change, shadows</td></tr>
+            <tr><td>Optical flow (Lucas–Kanade)</td><td>Track keypoints between frames instead of re-matching</td><td class="success">Fast</td><td>Drifts over time; loses points with fast motion/occlusion</td></tr>
+            <tr><td>Trackers (KCF, CSRT)</td><td>Follow the recognised box</td><td>KCF fast, CSRT slower</td><td>CSRT accurate; both need re-detection after loss</td></tr>
           </table>
 
-          <h3>The Underlying Addressing Mechanism</h3>
-          <p>Whichever syntax is used, OpenCV ultimately resolves a pixel's memory location using the strided addressing formula built on the <code>cv::Mat</code>'s <code>step[]</code> values:</p>
-          <div class="callout">Address(y, x) = data + (y · step[0]) + (x · step[1])</div>
-          <p>where <code>step[0]</code> is the byte stride from one row to the next (including any padding for alignment) and <code>step[1]</code> is the byte size of one element across channels. This is what makes direct pixel access and slicing efficient — it's pure pointer arithmetic, no searching.</p>
+          <h3>Best Practice: Detect-then-Track</h3>
+          <div class="chain">
+            <div class="chain-item">Frame</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Every N frames: full feature match</div><div class="chain-arrow">→</div>
+            <div class="chain-item">In between: optical-flow / tracker</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Lost? → re-detect</div>
+          </div>
+<pre><code>orb = cv2.ORB_create(500)
+cap = cv2.VideoCapture(0)
+while True:
+    t = cv2.getTickCount()
+    ok, frame = cap.read()
+    if not ok: break
+    kp, des = orb.detectAndCompute(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY), None)
+    fps = cv2.getTickFrequency() / (cv2.getTickCount() - t)     <span class="cmt"># measure speed</span>
+    cv2.putText(frame, f"FPS: {fps:.0f}", (10,30), 0, 1, (0,255,0), 2)
+    cv2.imshow("live", frame)
+    if cv2.waitKey(1) == 27: break                               <span class="cmt"># Esc to quit</span></code></pre>
 
-          <h3>Why Pixel-Level Access Matters in Image Processing</h3>
-          <ul>
-            <li><strong>Foundation of all higher operations:</strong> Filtering, thresholding, morphology, and feature extraction all ultimately reduce to reading and writing pixel values — understanding access patterns is understanding performance.</li>
-            <li><strong>Custom algorithm implementation:</strong> Any operation not already provided by OpenCV's built-in functions (custom masks, novel transformations) must be hand-implemented via pixel access.</li>
-            <li><strong>Region-of-Interest (ROI) manipulation:</strong> Editing or extracting a sub-region of an image relies on correctly addressing a pixel range, e.g. <code>image[y1:y2, x1:x2]</code>.</li>
-            <li><strong>Performance-critical decisions:</strong> Choosing the wrong access method (e.g. naive Python loops over millions of pixels) can make a real-time pipeline unusably slow — this is why vectorised operations are strongly preferred in production code.</li>
-          </ul>
+          <h3>Evaluation Summary</h3>
+          <table>
+            <tr><th>Criterion</th><th>Feature matching</th><th>With video analysis added</th></tr>
+            <tr><td>Speed</td><td>Limited by detection + matching each frame</td><td class="success">Much faster — heavy step runs only occasionally / only in moving regions</td></tr>
+            <tr><td>Reliability</td><td>Good for textured, rigid objects</td><td>Temporal smoothing reduces flicker &amp; false positives; drift needs re-detection</td></tr>
+            <tr><td>Fails on</td><td>Textureless, deformable objects, blur</td><td>Fast motion, occlusion, moving camera</td></tr>
+            <tr><td>Alternative</td><td colspan="2">Deep detectors (YOLO, Q11) on GPU — better reliability for object <em>categories</em>, but need GPU for real-time</td></tr>
+          </table>
 
-          <div class="callout warn">
-            <strong>Practical rule:</strong> Never loop pixel-by-pixel in pure Python over a full image if it can be avoided. Use NumPy vectorised operations or OpenCV's built-in C-backed functions — the performance gap between naive indexing and vectorised operations can be 100× or more on large images.
+          <div class="callout good">
+            <strong>Conclusion:</strong> Feature matching is reliable for specific textured objects; ORB makes it fast, SIFT makes it robust. Combining it with video analysis (detect-then-track, motion regions) is what actually makes it real-time without sacrificing much reliability.
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ═══════════════ SECTION III — Unit 5: Q8–Q12 ═══════════════ -->
+  <div class="section-panel" id="s5">
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('s5',0)">Q8 · SVM Classification</button>
+      <button class="tab-btn" onclick="showTab('s5',1)">Q9 · GPU Processing</button>
+      <button class="tab-btn" onclick="showTab('s5',2)">Q10 · Viz Module</button>
+      <button class="tab-btn" onclick="showTab('s5',3)">Q11 · YOLO</button>
+      <button class="tab-btn" onclick="showTab('s5',4)">Q12 · PSNR &amp; SSIM</button>
+    </div>
 
     <!-- Q8 -->
-    <div class="tab-content" id="s2-tab-4">
+    <div class="tab-content active" id="s5-tab-0">
       <div class="question-block">
-        <h2 class="q-title">Q8. Explain mask operations and image blending with suitable examples. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q8. Define SVM-based image classification and identify the major components involved in the classification process.</h2>
         <div class="answer-body">
 
-          <h3>Part A — Mask Operations</h3>
-          <p>A <strong>mask</strong> is typically a binary (or grayscale) image of the same spatial dimensions as the target image, used to selectively include or exclude regions during an operation. Mask-based processing underlies convolution/filtering: a small 2D weight matrix — the <strong>kernel</strong> — is slid across the image, and at each position the overlapping region is combined via an element-wise multiply-and-sum:</p>
-          <div class="callout">g(x, y) = Σᵢ Σⱼ f(x+i, y+j) · h(i, j)</div>
-          <p>where <code>f</code> is the input image, <code>h</code> is the kernel/mask, and <code>g</code> is the filtered output. Depending on the weight profile chosen, masking produces very different effects:</p>
+          <h3>Definition</h3>
+          <p><strong>SVM-based image classification</strong> assigns a class label to an image by first converting it into a <strong>feature vector</strong> (e.g. HOG) and then using a <strong>Support Vector Machine</strong> — a classifier that finds the <span class="highlight">hyperplane separating the classes with the maximum margin</span>.</p>
+
+          <div class="diagram">
+            <svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg">
+              <line x1="40" y1="230" x2="490" y2="230" stroke="#555"/><line x1="40" y1="230" x2="40" y2="20" stroke="#555"/>
+              <line x1="120" y1="230" x2="400" y2="20" stroke="#9b8cff" stroke-width="2"/>
+              <line class="dash" x1="70" y1="230" x2="350" y2="20"/>
+              <line class="dash" x1="170" y1="230" x2="450" y2="20"/>
+              <circle cx="90" cy="80" r="6" fill="#4ade80"/><circle cx="130" cy="120" r="6" fill="#4ade80"/><circle cx="80" cy="150" r="6" fill="#4ade80"/>
+              <circle cx="190" cy="110" r="6" fill="#4ade80" stroke="#fff" stroke-width="2"/>
+              <rect x="360" y="150" width="12" height="12" fill="#f87171"/><rect x="410" y="190" width="12" height="12" fill="#f87171"/><rect x="440" y="120" width="12" height="12" fill="#f87171"/>
+              <rect x="304" y="132" width="12" height="12" fill="#f87171" stroke="#fff" stroke-width="2"/>
+              <text class="lbl" x="440" y="40" style="fill:#9b8cff">w·x + b = 0</text>
+              <text class="lbl-s" x="250" y="250">margin = 2 / ||w|| (maximised)</text>
+              <text class="lbl-s" x="100" y="45" style="fill:#4ade80">Class +1</text>
+              <text class="lbl-s" x="430" y="225" style="fill:#f87171">Class −1</text>
+              <text class="lbl-s" x="250" y="80">white outline = support vectors</text>
+            </svg>
+            <div class="caption">Fig: Maximum-margin hyperplane; only the support vectors decide its position</div>
+          </div>
+
+          <h3>Mathematics</h3>
+          <div class="formula">\[ \min_{\mathbf{w},b,\xi}\ \frac{1}{2}\|\mathbf{w}\|^2 + C\sum_{i}\xi_i \quad \text{s.t.}\quad y_i(\mathbf{w}\cdot\mathbf{x}_i + b) \ge 1 - \xi_i,\ \ \xi_i \ge 0 \]</div>
+          <div class="formula">\[ \text{Prediction: } \hat y = \operatorname{sign}\Big(\sum_i \alpha_i y_i K(\mathbf{x}_i,\mathbf{x}) + b\Big), \qquad K_{\text{RBF}}(\mathbf{x},\mathbf{z}) = e^{-\gamma\|\mathbf{x}-\mathbf{z}\|^2} \]</div>
+
+          <h3>Major Components</h3>
+          <div class="chain">
+            <div class="chain-item">Dataset</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Pre-process</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Feature extraction</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Train SVM</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Predict</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Evaluate</div>
+          </div>
           <table>
-            <tr><th>Mask Type</th><th>Weight Profile</th><th>Effect</th></tr>
-            <tr><td>Smoothing / Blur (e.g. Gaussian)</td><td>All-positive weights summing to 1.0</td><td>Low-pass filter — blocks high-frequency noise/edges, preserves overall brightness</td></tr>
-            <tr><td>Sharpening</td><td>Strong positive centre, surrounded by negative weights, summing to 1.0</td><td>High-pass filter — amplifies local intensity differences (edges look crisper)</td></tr>
-            <tr><td>Edge Detection (Sobel, Prewitt)</td><td>Balanced positive/negative weights summing to exactly 0</td><td>Measures spatial gradient; flat regions output ~0, edges produce strong response</td></tr>
+            <tr><th>Component</th><th>Role</th></tr>
+            <tr><td><strong>1. Labelled dataset</strong></td><td>Images with class labels, split into train / test sets</td></tr>
+            <tr><td><strong>2. Pre-processing</strong></td><td>Resize to fixed size, grayscale, normalise, denoise — all vectors must have equal length</td></tr>
+            <tr><td><strong>3. Feature extraction</strong></td><td>HOG (shape/edges), colour histograms, LBP (texture), SIFT + bag-of-words, or CNN features — raw pixels are too large and noisy</td></tr>
+            <tr><td><strong>4. Kernel</strong></td><td>Linear (separable data, fast) / RBF (non-linear boundaries) / Polynomial — maps data to a space where it becomes separable</td></tr>
+            <tr><td><strong>5. Hyperparameters</strong></td><td>\(C\): penalty for misclassification (high = tight fit, risk of overfit); \(\gamma\): RBF reach</td></tr>
+            <tr><td><strong>6. Training</strong></td><td>Solves the optimisation; stores support vectors</td></tr>
+            <tr><td><strong>7. Multi-class strategy</strong></td><td>One-vs-One or One-vs-Rest (SVM is binary by nature)</td></tr>
+            <tr><td><strong>8. Prediction &amp; evaluation</strong></td><td>Accuracy, precision, recall, F1, confusion matrix; tune with cross-validation</td></tr>
           </table>
 
-          <h4>Colour-Image Masking</h4>
-          <p>For a 3-channel RGB image, one 3D <strong>filter</strong> (containing three separate 2D kernels, one per channel) is applied: each kernel independently convolves its assigned channel, and the three channel outputs are summed at each pixel to produce a single unified 2D feature map.</p>
+<pre><code>hog = cv2.HOGDescriptor()                               <span class="cmt"># default window 64x128</span>
+X = np.array([hog.compute(cv2.resize(im, (64,128))).ravel() for im in images], np.float32)
+y = np.array(labels, np.int32)
 
-          <h4>Cross-Correlation vs. Convolution</h4>
-          <p>Both slide a kernel across the image computing a weighted sum, but differ in kernel orientation: cross-correlation places the kernel over the image patch as-is; true convolution first flips the kernel 180° before sliding. Convolution's associative and commutative properties (which cross-correlation lacks) are why frameworks like CNNs favour the term "convolution" even though many implementations technically perform cross-correlation.</p>
+svm = cv2.ml.SVM_create()
+svm.setKernel(cv2.ml.SVM_RBF); svm.setC(1.0); svm.setGamma(0.5)
+svm.train(X, cv2.ml.ROW_SAMPLE, y)
+_, pred = svm.predict(X_test)                            <span class="cmt"># predicted class labels</span></code></pre>
 
-          <h3>Part B — Image Blending</h3>
-          <p>Image blending combines two or more images into a single output by mixing pixel values — typically a <strong>weighted combination</strong> — producing a smooth fusion rather than a hard overlay.</p>
-
-          <h4>Linear (Alpha) Blending Formula</h4>
-          <div class="callout">dst = α · img1 + β · img2 + γ  &nbsp;→&nbsp; <code>cv2.addWeighted(img1, alpha, img2, beta, gamma)</code></div>
-          <ul>
-            <li><strong>α, β (weights):</strong> decimal fractions between 0.0 and 1.0. In standard blending, α + β = 1.0 — if they exceed 1.0 the result overexposes/blows out to white; if they total less than 1.0 the result looks unnaturally dark.</li>
-            <li><strong>γ (offset):</strong> a scalar (typically an integer, -255 to +255) added uniformly after blending — positive brightens, negative darkens, and it's usually 0 in standard blending scenarios.</li>
-          </ul>
-
-          <h4>Worked Example</h4>
-          <p>Blending two 50%-opacity images: <code>cv2.addWeighted(img1, 0.5, img2, 0.5, 0)</code> — each image contributes equally, producing a ghost-like double-exposure effect, commonly used for cross-fade transitions.</p>
-
-          <h4>Applications of Blending</h4>
-          <ul>
-            <li><strong>Panorama stitching</strong> — smoothly merging overlapping regions of multiple photos</li>
-            <li><strong>Transitions/fades</strong> — cross-fading between images in video editing</li>
-            <li><strong>Watermarking</strong> — overlaying a semi-transparent logo</li>
-            <li><strong>Augmented Reality</strong> — blending virtual objects with the live camera feed</li>
-            <li><strong>Compositing</strong> — merging foreground and background (green-screen effects)</li>
-            <li><strong>HDR imaging</strong> — combining multiple exposures into one high-dynamic-range image</li>
-          </ul>
+          <div class="callout">
+            <strong>Classic example:</strong> HOG + linear SVM is the Dalal–Triggs pedestrian detector used inside OpenCV's <code>HOGDescriptor_getDefaultPeopleDetector()</code>.
+          </div>
+          <p><strong>Pros:</strong> works well with small datasets and high-dimensional features, robust due to margin maximisation. <strong>Cons:</strong> slow on very large datasets, needs good hand-crafted features, kernel/parameter tuning.</p>
 
           <div class="callout good">
-            <strong>Connection between the two:</strong> Masks define <em>what/where</em> to combine (a spatial weighting), while blending defines <em>how much</em> of each source contributes. Multi-band (pyramid) blending, for instance, combines both ideas — applying different blend weights at different pyramid levels to hide seams in panorama stitching.
+            <strong>Conclusion:</strong> Image → features → max-margin hyperplane → label. Feature quality, kernel choice and \(C,\gamma\) decide how well SVM classifies images.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q9 -->
-    <div class="tab-content" id="s2-tab-5">
+    <div class="tab-content" id="s5-tab-1">
       <div class="question-block">
-        <h2 class="q-title">Q9. Implement an OpenCV operation to access and modify selected pixel values using the Mat structure. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q9. Explain GPU-accelerated processing in computer vision and discuss its advantages and limitations.</h2>
         <div class="answer-body">
 
-          <h3>Recap: What Underlies This Operation</h3>
-          <p>Since Python OpenCV represents a <code>cv::Mat</code> as a NumPy array, "accessing/modifying selected pixel values" means reading and writing into that array using one of OpenCV's standard access paradigms (naive indexing, <code>.item()/.itemset()</code>, or vectorised slicing), each trading off simplicity for speed as discussed in Q7.</p>
+          <h3>What is GPU-Accelerated Processing?</h3>
+          <p>A CPU has a few powerful cores that work mostly <em>sequentially</em>; a GPU has <strong>thousands of small cores</strong> that run the <span class="highlight">same operation on many data elements at once</span> (SIMT — Single Instruction, Multiple Threads). Images are perfect for this: filtering, resizing or colour conversion apply the same formula to millions of independent pixels.</p>
+          <p>OpenCV provides this through the <strong><code>cv2.cuda</code></strong> module (NVIDIA CUDA, needs OpenCV built with CUDA) and the <strong>T-API / <code>cv2.UMat</code></strong> (OpenCL, works on many GPUs). Deep learning in <code>cv2.dnn</code> can also run on CUDA.</p>
 
-          <h3>Implementation — Single Pixel Access and Modification</h3>
-          <pre><code>import cv2
-import numpy as np
+          <h3>How it Works</h3>
+          <div class="diagram">
+            <svg viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg">
+              <rect class="box" x="20" y="50" width="140" height="70" rx="8"/><text class="lbl" x="90" y="80">CPU + RAM</text><text class="lbl-s" x="90" y="98">cv2.imread → Mat</text>
+              <rect class="box2" x="420" y="30" width="200" height="110" rx="10"/><text class="lbl" x="520" y="52">GPU (device memory)</text>
+              <g fill="#4ade80" opacity="0.7">
+                <rect x="440" y="65" width="14" height="14"/><rect x="460" y="65" width="14" height="14"/><rect x="480" y="65" width="14" height="14"/><rect x="500" y="65" width="14" height="14"/><rect x="520" y="65" width="14" height="14"/><rect x="540" y="65" width="14" height="14"/><rect x="560" y="65" width="14" height="14"/><rect x="580" y="65" width="14" height="14"/>
+                <rect x="440" y="85" width="14" height="14"/><rect x="460" y="85" width="14" height="14"/><rect x="480" y="85" width="14" height="14"/><rect x="500" y="85" width="14" height="14"/><rect x="520" y="85" width="14" height="14"/><rect x="540" y="85" width="14" height="14"/><rect x="560" y="85" width="14" height="14"/><rect x="580" y="85" width="14" height="14"/>
+              </g>
+              <text class="lbl-s" x="520" y="125">thousands of cores, one pixel each</text>
+              <path class="arr" d="M160,70 L420,70"/><text class="lbl-s" x="290" y="62">① upload (PCIe — slow)</text>
+              <path class="arr" d="M420,110 L160,110"/><text class="lbl-s" x="290" y="128">③ download result</text>
+              <text class="lbl-s" x="520" y="160">② kernels run in parallel</text>
+            </svg>
+            <div class="caption">Fig: Upload → parallel processing → download. Transfer cost is the hidden overhead.</div>
+          </div>
 
-img = cv2.imread('sample.jpg')          # loads as BGR, shape (H, W, 3)
+<pre><code>gpu = cv2.cuda_GpuMat()
+gpu.upload(img)                                                  <span class="cmt"># CPU → GPU</span>
+gray = cv2.cuda.cvtColor(gpu, cv2.COLOR_BGR2GRAY)
+blur = cv2.cuda.createGaussianFilter(cv2.CV_8UC1, cv2.CV_8UC1, (5,5), 1.5).apply(gray)
+result = blur.download()                                         <span class="cmt"># GPU → CPU</span></code></pre>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Simpler (OpenCL) option: <code>u = cv2.UMat(img)</code> — normal functions like <code>cv2.GaussianBlur(u, …)</code> then run on the GPU automatically if available.</p>
 
-# --- Read a single pixel ---
-pixel = img[100, 150]                   # returns [B, G, R] at row=100, col=150
-print("Original BGR:", pixel)
+          <h3>Typical Accelerated Operations</h3>
+          <p>Filtering, resizing, warping, colour conversion, optical flow, stereo matching, feature detection (ORB/FAST on CUDA), background subtraction, and especially DNN inference (YOLO, CNNs).</p>
 
-# --- Faster read using .item() (recommended for scalar access) ---
-b = img.item(100, 150, 0)
-g = img.item(100, 150, 1)
-r = img.item(100, 150, 2)
-print("B,G,R via item():", b, g, r)
+          <h3>Advantages</h3>
+          <table>
+            <tr><th>Advantage</th><th>Explanation</th></tr>
+            <tr><td>Massive speed-up</td><td>Often 5–50× for pixel-wise and large-image operations</td></tr>
+            <tr><td>Real-time HD video</td><td>Makes 30+ FPS possible for 1080p/4K pipelines and multi-camera systems</td></tr>
+            <tr><td>Deep learning</td><td>CNN/YOLO inference is practical only on GPUs at real-time rates</td></tr>
+            <tr><td>Frees the CPU</td><td>CPU can handle I/O, logic, UI while GPU crunches pixels</td></tr>
+            <tr><td>Energy per frame</td><td>Higher throughput per watt for parallel workloads (e.g. Jetson edge devices)</td></tr>
+          </table>
 
-# --- Modify a single pixel (set it to pure red) ---
-img[100, 150] = [0, 0, 255]             # BGR order: Blue=0, Green=0, Red=255
-
-# --- Faster modification using .itemset() ---
-img.itemset((100, 150, 2), 255)         # set only the Red channel</code></pre>
-
-          <h3>Implementation — Selected Region (ROI) Access and Modification</h3>
-          <pre><code># Access a rectangular Region of Interest (ROI)
-roi = img[50:150, 200:300]              # rows 50-149, cols 200-299
-
-# Modify: paint the entire ROI white
-img[50:150, 200:300] = [255, 255, 255]
-
-# Copy one region onto another location
-patch = img[0:80, 0:80].copy()          # deep copy — independent of original
-img[300:380, 300:380] = patch           # paste patch elsewhere</code></pre>
-
-          <h3>Implementation — Vectorised Modification of Selected Values</h3>
-          <pre><code># Set all pixels below an intensity threshold to black (mask-style selection)
-gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-mask = gray < 50
-img[mask] = [0, 0, 0]
-
-# Saturated arithmetic — safely brighten without overflow wraparound
-brightened = cv2.add(img, np.array([40.0]))   # clamps at 255 automatically</code></pre>
-
-          <h3>Why <code>.item()</code>/<code>.itemset()</code> and Saturated Arithmetic Matter</h3>
-          <ul>
-            <li><code>img[y,x] = value</code> works but carries Python-level overhead per call; <code>.itemset()</code> bypasses this for single-value scalar writes, giving a meaningful speed-up in tight loops.</li>
-            <li>Plain NumPy addition (<code>img + 40</code>) can silently <strong>wrap around</strong> using modulo arithmetic (a pixel at 250 + 40 wraps to 34 instead of clamping at 255). OpenCV's <code>cv2.add()</code>/<code>cv2.subtract()</code> instead use <strong>saturated arithmetic</strong>, clamping to [0, 255] and avoiding this artifact — critical when "modifying pixel values" involves arithmetic, not just assignment.</li>
-          </ul>
-
-          <h3>Verification Step</h3>
-          <pre><code>cv2.imshow('Modified', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-cv2.imwrite('modified_output.jpg', img)</code></pre>
+          <h3>Limitations</h3>
+          <table>
+            <tr><th>Limitation</th><th>Explanation</th></tr>
+            <tr><td>Transfer overhead</td><td>Upload/download over PCIe can cost more than the operation itself → <span class="danger">small images or single cheap ops may be slower on GPU</span></td></tr>
+            <tr><td>Not all algorithms parallelise</td><td>Sequential/branch-heavy logic (contour tracing, some decision steps) gains little</td></tr>
+            <tr><td>Hardware &amp; setup</td><td>CUDA module needs NVIDIA GPU + OpenCV compiled from source with CUDA; pip version lacks it</td></tr>
+            <tr><td>Limited GPU memory</td><td>Large batches/models may not fit</td></tr>
+            <tr><td>Cost &amp; power</td><td>Expensive hardware, high power draw, heat — harder on mobile/embedded</td></tr>
+            <tr><td>Debugging &amp; portability</td><td>Harder to debug; CUDA code is vendor-locked to NVIDIA; tiny numerical differences vs CPU</td></tr>
+          </table>
+          <div class="callout warn">
+            <strong>Rule of thumb:</strong> upload once, do <em>many</em> operations on the GPU, download once. Keep data on the GPU as long as possible.
+          </div>
 
           <div class="callout good">
-            <strong>Summary:</strong> Pixel modification in OpenCV ranges from single-coordinate writes (<code>.itemset()</code>), to slice-based ROI edits, to fully vectorised boolean-mask edits — the right choice depends on whether one pixel, a rectangular block, or a scattered/conditional set of pixels needs to change.
+            <strong>Conclusion:</strong> GPUs exploit the pixel-level parallelism of images for huge speed-ups and enable real-time deep vision, but transfer overhead, hardware dependence and non-parallel algorithms limit where they help.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q10 -->
-    <div class="tab-content" id="s2-tab-6">
+    <div class="tab-content" id="s5-tab-2">
       <div class="question-block">
-        <h2 class="q-title">Q10. An image looks satisfactory in the spatial domain but contains unwanted periodic patterns. Analyze why frequency-domain processing using DFT may be more appropriate. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q10. Explain the purpose of the OpenCV Viz module and describe how it can be used to visualize 3D data.</h2>
         <div class="answer-body">
 
-          <h3>Spatial Domain vs. Frequency Domain</h3>
-          <p>The <strong>spatial domain</strong> represents an image as a grid of pixel intensities directly. The <strong>frequency domain</strong> expresses the same image as a sum of sinusoidal basis waves oscillating at various frequencies, directions, and amplitudes. The conversion between them is the <strong>2D Discrete Fourier Transform (DFT)</strong>:</p>
-          <div class="callout">F(u, v) = Σₓ₌₀^(M-1) Σᵧ₌₀^(N-1) f(x, y) · e^(−j2π(ux/M + vy/N))</div>
-          <p>This decomposes an M×N image f(x, y) into orthogonal complex frequency components F(u, v). Each F(u,v) has a <strong>magnitude</strong> (strength/presence of that frequency) and a <strong>phase</strong> (its positional/spatial structure).</p>
-
-          <h3>Why Periodic Patterns are the Key Clue</h3>
-          <p>A <strong>periodic noise pattern</strong> — for example, scan-line interference, moiré patterns, or repetitive electrical/mechanical noise from an imaging sensor — is, by definition, a signal that repeats at a fixed spatial interval. In the spatial domain, this looks like a subtle, hard-to-isolate texture spread across the entire image, making it very difficult to target with a normal spatial filter (like a Gaussian blur) without also blurring genuine image detail.</p>
-          <p>In the <strong>frequency domain</strong>, however, a periodic pattern with a fixed spatial frequency does not spread out — it concentrates into a small number of <strong>sharp, isolated peaks</strong> at the specific frequency (and its harmonics) corresponding to the repetition rate of the noise. This is the core reason DFT-based processing is more appropriate here: <strong>periodic structure that is diffuse and hard to isolate spatially becomes compact and easy to isolate spectrally.</strong></p>
-
-          <h3>Spectrum Organisation</h3>
-          <p>After computing the DFT and applying <code>fftshift</code> to center it: low frequencies (the DC component, broad shading, general shapes) sit at the centre, while high frequencies (fine texture, sharp edges, noise) spread radially toward the edges.</p>
-
-          <div class="svg-wrap">
-            <svg viewBox="0 0 620 200" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="150" cy="100" r="80" fill="none" stroke="var(--border)" stroke-width="1"/>
-              <circle cx="150" cy="100" r="55" fill="none" stroke="var(--border)" stroke-width="1"/>
-              <circle cx="150" cy="100" r="28" fill="var(--accent)" opacity="0.7"/>
-              <text x="150" y="105" fill="#fff" font-size="9" text-anchor="middle">Low</text>
-              <text x="150" y="30" fill="var(--text-muted)" font-size="10" text-anchor="middle">High freq (edges, noise)</text>
-              <text x="150" y="185" fill="var(--text-muted)" font-size="10" text-anchor="middle">Spectrum (fftshift)</text>
-              <!-- periodic noise peaks -->
-              <circle cx="200" cy="60" r="4" fill="var(--danger)"/>
-              <circle cx="100" cy="140" r="4" fill="var(--danger)"/>
-              <text x="330" y="30" fill="var(--text)" font-size="10">Periodic noise → isolated bright</text>
-              <text x="330" y="45" fill="var(--text)" font-size="10">peaks at fixed frequency (red dots)</text>
-
-              <!-- LPF vs HPF masks -->
-              <rect x="360" y="60" width="70" height="70" fill="#000" stroke="var(--border)"/>
-              <circle cx="395" cy="95" r="22" fill="#fff"/>
-              <text x="395" y="145" fill="var(--text-muted)" font-size="9" text-anchor="middle">Low-Pass Mask</text>
-
-              <rect x="470" y="60" width="70" height="70" fill="#fff" stroke="var(--border)"/>
-              <circle cx="505" cy="95" r="22" fill="#000"/>
-              <text x="505" y="145" fill="var(--text-muted)" font-size="9" text-anchor="middle">High-Pass Mask</text>
-            </svg>
-            <p class="svg-caption">Fig. Frequency spectrum with isolated periodic-noise peaks, and LPF/HPF binary masks</p>
-          </div>
-
-          <h3>The Filtering Pipeline</h3>
-          <p>Once the noise is isolated as sharp spectral peaks, it can be surgically removed by multiplying the spectrum with a mask that <strong>notches out</strong> just those frequencies, then inverting back to the spatial domain:</p>
-          <div class="callout">Input Image → DFT → fftshift → × Notch/Filter Mask → IDFT → Cleaned Output Image</div>
-          <p>Because only the specific offending frequencies are suppressed (not a broad frequency band), the rest of the image's genuine detail is preserved — something a general-purpose spatial smoothing filter cannot achieve without also destroying real edges and texture.</p>
-
-          <h3>Why Spatial-Domain Filtering Falls Short Here</h3>
+          <h3>Purpose</h3>
+          <p>The <strong>Viz module</strong> (<code>opencv_contrib</code>, built on top of <strong>VTK</strong> — Visualization Toolkit) is OpenCV's <span class="highlight">3D visualisation tool</span>. <code>imshow</code> can only show 2D images; Viz opens an interactive 3D window where you can rotate, zoom and pan around point clouds, meshes, cameras and coordinate frames.</p>
           <ul>
-            <li>A spatial low-pass filter (e.g. Gaussian blur) would suppress the periodic noise <em>only</em> by also blurring genuine high-frequency detail (edges, texture) — an unacceptable trade-off when the image otherwise looks fine.</li>
-            <li>There is no simple spatial kernel that selectively targets "this exact repetition interval" without frequency-domain analysis to first identify what that interval even is.</li>
+            <li>Visualise results of <strong>3D reconstruction</strong>, stereo depth maps and structure-from-motion.</li>
+            <li>Show <strong>camera poses / trajectories</strong> (SLAM, visual odometry, calibration).</li>
+            <li>Debug geometry: see if your rotations and translations are actually correct.</li>
+            <li>Display <strong>point clouds and meshes</strong> (PLY/OBJ files, depth-sensor data).</li>
           </ul>
 
+          <h3>Key Components</h3>
+          <table>
+            <tr><th>Component</th><th>Role</th></tr>
+            <tr><td><strong><code>viz::Viz3d</code></strong></td><td>The 3D window — holds widgets, camera, handles mouse/keyboard interaction</td></tr>
+            <tr><td><strong>Widgets</strong></td><td>Objects drawn in the scene: <code>WCoordinateSystem</code> (axes), <code>WCloud</code> (point cloud), <code>WMesh</code>, <code>WCube</code>, <code>WSphere</code>, <code>WLine</code>, <code>WArrow</code>, <code>WText3D</code>, <code>WCameraPosition</code> (camera frustum), <code>WTrajectory</code></td></tr>
+            <tr><td><strong><code>Affine3d</code> (pose)</strong></td><td>Rotation + translation used to place/move a widget: \(\mathbf{p}' = R\mathbf{p} + \mathbf{t}\)</td></tr>
+            <tr><td><strong>Camera / viewer pose</strong></td><td>Set where the virtual viewer looks from (<code>setViewerPose</code>, <code>makeCameraPose</code>)</td></tr>
+            <tr><td><strong>I/O helpers</strong></td><td><code>readCloud</code>, <code>readMesh</code>, <code>writeCloud</code> for PLY/OBJ files</td></tr>
+          </table>
+
+          <h3>Steps to Visualise 3D Data</h3>
+          <div class="chain">
+            <div class="chain-item">Create Viz3d window</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Load / build 3D data</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Wrap in widgets</div><div class="chain-arrow">→</div>
+            <div class="chain-item">Set poses</div><div class="chain-arrow">→</div>
+            <div class="chain-item">spin() / spinOnce()</div>
+          </div>
+          <ol>
+            <li>Create a window: <code>viz::Viz3d win("name")</code>.</li>
+            <li>Get 3D data — a PLY file, or a point cloud from <code>reprojectImageTo3D</code> on a disparity map (an N×1 matrix of <code>Vec3f</code> points).</li>
+            <li>Wrap it in a widget (<code>WCloud</code>) with a colour; add axes for reference.</li>
+            <li>Show widgets with <code>showWidget(id, widget, pose)</code>.</li>
+            <li>Run <code>spin()</code> (blocking, interactive) or <code>spinOnce()</code> in a loop to animate (update poses each frame).</li>
+          </ol>
+
+          <p>Viz is mainly used from <strong>C++</strong> (Python bindings are limited/absent in standard builds):</p>
+<pre><code>#include &lt;opencv2/viz.hpp&gt;
+using namespace cv;
+
+int main() {
+    viz::Viz3d win("3D Viewer");
+    win.showWidget("axes", viz::WCoordinateSystem());               // x,y,z axes
+    Mat cloud = viz::readCloud("bunny.ply");                         // 3D points
+    win.showWidget("cloud", viz::WCloud(cloud, viz::Color::green()));
+    win.showWidget("cube", viz::WCube(), Affine3d(Vec3d(0,0.5,0), Vec3d(1,0,0)));  // rotated + moved
+    win.spin();                                                      // interactive window
+}</code></pre>
+
+          <h4>Animating (e.g. a moving camera)</h4>
+<pre><code>while (!win.wasStopped()) {
+    pose = Affine3d(Vec3d(0, angle += 0.01, 0), Vec3d(0,0,0));
+    win.setWidgetPose("cube", pose);
+    win.spinOnce(1, true);                                           // redraw once
+}</code></pre>
+
+          <div class="diagram">
+            <svg viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg">
+              <path class="arr" d="M100,160 L220,160" style="stroke:#f87171"/><text class="lbl-s" x="232" y="164" style="fill:#f87171">X</text>
+              <path class="arr" d="M100,160 L100,40" style="stroke:#4ade80"/><text class="lbl-s" x="100" y="32" style="fill:#4ade80">Y</text>
+              <path class="arr" d="M100,160 L40,195" style="stroke:#9b8cff"/><text class="lbl-s" x="32" y="195" style="fill:#9b8cff">Z</text>
+              <g fill="#4ade80">
+                <circle cx="150" cy="110" r="2"/><circle cx="160" cy="100" r="2"/><circle cx="170" cy="96" r="2"/><circle cx="182" cy="98" r="2"/><circle cx="190" cy="108" r="2"/><circle cx="185" cy="120" r="2"/><circle cx="165" cy="125" r="2"/><circle cx="155" cy="120" r="2"/><circle cx="175" cy="110" r="2"/><circle cx="168" cy="115" r="2"/>
+              </g>
+              <text class="lbl-s" x="170" y="85">WCloud</text>
+              <polygon class="box3" points="330,80 390,60 390,120 330,110"/>
+              <path class="dash" d="M330,80 L290,95 L330,110"/>
+              <text class="lbl-s" x="360" y="140">WCameraPosition</text>
+              <text class="lbl-s" x="420" y="40">mouse: rotate / zoom / pan</text>
+            </svg>
+            <div class="caption">Fig: Viz3d scene — coordinate axes, point cloud and a camera frustum</div>
+          </div>
+
           <div class="callout good">
-            <strong>Conclusion:</strong> DFT is more appropriate precisely because periodic degradation is a frequency-domain phenomenon by nature — it manifests as concentrated, identifiable peaks in the spectrum, allowing targeted removal (notch filtering) that spatial-domain methods cannot achieve without collateral loss of detail.
+            <strong>Conclusion:</strong> Viz turns OpenCV's 3D outputs (point clouds, meshes, poses) into an interactive VTK scene using a window + widgets + Affine3d poses, making 3D results easy to inspect and debug.
           </div>
         </div>
       </div>
     </div>
-  </div><!-- end Unit II -->
-
-
-  <!-- ═══════════════════════════════════════════════
-       UNIT III — Q11, Q12
-  ═══════════════════════════════════════════════ -->
-  <div class="section-panel" id="s3">
-    <div class="tabs" role="tablist">
-      <button class="tab-btn active" onclick="showTab('s3',0)">Q11 · Morphology</button>
-      <button class="tab-btn" onclick="showTab('s3',1)">Q12 · Erosion &amp; Dilation</button>
-    </div>
 
     <!-- Q11 -->
-    <div class="tab-content active" id="s3-tab-0">
+    <div class="tab-content" id="s5-tab-3">
       <div class="question-block">
-        <h2 class="q-title">Q11. Define morphological transformations and list the basic morphological operations used in image processing. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q11. Apply YOLO to perform real-time object detection on video frames, describing the major steps from input to output.</h2>
         <div class="answer-body">
 
-          <h3>Definition</h3>
-          <p><strong>Morphological transformations</strong> are non-linear image operations that process images based on their <strong>shape</strong>. They are typically applied to binary images (though grayscale variants also exist) and operate by "probing" the image with a small shape called a <strong>structuring element</strong> (or kernel). Morphology is rooted in set theory — the image is treated as a set of pixel coordinates, and operations combine this set with the structuring element using set operations such as union and intersection.</p>
+          <h3>What is YOLO?</h3>
+          <p><strong>YOLO (You Only Look Once)</strong> is a single-stage CNN detector: it looks at the whole image <span class="highlight">once, in a single forward pass</span>, and directly predicts bounding boxes + class probabilities. Two-stage detectors (R-CNN family) first propose regions, then classify them — slower. That single pass is why YOLO runs in real time.</p>
 
-          <h3>The Structuring Element</h3>
-          <p>A small binary matrix (e.g. 3×3, 5×5) that defines the neighbourhood shape used to probe the image. Common shapes include rectangle, ellipse, and cross — e.g. created in OpenCV with <code>cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))</code>.</p>
+          <div class="diagram">
+            <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg">
+              <rect class="box" x="30" y="20" width="180" height="180"/>
+              <g stroke="#555" stroke-width="1">
+                <line x1="90" y1="20" x2="90" y2="200"/><line x1="150" y1="20" x2="150" y2="200"/>
+                <line x1="30" y1="80" x2="210" y2="80"/><line x1="30" y1="140" x2="210" y2="140"/>
+              </g>
+              <rect x="70" y="60" width="100" height="120" fill="none" stroke="#4ade80" stroke-width="2"/>
+              <circle cx="120" cy="120" r="4" fill="#fbbf24"/>
+              <text class="lbl-s" x="120" y="55" style="fill:#4ade80">person 0.91</text>
+              <path class="arr" d="M230,110 L300,110"/>
+              <text class="lbl" x="420" y="70">Each grid cell predicts:</text>
+              <text class="lbl-s" x="420" y="95">box (x, y, w, h)</text>
+              <text class="lbl-s" x="420" y="115">objectness score</text>
+              <text class="lbl-s" x="420" y="135">class probabilities</text>
+              <text class="lbl-s" x="420" y="165">yellow dot = cell containing</text>
+              <text class="lbl-s" x="420" y="180">the object's centre</text>
+            </svg>
+            <div class="caption">Fig: Image divided into a grid; the cell holding an object's centre is responsible for it</div>
+          </div>
 
-          <h3>Why Morphological Operations Are Used</h3>
-          <ul>
-            <li>Removing small noise specks (isolated white/black dots)</li>
-            <li>Filling small holes inside objects</li>
-            <li>Separating touching objects</li>
-            <li>Extracting object boundaries</li>
-            <li>Skeletonising shapes for structural analysis</li>
-            <li>Pre/post-processing in OCR, document scanning, and object detection</li>
-          </ul>
-
-          <h3>The Two Fundamental Operations</h3>
-          <p>All morphological transformations build on two base operations — <strong>erosion</strong> and <strong>dilation</strong> (detailed fully in Q12) — which are then combined to form higher-level operations:</p>
-
+          <h3>Major Steps: Input → Output</h3>
+          <div class="chain">
+            <div class="chain-item">1. Capture frame</div><div class="chain-arrow">→</div>
+            <div class="chain-item">2. Pre-process</div><div class="chain-arrow">→</div>
+            <div class="chain-item">3. Forward pass</div><div class="chain-arrow">→</div>
+            <div class="chain-item">4. Decode + threshold</div><div class="chain-arrow">→</div>
+            <div class="chain-item">5. NMS</div><div class="chain-arrow">→</div>
+            <div class="chain-item">6. Draw &amp; display</div>
+          </div>
           <table>
-            <tr><th>Operation</th><th>Formula (Conceptual)</th><th>Effect</th></tr>
-            <tr><td><strong>Opening</strong></td><td>Erosion → Dilation</td><td>Removes small white noise, smooths object outlines</td></tr>
-            <tr><td><strong>Closing</strong></td><td>Dilation → Erosion</td><td>Fills small black holes inside objects</td></tr>
-            <tr><td><strong>Morphological Gradient</strong></td><td>Dilation − Erosion</td><td>Outlines the boundary of an object</td></tr>
-            <tr><td><strong>Top Hat</strong></td><td>Original − Opening</td><td>Highlights small bright details smaller than the kernel</td></tr>
-            <tr><td><strong>Black Hat</strong></td><td>Closing − Original</td><td>Highlights small dark details smaller than the kernel</td></tr>
+            <tr><th>Step</th><th>What happens</th></tr>
+            <tr><td><strong>0. Load model</strong></td><td>Load pre-trained weights (e.g. YOLOv8n trained on COCO — 80 classes), once before the loop</td></tr>
+            <tr><td><strong>1. Capture</strong></td><td>Read frame from webcam / video with <code>VideoCapture</code></td></tr>
+            <tr><td><strong>2. Pre-process</strong></td><td>Resize/letterbox to network size (640×640), BGR→RGB, scale pixels to 0–1, make a blob (batch × channels × H × W)</td></tr>
+            <tr><td><strong>3. Forward pass</strong></td><td>CNN backbone extracts features; detection heads predict boxes at multiple scales (small, medium, large objects)</td></tr>
+            <tr><td><strong>4. Decode + threshold</strong></td><td>Convert outputs to pixel boxes; score = objectness × class prob; drop boxes below confidence (e.g. 0.5)</td></tr>
+            <tr><td><strong>5. NMS</strong></td><td>Non-Maximum Suppression: among overlapping boxes of the same class, keep the highest-scoring one, remove others with IoU above threshold (e.g. 0.45)</td></tr>
+            <tr><td><strong>6. Output</strong></td><td>Draw boxes + labels + confidence; show frame; repeat for next frame</td></tr>
           </table>
 
-          <h3>Basic Morphological Operations — Summary List</h3>
-          <ol>
-            <li><strong>Erosion</strong> (<code>cv2.erode()</code>) — shrinks foreground regions</li>
-            <li><strong>Dilation</strong> (<code>cv2.dilate()</code>) — grows foreground regions</li>
-            <li><strong>Opening</strong> — erosion followed by dilation</li>
-            <li><strong>Closing</strong> — dilation followed by erosion</li>
-            <li><strong>Morphological Gradient</strong> — edge/boundary extraction</li>
-            <li><strong>Top Hat</strong> — isolates small bright features</li>
-            <li><strong>Black Hat</strong> — isolates small dark features</li>
-          </ol>
+          <div class="formula">\[ \text{IoU}(A,B) = \frac{|A \cap B|}{|A \cup B|} \qquad\qquad \text{Score} = P(\text{object}) \times P(\text{class} \mid \text{object}) \]</div>
+
+<pre><code>from ultralytics import YOLO
+import cv2
+
+model = YOLO("yolov8n.pt")                     <span class="cmt"># step 0: pre-trained on COCO</span>
+cap = cv2.VideoCapture(0)                      <span class="cmt"># webcam (or "video.mp4")</span>
+while True:
+    ok, frame = cap.read()                     <span class="cmt"># step 1</span>
+    if not ok: break
+    res = model(frame, conf=0.5)[0]            <span class="cmt"># steps 2–5 done inside</span>
+    cv2.imshow("YOLO", res.plot())             <span class="cmt"># step 6: boxes drawn</span>
+    if cv2.waitKey(1) == 27: break             <span class="cmt"># Esc</span>
+cap.release(); cv2.destroyAllWindows()</code></pre>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Each box is available as <code>res.boxes.xyxy</code> (corners), <code>res.boxes.conf</code> (confidence) and <code>res.boxes.cls</code> (class id). The OpenCV-only way uses <code>cv2.dnn.readNet()</code> + <code>cv2.dnn.blobFromImage()</code> + <code>cv2.dnn.NMSBoxes()</code> — same steps, done by hand.</p>
+
+          <h3>Making it Real-Time</h3>
+          <ul>
+            <li>Use a small model (<code>yolov8n</code> / tiny variants) and smaller input size (416 or 320).</li>
+            <li>Run on GPU (Q9) or with half precision (FP16).</li>
+            <li>Skip frames or combine with a tracker (Q7) for very slow hardware.</li>
+          </ul>
+          <h3>Expected Output</h3>
+          <p>A live video window with coloured boxes around each detected object, labelled like <em>"person 0.91"</em>, <em>"car 0.78"</em>, at roughly 30+ FPS on a GPU.</p>
 
           <div class="callout good">
-            <strong>Key insight:</strong> Every higher-level morphological operation in the table is just a specific combination or difference of erosion and dilation — mastering those two operations (Q12) is sufficient to derive the behaviour of all the others.
+            <strong>Conclusion:</strong> YOLO converts each video frame into boxes, classes and scores in one forward pass; confidence thresholding and NMS clean up the output, giving real-time detection.
           </div>
         </div>
       </div>
     </div>
 
     <!-- Q12 -->
-    <div class="tab-content" id="s3-tab-1">
+    <div class="tab-content" id="s5-tab-4">
       <div class="question-block">
-        <h2 class="q-title">Q12. Explain erosion and dilation with suitable examples and describe their effects on image objects. <span class="marks-badge">8M</span></h2>
+        <h2 class="q-title">Q12. Apply PSNR and SSIM to evaluate a processed image against a reference image, and explain what the resulting measures indicate.</h2>
         <div class="answer-body">
 
-          <h3>Erosion</h3>
-          <p>Erosion shrinks the boundaries of foreground (white) objects. A pixel in the original image is retained as foreground (1) only if <strong>all</strong> the pixels under the structuring element are also foreground; otherwise it is set to background (0):</p>
-          <div class="callout">dst(x, y) = min over (x′,y′) in kernel of src(x + x′, y + y′)</div>
-          <p>In OpenCV: <code>eroded = cv2.erode(image, kernel, iterations=1)</code></p>
+          <h3>Why Image Quality Metrics?</h3>
+          <p>After compression, denoising, super-resolution etc., we need a number that says <em>how close the processed image is to the original (reference)</em>. These are <strong>full-reference</strong> metrics — they need the original image.</p>
 
-          <h4>Effects of Erosion</h4>
+          <h3>1. PSNR — Peak Signal-to-Noise Ratio</h3>
+          <p>Based on pixel-by-pixel error (MSE). Measured in decibels (dB).</p>
+          <div class="formula">\[ \text{MSE} = \frac{1}{MN}\sum_{i=1}^{M}\sum_{j=1}^{N}\big[I(i,j) - K(i,j)\big]^2 \qquad\qquad \text{PSNR} = 10\,\log_{10}\!\left(\frac{\text{MAX}^2}{\text{MSE}}\right) \]</div>
+          <p style="font-size:0.85rem;color:var(--text-muted);">\(I\) = reference, \(K\) = processed, MAX = 255 for 8-bit images. Identical images → MSE = 0 → PSNR = ∞.</p>
+          <h4>Worked Example</h4>
+          <div class="formula">\[ \text{MSE} = 100 \;\Rightarrow\; \text{PSNR} = 10\log_{10}\!\left(\frac{255^2}{100}\right) = 10\log_{10}(650.25) \approx 28.1\ \text{dB} \]</div>
+
+          <h3>2. SSIM — Structural Similarity Index</h3>
+          <p>Compares images the way humans see them — by <strong>luminance</strong>, <strong>contrast</strong> and <strong>structure</strong>, computed over small local windows and averaged.</p>
+          <div class="formula">\[ \text{SSIM}(x,y) = \frac{(2\mu_x\mu_y + C_1)\,(2\sigma_{xy} + C_2)}{(\mu_x^2+\mu_y^2 + C_1)\,(\sigma_x^2+\sigma_y^2 + C_2)} \]</div>
           <ul>
-            <li>Shrinks white regions</li>
-            <li>Removes small white noise specks entirely</li>
-            <li>Detaches thinly-connected objects</li>
-            <li>Thins object boundaries</li>
+            <li>\(\mu\) = local mean (brightness), \(\sigma^2\) = variance (contrast), \(\sigma_{xy}\) = covariance (structure).</li>
+            <li>\(C_1 = (0.01L)^2,\ C_2 = (0.03L)^2\) avoid division by zero (\(L = 255\)).</li>
+            <li>Range: up to 1 (1 = identical). The <strong>SSIM map</strong> shows <em>where</em> the image is degraded.</li>
           </ul>
-          <p><em>Example:</em> In a binary image containing a large white blob with a single stray white pixel nearby, erosion with a 3×3 kernel makes the stray pixel disappear completely (it has no fully-foreground 3×3 neighbourhood), while the large blob shrinks slightly at its edges.</p>
 
-          <h3>Dilation</h3>
-          <p>Dilation expands the boundaries of foreground objects. A pixel becomes foreground if <strong>at least one</strong> pixel under the structuring element is foreground:</p>
-          <div class="callout">dst(x, y) = max over (x′,y′) in kernel of src(x + x′, y + y′)</div>
-          <p>In OpenCV: <code>dilated = cv2.dilate(image, kernel, iterations=1)</code></p>
+          <h3>Code</h3>
+<pre><code>import cv2
+from skimage.metrics import structural_similarity as ssim
 
-          <h4>Effects of Dilation</h4>
-          <ul>
-            <li>Grows white regions</li>
-            <li>Fills small black holes/gaps inside objects</li>
-            <li>Connects nearby broken components (e.g. broken text characters)</li>
-            <li>Thickens object boundaries</li>
-          </ul>
-          <p><em>Example:</em> In a binary image of handwritten text with small gaps in some pen strokes, dilation with a 3×3 kernel thickens the strokes and bridges the small gaps, making the text more continuous and easier to recognise.</p>
+ref  = cv2.imread("original.png")
+proc = cv2.imread("compressed.jpg")                 <span class="cmt"># must be same size</span>
 
-          <div class="svg-wrap">
-            <svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg">
-              <text x="100" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Original</text>
-              <g transform="translate(50,30)">
-                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
-                <rect x="20" y="20" width="60" height="60" fill="var(--text)"/>
-                <rect x="90" y="10" width="8" height="8" fill="var(--text)"/>
-              </g>
+print("PSNR:", cv2.PSNR(ref, proc), "dB")
 
-              <text x="300" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Eroded (shrinks, removes speck)</text>
-              <g transform="translate(250,30)">
-                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
-                <rect x="35" y="35" width="30" height="30" fill="var(--text)"/>
-              </g>
+g1 = cv2.cvtColor(ref,  cv2.COLOR_BGR2GRAY)
+g2 = cv2.cvtColor(proc, cv2.COLOR_BGR2GRAY)
+score, diff = ssim(g1, g2, full=True)               <span class="cmt"># diff = SSIM map</span>
+print("SSIM:", score)</code></pre>
 
-              <text x="500" y="18" fill="var(--accent-hover)" font-size="12" text-anchor="middle">Dilated (grows, fills gaps)</text>
-              <g transform="translate(450,30)">
-                <rect x="0" y="0" width="100" height="100" fill="none" stroke="var(--border)"/>
-                <rect x="5" y="5" width="90" height="90" fill="var(--text)"/>
-              </g>
-
-              <text x="100" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">blob + stray speck</text>
-              <text x="300" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">speck gone, blob shrinks</text>
-              <text x="500" y="155" fill="var(--text-muted)" font-size="9" text-anchor="middle">blob + speck both grow &amp; merge</text>
-            </svg>
-            <p class="svg-caption">Fig. 3×3 kernel applied to a blob with a stray speck — erosion removes it, dilation merges it in</p>
-          </div>
-
-          <h3>Erosion vs. Dilation — Comparison</h3>
+          <h3>Interpreting the Results</h3>
           <table>
-            <tr><th>Property</th><th>Erosion</th><th>Dilation</th></tr>
-            <tr><td>Effect on white regions</td><td>Shrinks</td><td>Grows</td></tr>
-            <tr><td>Removes small noise</td><td>Yes</td><td>No — can worsen noise by growing it</td></tr>
-            <tr><td>Fills small holes</td><td>No</td><td>Yes</td></tr>
-            <tr><td>Typical use</td><td>Cleaning stray specks, separating touching objects</td><td>Bridging gaps, connecting broken parts</td></tr>
-            <tr><td>Rule</td><td>Foreground only if ALL kernel pixels are foreground (AND)</td><td>Foreground if ANY kernel pixel is foreground (OR)</td></tr>
+            <tr><th>PSNR (8-bit)</th><th>SSIM</th><th>Meaning</th></tr>
+            <tr><td>&gt; 40 dB</td><td>&gt; 0.95</td><td class="success">Excellent — differences practically invisible</td></tr>
+            <tr><td>30–40 dB</td><td>0.85–0.95</td><td>Good — minor artifacts on close inspection (typical good JPEG)</td></tr>
+            <tr><td>20–30 dB</td><td>0.6–0.85</td><td>Fair — visible blur / blocking / noise</td></tr>
+            <tr><td>&lt; 20 dB</td><td>&lt; 0.6</td><td class="danger">Poor — heavily degraded</td></tr>
+          </table>
+          <p style="font-size:0.85rem;color:var(--text-muted);">Ranges are rough guidelines, not fixed standards — compare methods on the same images.</p>
+
+          <h3>PSNR vs SSIM</h3>
+          <table>
+            <tr><th>Aspect</th><th>PSNR</th><th>SSIM</th></tr>
+            <tr><td>Measures</td><td>Pixel-wise numeric error</td><td>Perceived structural similarity</td></tr>
+            <tr><td>Units / range</td><td>dB, 0 → ∞ (higher = better)</td><td>Unitless, up to 1 (higher = better)</td></tr>
+            <tr><td>Matches human vision</td><td class="danger">Weakly</td><td class="success">Better</td></tr>
+            <tr><td>Speed</td><td>Very fast</td><td>Slower (local windows)</td></tr>
+            <tr><td>Example</td><td colspan="2">A slightly brightened image can have a <em>low PSNR</em> yet look perfect (high SSIM); a blurred image can have a decent PSNR but clearly lower SSIM because edges/structure are lost.</td></tr>
           </table>
 
-          <h3>Worked Example (5×5 Binary Patch, 3×3 All-Ones Kernel)</h3>
-          <p>A 3×3 solid white square within a 5×5 patch: when <strong>eroded</strong>, it is eaten into from every side and shrinks down to a thin central region (or a single pixel, depending on exact kernel size); when <strong>dilated</strong>, the same square grows outward so that nearly the entire 5×5 patch becomes white.</p>
-
           <div class="callout good">
-            <strong>Conclusion:</strong> Erosion and dilation are dual, opposite operations — one is "AND across the kernel" (shrink), the other is "OR across the kernel" (grow). Every higher-order morphological operation (opening, closing, gradient, top hat, black hat) is built by chaining or subtracting these two in different orders, which is exactly why they are considered the foundation of morphological image processing.
+            <strong>Conclusion:</strong> PSNR tells how much numerical error was introduced; SSIM tells how well the structure the eye cares about was preserved. Reporting both gives a fair picture of processed-image quality.
           </div>
         </div>
       </div>
     </div>
-  </div><!-- end Unit III -->
+  </div>
 
 </div><!-- end page-wrapper -->
 
 <script>
-  function showSection(id) {
+  function showSection(id, btn) {
     document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.section-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    event.target.classList.add('active');
+    btn.classList.add('active');
   }
 
   function showTab(section, i) {
