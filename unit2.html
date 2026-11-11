@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit II — Mat, Pixel Access, Traversal, Masks & Frequency Domain | Computer Vision</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav class="unit-nav">
+    <a href="unit1.html" class="nav-prev">← Unit I</a>
+    <span class="nav-title">Unit II: Mat, Pixel Access, Traversal, Masks &amp; Frequency Domain</span>
+    <a href="unit3.html" class="nav-next">Unit III →</a>
+    <a href="index.html" class="nav-home">Home</a>
+  </nav>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" onclick="showTab(0)">Q11</button>
+    <button class="tab-btn" onclick="showTab(1)">Q12</button>
+    <button class="tab-btn" onclick="showTab(2)">Q13</button>
+    <button class="tab-btn" onclick="showTab(3)">Q14</button>
+    <button class="tab-btn" onclick="showTab(4)">Q15</button>
+    <button class="tab-btn" onclick="showTab(5)">Q16</button>
+    <button class="tab-btn" onclick="showTab(6)">Q17</button>
+    <button class="tab-btn" onclick="showTab(7)">Q18</button>
+    <button class="tab-btn" onclick="showTab(8)">Q19</button>
+    <button class="tab-btn" onclick="showTab(9)">Q20</button>
+  </div>
+
+  <!-- Q11 -->
+  <div class="tab-content" id="tab-0">
+    <div class="question-block" data-qid="cv-u2-q11">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q11', 0)" aria-label="Mark as done"></button>
+        <h2 class="q-title">11. Define the Mat structure in OpenCV and list its important properties.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q11', 0)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><code>cv::Mat</code> (short for Matrix) is OpenCV&rsquo;s fundamental container for images and N-dimensional numeric arrays. In Python the same role is played by a NumPy <code>ndarray</code>, which OpenCV wraps transparently. Every image, mask, convolution kernel, histogram or intermediate processing result is stored in a <code>Mat</code>. The structure has two parts: a small <strong>header</strong> that describes the shape, type and memory layout of the array, and a large <strong>data block</strong> that holds the actual pixel values in contiguous memory.</p>
+
+<p>The separation of header and data is a deliberate design choice that enables efficient memory management. When an image is passed to a function or assigned to a new variable, only the lightweight header is copied while the heavy pixel data stays in place. This avoids expensive deep copies during normal operations and is one of the reasons OpenCV achieves real-time performance.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 590 184" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="20" y="14" width="230" height="160" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="135" y="32" text-anchor="middle" fill="var(--accent)" font-size="11" font-weight="600">Mat header (small, copied by =)</text><rect x="34" y="42" width="202" height="22" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="135.0" y="57.0" text-anchor="middle" fill="var(--text)" font-size="10">rows, cols, dims</text><rect x="34" y="68" width="202" height="22" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="135.0" y="83.0" text-anchor="middle" fill="var(--text)" font-size="10">type / depth, channels</text><rect x="34" y="94" width="202" height="22" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="135.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="10">step[0], step[1] (strides)</text><rect x="34" y="120" width="202" height="22" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="135.0" y="135.0" text-anchor="middle" fill="var(--text)" font-size="10">refcount pointer</text><rect x="34" y="146" width="202" height="22" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="135.0" y="161.0" text-anchor="middle" fill="var(--text)" font-size="10">data pointer</text><rect x="330" y="14" width="240" height="160" rx="6" fill="var(--surface)" stroke="var(--success)"/><text x="450" y="32" text-anchor="middle" fill="var(--success)" font-size="11" font-weight="600">Data block (large, shared)</text><rect x="344" y="48" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="364.0" y="66.0" text-anchor="middle" fill="var(--text)" font-size="9">p0,0</text><rect x="388" y="48" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="408.0" y="66.0" text-anchor="middle" fill="var(--text)" font-size="9">p0,1</text><rect x="432" y="48" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="452.0" y="66.0" text-anchor="middle" fill="var(--text)" font-size="9">p0,2</text><rect x="476" y="48" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="496.0" y="66.0" text-anchor="middle" fill="var(--text)" font-size="9">p0,3</text><rect x="520" y="48" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="540.0" y="66.0" text-anchor="middle" fill="var(--text)" font-size="9">p0,4</text><rect x="344" y="82" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="364.0" y="100.0" text-anchor="middle" fill="var(--text)" font-size="9">p1,0</text><rect x="388" y="82" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="408.0" y="100.0" text-anchor="middle" fill="var(--text)" font-size="9">p1,1</text><rect x="432" y="82" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="452.0" y="100.0" text-anchor="middle" fill="var(--text)" font-size="9">p1,2</text><rect x="476" y="82" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="496.0" y="100.0" text-anchor="middle" fill="var(--text)" font-size="9">p1,3</text><rect x="520" y="82" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="540.0" y="100.0" text-anchor="middle" fill="var(--text)" font-size="9">p1,4</text><rect x="344" y="116" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="364.0" y="134.0" text-anchor="middle" fill="var(--text)" font-size="9">p2,0</text><rect x="388" y="116" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="408.0" y="134.0" text-anchor="middle" fill="var(--text)" font-size="9">p2,1</text><rect x="432" y="116" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="452.0" y="134.0" text-anchor="middle" fill="var(--text)" font-size="9">p2,2</text><rect x="476" y="116" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="496.0" y="134.0" text-anchor="middle" fill="var(--text)" font-size="9">p2,3</text><rect x="520" y="116" width="40" height="28" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="540.0" y="134.0" text-anchor="middle" fill="var(--text)" font-size="9">p2,4</text><text x="450" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">row-major, channels interleaved: B G R B G R ...</text><line x1="238" y1="142" x2="330" y2="100" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#a11)"/><text x="284" y="108" text-anchor="middle" fill="var(--accent)" font-size="9.5">data</text></svg>
+</div>
+<h3>Important properties</h3>
+<table>
+  <tr><th>Property</th><th>Meaning</th></tr>
+  <tr><td><code>rows</code>, <code>cols</code></td><td>Height and width of the image (number of rows and columns)</td></tr>
+  <tr><td><code>dims</code></td><td>Number of dimensions (2 for a normal image, 3 or more for volumes)</td></tr>
+  <tr><td><code>channels()</code></td><td>Values per pixel: 1 for gray, 3 for BGR colour, 4 with alpha</td></tr>
+  <tr><td><code>depth()</code> / <code>type()</code></td><td>Data type of each value, such as <code>CV_8U</code> (8-bit unsigned), <code>CV_32F</code> (float); <code>type</code> includes the channels, e.g. <code>CV_8UC3</code></td></tr>
+  <tr><td><code>step[0]</code>, <code>step[1]</code></td><td>Byte stride: bytes from one row to the next (including padding), and from one element to the next</td></tr>
+  <tr><td><code>data</code></td><td>Pointer to the first byte of the pixel data</td></tr>
+  <tr><td><code>size()</code>, <code>total()</code>, <code>empty()</code>, <code>isContinuous()</code></td><td>Image size, number of elements, whether the array is empty, and whether rows are stored without gaps</td></tr>
+</table>
+<h3>Memory management</h3>
+<ul>
+  <li><strong>Reference counting:</strong> assignment and function arguments copy only the header (<em>shallow copy</em>), so both headers share one data block. An internal counter tracks how many headers point to the data, and the block is freed automatically when the last header disappears. This eliminates manual memory management and prevents leaks in complex pipelines.</li>
+  <li><strong>Deep copy:</strong> <code>clone()</code> or <code>copyTo()</code> creates fully independent pixel data. Use a deep copy whenever the downstream operation will modify pixels and the original must stay untouched, for example when building a before-and-after comparison or feeding two different filters from the same source frame.</li>
+  <li><strong>Layout:</strong> rows are stored one after another (row-major) and the channels of one pixel are adjacent (interleaved BGR order). This layout means sequential access along a row hits consecutive cache lines, which is why row-wise traversal is the fastest pattern for most operations.</li>
+</ul>
+<div class="formula">\[ \text{address}(y,x)=\text{data}+y\cdot \text{step}[0]+x\cdot \text{step}[1] \]</div>
+<p>Here \(\text{data}\) is the address of the first byte, \(y\) and \(x\) are the row and column of the pixel, <code>step[0]</code> is the bytes per row and <code>step[1]</code> the bytes per element. The formula shows how OpenCV finds any pixel in one multiplication and addition. Because of <code>step[0]</code>, a cropped region (ROI) can share the memory of the parent image without copying.</p>
+<pre><code>cv::Mat A = cv::imread("img.jpg");   // A owns the pixel data
+cv::Mat B = A;                       // shallow copy: B shares A's data (only the header is copied)
+cv::Mat C = A.clone();               // deep copy: C has its own data
+cv::Mat roi = A(cv::Rect(10, 10, 100, 100));  // ROI header pointing inside A, no copy
+std::cout &lt;&lt; A.rows &lt;&lt; " " &lt;&lt; A.cols &lt;&lt; " " &lt;&lt; A.channels() &lt;&lt; " " &lt;&lt; A.type();  // inspect the header</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="tab-content" id="tab-1">
+    <div class="question-block" data-qid="cv-u2-q12">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q12', 1)" aria-label="Mark as done"></button>
+        <h2 class="q-title">12. List any three image traversal methods and state the purpose of lookup table-based intensity transformation.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q12', 1)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Image traversal</strong> means the systematic order in which an algorithm visits every pixel of an image. Choosing the right traversal is not just a coding convention — it directly affects execution speed through memory access patterns, determines how well compressed data groups together, and shapes the kind of spatial analysis that is possible. Modern CPUs load data in cache lines of 64 bytes, so an access pattern that follows the physical memory layout avoids costly cache misses and can be several times faster than a random pattern on the same image.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 450 150" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a12" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><text x="72" y="20" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">Raster (row-major)</text><rect x="20" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="33.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">0</text><rect x="46" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="59.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">1</text><rect x="72" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="85.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">2</text><rect x="98" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="111.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">3</text><rect x="20" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="33.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">4</text><rect x="46" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="59.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">5</text><rect x="72" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="85.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">6</text><rect x="98" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="111.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">7</text><rect x="20" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="33.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">8</text><rect x="46" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="59.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">9</text><rect x="72" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="85.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">10</text><rect x="98" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="111.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="20" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="33.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="46" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="59.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="72" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="85.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">14</text><rect x="98" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="111.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">15</text><polyline points="33.0,41.0 59.0,41.0 85.0,41.0 111.0,41.0 33.0,67.0 59.0,67.0 85.0,67.0 111.0,67.0 33.0,93.0 59.0,93.0 85.0,93.0 111.0,93.0 33.0,119.0 59.0,119.0 85.0,119.0 111.0,119.0" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-opacity="0.8"/><text x="222" y="20" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">Boustrophedon</text><rect x="170" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="183.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">0</text><rect x="196" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="209.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">1</text><rect x="222" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="235.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">2</text><rect x="248" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="261.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">3</text><rect x="170" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="183.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">7</text><rect x="196" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="209.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">6</text><rect x="222" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="235.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">5</text><rect x="248" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="261.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">4</text><rect x="170" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="183.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">8</text><rect x="196" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="209.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">9</text><rect x="222" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="235.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">10</text><rect x="248" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="261.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="170" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="183.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">15</text><rect x="196" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="209.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">14</text><rect x="222" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="235.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="248" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="261.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><polyline points="183.0,41.0 209.0,41.0 235.0,41.0 261.0,41.0 261.0,67.0 235.0,67.0 209.0,67.0 183.0,67.0 183.0,93.0 209.0,93.0 235.0,93.0 261.0,93.0 261.0,119.0 235.0,119.0 209.0,119.0 183.0,119.0" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-opacity="0.8"/><text x="372" y="20" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">Zigzag (JPEG style)</text><rect x="320" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="333.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">0</text><rect x="346" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="359.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">1</text><rect x="372" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="385.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">5</text><rect x="398" y="28" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="411.0" y="45.0" text-anchor="middle" fill="var(--text)" font-size="9.5">6</text><rect x="320" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="333.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">2</text><rect x="346" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="359.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">4</text><rect x="372" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="385.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">7</text><rect x="398" y="54" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="411.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="320" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="333.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">3</text><rect x="346" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="359.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">8</text><rect x="372" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="385.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="398" y="80" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="411.0" y="97.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="320" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="333.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">9</text><rect x="346" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="359.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">10</text><rect x="372" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="385.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">14</text><rect x="398" y="106" width="26" height="26" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="411.0" y="123.0" text-anchor="middle" fill="var(--text)" font-size="9.5">15</text><polyline points="333.0,41.0 359.0,41.0 333.0,67.0 333.0,93.0 359.0,67.0 385.0,41.0 411.0,41.0 385.0,67.0 359.0,93.0 333.0,119.0 359.0,119.0 385.0,93.0 411.0,67.0 411.0,93.0 385.0,119.0 411.0,119.0" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-opacity="0.8"/></svg>
+</div>
+<ol>
+  <li><strong>Raster (row-major) scan:</strong> visits pixels row by row, left to right, top to bottom. Because a <code>Mat</code> stores pixel data in the same row-major order, raster scanning reads consecutive memory addresses and achieves the best CPU cache behaviour. It is the default pattern for convolution filters, histogram computation, display refresh and video frame scanning. Nearly every OpenCV function that iterates over an image uses raster order internally.</li>
+  <li><strong>Boustrophedon (zigzag row) scan:</strong> the direction alternates on every row — left to right on even rows, right to left on odd rows — mimicking how an ox ploughs a field (the Greek origin of the name). This pattern eliminates the long pointer jump that raster scanning makes at the end of each row back to the start of the next. It is widely used in flatbed scanners, inkjet printers and robotic path planning for area coverage, where the physical head can simply reverse direction instead of repositioning.</li>
+  <li><strong>Zigzag diagonal scan (JPEG):</strong> visits the diagonals of an 8&times;8 DCT coefficient block from the low-frequency corner to the high-frequency corner. After quantisation most high-frequency coefficients become zero, so the zigzag ordering groups these zeros together at the tail of the sequence. This makes run-length encoding and Huffman coding highly efficient and is the reason JPEG achieves good compression ratios on natural images.</li>
+</ol>
+<p>Beyond these three, other traversal methods include spiral scan (used in some block-matching algorithms), space-filling curves such as Z-order and Hilbert curves that preserve 2D locality for memory mapping and database indexing, quadtree recursive subdivision, and region-based traversals like flood fill and contour tracing that follow connected components rather than a fixed geometric pattern.</p>
+<h3>Lookup-table (LUT) intensity transformation: purpose</h3>
+<p>A <strong>point operation</strong> changes each pixel based solely on its own value, for example applying the gamma function output \(= 255 \times (input/255)^{\gamma}\). Evaluating such a mathematical function for every pixel in a high-resolution image is computationally expensive. However, for an 8-bit image there are only <strong>256 possible input values</strong> (0&ndash;255), so the function can be evaluated just 256 times and the results stored in a one-dimensional array called a lookup table. After building the table, every pixel is transformed by a single array read — fetch <code>lut[pixel_value]</code> — instead of repeating the floating-point calculation.</p>
+
+<p>The performance gain is dramatic. A 1080p colour frame has over two million pixels and three channels each, meaning roughly six million function evaluations per frame. At 30 fps that becomes about 180 million evaluations per second. A LUT reduces this to 256 evaluations plus the same number of trivial table reads, which is orders of magnitude faster. LUTs are therefore the standard technique for negative transformation, gamma correction, logarithmic compression, thresholding, contrast stretching and pseudocolour mapping in real-time systems.</p>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg", cv2.IMREAD_GRAYSCALE)
+
+gamma = 0.5                                              # &lt;1 brightens, &gt;1 darkens
+lut = np.array([255 * (i / 255) ** gamma for i in range(256)],  # compute the formula only 256 times
+               dtype="uint8")                            # table index = input value, entry = output value
+out = cv2.LUT(img, lut)                                  # apply: out[y,x] = lut[img[y,x]] for every pixel</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q13 -->
+  <div class="tab-content" id="tab-2">
+    <div class="question-block" data-qid="cv-u2-q13">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q13', 2)" aria-label="Mark as done"></button>
+        <h2 class="q-title">13. Explain pixel-level access in OpenCV and discuss its importance in image processing.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q13', 2)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Pixel-level access</strong> means reading or writing the value of an individual pixel (or a small group of pixels) through its row and column index. Since an image in OpenCV is stored as a matrix, the pixel at row \(y\) and column \(x\) is simply the matrix element at that position. The coordinate origin is the top-left corner of the image, with rows numbered downwards and columns numbered to the right — the same convention used by displays and cameras.</p>
+
+<p>Understanding pixel-level access is fundamental because every image processing operation ultimately reduces to reading pixel values, performing some computation, and writing new values back. Whether it is a simple brightness adjustment or a complex neural network inference, the data path always begins and ends at individual pixels stored in the matrix.</p>
+<h3>Ways of access</h3>
+<ul>
+  <li><strong>Python (NumPy):</strong> <code>img[y, x]</code> returns the intensity of a grayscale pixel, or a <code>[B, G, R]</code> array for a colour pixel; assigning to it changes the pixel. NumPy slices such as <code>img[0:50, 0:50]</code> give a whole region as a view without copying data, making region-of-interest extraction very efficient.</li>
+  <li><strong>C++ <code>at&lt;&gt;</code>:</strong> <code>img.at&lt;uchar&gt;(y, x)</code> for grayscale and <code>img.at&lt;cv::Vec3b&gt;(y, x)</code> for colour; clean and type-safe, but each call recomputes the row address from scratch, so it is slower inside tight loops compared to pointer access.</li>
+  <li><strong>C++ pointer:</strong> <code>img.ptr&lt;uchar&gt;(y)</code> returns a pointer to the start of row \(y\), so iterating across columns uses pointer arithmetic and avoids repeated address computation. This is the fastest method in C++ and is preferred in performance-critical code such as real-time video processing.</li>
+  <li><strong>Iterator:</strong> <code>MatIterator_</code> visits every pixel sequentially without explicit index management. It abstracts away the memory layout and is useful when the algorithm does not depend on spatial position.</li>
+</ul>
+<pre><code>import cv2
+img = cv2.imread("photo.jpg")            # colour image, shape (h, w, 3)
+
+p = img[100, 50]                         # row 100, column 50 -&gt; array([B, G, R])
+print(p, p[2])                           # p[2] is the red value (BGR order)
+
+img[100, 50] = (255, 255, 255)           # write: make one pixel white
+img[20:60, 30:90] = (0, 0, 0)            # write: black rectangle (rows 20-59, cols 30-89)
+img[:, :, 2] = 0                         # remove the red channel (channel index 2)
+
+gray = cv2.imread("photo.jpg", 0)        # 0 = IMREAD_GRAYSCALE
+print(gray[100, 50])                     # a single number 0-255</code></pre>
+<h3>Importance in image processing</h3>
+<ul>
+  <li><strong>Foundation of every algorithm:</strong> filtering, thresholding, edge detection and colour conversion all read neighbouring pixels and compute new values. Without efficient pixel access these operations would be impractical at real-time frame rates.</li>
+  <li><strong>Custom operations:</strong> many real-world tasks require operations that no built-in function provides, such as applying a non-standard mask, painting a region based on domain logic, or drawing application-specific overlays. Pixel access makes these possible.</li>
+  <li><strong>Region-of-interest (ROI) processing:</strong> cropping, replacing part of an image, inserting a watermark or extracting a sub-region for further analysis all depend on addressed pixel access. Similarly, interactive applications read pixel values at a mouse click location to identify colours or trigger actions.</li>
+  <li><strong>Debugging and validation:</strong> inspecting actual pixel values helps verify that an algorithm is producing correct intermediate results, which is essential during development of new processing pipelines.</li>
+</ul>
+<p><strong>Caution.</strong> Looping over pixels in Python is very slow; where possible use vectorised NumPy expressions or OpenCV functions (<code>cv2.add</code>, <code>cv2.LUT</code>, <code>cv2.threshold</code>), and use pointer access in C++ for speed. Remember that the index order is <code>[row, column]</code> = <code>[y, x]</code>, and that <code>uint8</code> arithmetic wraps around (250 + 10 gives 4) unless <code>cv2.add</code> is used.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q14 -->
+  <div class="tab-content" id="tab-3">
+    <div class="question-block" data-qid="cv-u2-q14">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q14', 3)" aria-label="Mark as done"></button>
+        <h2 class="q-title">14. Explain mask operations and image blending with suitable examples.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q14', 3)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>mask operation</strong> (also called spatial filtering or convolution) recalculates the value of every pixel by combining its own value with those of its neighbours, using a small matrix of weights called a <strong>mask</strong> or <strong>kernel</strong> (commonly 3&times;3 or 5&times;5). The kernel is centred over each pixel in turn; corresponding image and kernel values are multiplied element-wise, the products are summed, and the result becomes the new value of the centre pixel. This sliding-window mechanism is the single most important building block in image processing — blurring, sharpening, edge detection and embossing are all achieved by choosing different kernel weights.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 520 206" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a14" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="20" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="35.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="9.5">10</text><rect x="50" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="65.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="80" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="95.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="110" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="125.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="140" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="155.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="20" y="60" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="35.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="50" y="60" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="65.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="9.5">50</text><rect x="80" y="60" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="95.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="9.5">52</text><rect x="110" y="60" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="125.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="9.5">49</text><rect x="140" y="60" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="155.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="20" y="90" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="35.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="50" y="90" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="65.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="9.5">51</text><rect x="80" y="90" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="95.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="9.5">90</text><rect x="110" y="90" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="125.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="9.5">53</text><rect x="140" y="90" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="155.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="20" y="120" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="35.0" y="139.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="50" y="120" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="65.0" y="139.0" text-anchor="middle" fill="var(--text)" font-size="9.5">50</text><rect x="80" y="120" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="95.0" y="139.0" text-anchor="middle" fill="var(--text)" font-size="9.5">52</text><rect x="110" y="120" width="30" height="30" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="125.0" y="139.0" text-anchor="middle" fill="var(--text)" font-size="9.5">48</text><rect x="140" y="120" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="155.0" y="139.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="20" y="150" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="35.0" y="169.0" text-anchor="middle" fill="var(--text)" font-size="9.5">10</text><rect x="50" y="150" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="65.0" y="169.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="80" y="150" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="95.0" y="169.0" text-anchor="middle" fill="var(--text)" font-size="9.5">13</text><rect x="110" y="150" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="125.0" y="169.0" text-anchor="middle" fill="var(--text)" font-size="9.5">12</text><rect x="140" y="150" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="155.0" y="169.0" text-anchor="middle" fill="var(--text)" font-size="9.5">11</text><rect x="50" y="60" width="90" height="90" rx="2" fill="none" stroke="var(--accent)"/><text x="95" y="196" text-anchor="middle" fill="var(--text-muted)" font-size="10">3x3 window slides over image</text><text x="285" y="22" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">sharpen mask (kernel)</text><rect x="240" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="255.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="11">0</text><rect x="270" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="285.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="11">-1</text><rect x="300" y="30" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="315.0" y="49.0" text-anchor="middle" fill="var(--text)" font-size="11">0</text><rect x="240" y="60" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="255.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="11">-1</text><rect x="270" y="60" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="285.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="11">5</text><rect x="300" y="60" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="315.0" y="79.0" text-anchor="middle" fill="var(--text)" font-size="11">-1</text><rect x="240" y="90" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="255.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="11">0</text><rect x="270" y="90" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="285.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="11">-1</text><rect x="300" y="90" width="30" height="30" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="315.0" y="109.0" text-anchor="middle" fill="var(--text)" font-size="11">0</text><text x="285" y="136" text-anchor="middle" fill="var(--text-muted)" font-size="10">weights; sum = 1</text><line x1="350" y1="75" x2="410" y2="75" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a14)"/><text x="380" y="66" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">multiply</text><text x="380" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">and add</text><rect x="416" y="55" width="70" height="40" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="451" y="72" text-anchor="middle" fill="var(--text)" font-size="9.5">new centre</text><text x="451" y="86" text-anchor="middle" fill="var(--text-muted)" font-size="10">= 242</text></svg>
+</div>
+<div class="formula">\[ I'(i,j)=5\,I(i,j)-\big[I(i-1,j)+I(i+1,j)+I(i,j-1)+I(i,j+1)\big] \]</div>
+<p>This is the sharpening mask of the figure. \(I(i,j)\) is the old value of the pixel at row \(i\), column \(j\); the four terms in brackets are its upper, lower, left and right neighbours; \(I'(i,j)\) is the new value. If the centre is the same as its neighbours, the result equals the old value; if it is brighter than them, the difference is amplified. So the formula increases local contrast and makes edges look crisp. The weights add up to 1, which keeps the overall brightness unchanged. A blur mask has all weights positive and also summing to 1; edge masks (Sobel, Prewitt) sum to 0, so flat areas become black.</p>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg", cv2.IMREAD_GRAYSCALE)
+
+kernel = np.array([[ 0, -1,  0],           # sharpening mask: centre 5, four neighbours -1
+                   [-1,  5, -1],
+                   [ 0, -1,  0]], dtype=np.float32)
+sharp = cv2.filter2D(img, -1, kernel)      # -1 = output depth same as input; slides the kernel over every pixel
+
+blur = cv2.blur(img, (3, 3))               # box mask: every weight 1/9, i.e. a 3x3 average</code></pre>
+<p>The word <em>mask</em> is also used in a different sense for a <strong>binary mask</strong>, which is a single-channel image of 0s and 255s (or 0s and 1s) that selects a region. Passing such a mask to <code>cv2.bitwise_and(img, img, mask=m)</code> keeps only the pixels where the mask is non-zero, effectively cutting out an arbitrary shape from the image. Binary masks are essential for tasks such as background removal, selective filtering and object compositing.</p>
+<h3>Image blending</h3>
+<p>Blending combines two images of the same size into one by computing a weighted sum of their pixel values at every location. Unlike a hard overlay where one image simply replaces the other, blending produces a smooth transition that preserves visible content from both sources.</p>
+<div class="formula">\[ \text{dst}=\alpha\cdot \text{img}_1+\beta\cdot \text{img}_2+\gamma \]</div>
+<p>Here \(\text{img}_1\) and \(\text{img}_2\) are the two input images; \(\alpha\) and \(\beta\) are their weights, normally between 0 and 1 and chosen so that \(\alpha+\beta=1\) (otherwise the result is too bright or too dark); \(\gamma\) is a constant added to every pixel (a brightness offset, usually 0). With \(\alpha=0.7,\ \beta=0.3\) the first image dominates. Using a changing \(\alpha\) over time gives a cross-fade.</p>
+<pre><code>a = cv2.imread("a.jpg")
+b = cv2.imread("b.jpg")
+b = cv2.resize(b, (a.shape[1], a.shape[0]))        # images must have the same size and type
+mix = cv2.addWeighted(a, 0.7, b, 0.3, 0)           # 0.7*a + 0.3*b + 0 (gamma); result is saturated to 0-255</code></pre>
+<p><strong>Applications:</strong> blending is used in panorama stitching to merge overlapping images seamlessly, in video editing for fade transitions between clips, in watermarking to embed a translucent logo, in augmented reality to overlay virtual objects onto real scenes, and in HDR imaging to combine multiple exposures into a single image with greater dynamic range. Laplacian pyramid blending is an advanced variant that blends at multiple scales, avoiding the ghosting artefacts that simple global blending can produce when objects differ between the two images.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q15 -->
+  <div class="tab-content" id="tab-4">
+    <div class="question-block" data-qid="cv-u2-q15">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q15', 4)" aria-label="Mark as done"></button>
+        <h2 class="q-title">15. Explain frequency-domain processing using the Discrete Fourier Transform (DFT).</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q15', 4)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Every image can be understood from two complementary perspectives. In the <strong>spatial domain</strong> it is a grid of brightness values arranged by position — what we see when we look at the pixel matrix directly. In the <strong>frequency domain</strong> the same image is described as a weighted sum of sine and cosine waves of different frequencies, directions and amplitudes. The <strong>Discrete Fourier Transform (DFT)</strong> converts an image from the spatial to the frequency domain, and the inverse DFT converts it back with no loss of information. <em>Low frequencies</em> represent slow, gradual changes such as overall brightness and broad shapes, while <em>high frequencies</em> capture rapid changes such as edges, fine texture and noise.</p>
+
+<p>Frequency-domain analysis is powerful because certain operations that are complex in the spatial domain become trivially simple when expressed in terms of frequencies. Removing noise at a specific frequency, for instance, is just zeroing out the corresponding coefficient — something that would require a carefully designed spatial filter to approximate.</p>
+<div class="formula">\[ F(u,v)=\sum_{x=0}^{M-1}\sum_{y=0}^{N-1} f(x,y)\,e^{-j2\pi\left(\frac{ux}{M}+\frac{vy}{N}\right)} \]</div>
+<p>Here \(f(x,y)\) is the pixel brightness at column \(x\), row \(y\); \(M\) and \(N\) are the image width and height; \((u,v)\) is the frequency being tested (horizontal and vertical); and \(e^{-j2\pi(\cdots)}\) is a complex wave of that frequency. For each \((u,v)\), every pixel is multiplied by the wave and the results are added, so \(F(u,v)\) is large when the image contains that pattern. It is a complex number: its <strong>magnitude</strong> tells how strong the frequency is, and its <strong>phase</strong> tells where the pattern lies. The fast algorithm used in practice is the FFT.</p>
+<h3>Frequency-domain filtering pipeline</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 568 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a15" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="55.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="37.5" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Image</text><text x="37.5" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">f(x,y)</text><line x1="67.0" y1="37.0" x2="93.0" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a15)"/><rect x="95.0" y="14" width="55.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="122.5" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">DFT</text><text x="122.5" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">F(u,v)</text><line x1="152.0" y1="37.0" x2="178.0" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a15)"/><rect x="180.0" y="14" width="115.50000000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="237.75" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Shift</text><text x="237.75" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">centre = low freq</text><line x1="297.5" y1="37.0" x2="323.5" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a15)"/><rect x="325.5" y="14" width="99.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="375.0" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Multiply</text><text x="375.0" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">by filter mask</text><line x1="426.5" y1="37.0" x2="452.5" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a15)"/><rect x="454.5" y="14" width="93.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="501.25" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Inverse DFT</text><text x="501.25" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">back to image</text></svg>
+</div>
+<p>The raw DFT output places the zero-frequency (DC) component at the corners, which is unintuitive for visual inspection. The <code>fftshift</code> operation rearranges the quadrants so that low frequencies lie at the centre of the spectrum image and high frequencies at the edges. After the shift, filtering is a simple element-wise multiplication of the spectrum by a mask, and the inverse DFT reconstructs the filtered image in the spatial domain.</p>
+
+<p>A <strong>low-pass</strong> mask keeps only the centre region, suppressing high frequencies and producing a blurred result. A <strong>high-pass</strong> mask blocks the centre, retaining edges and fine detail while removing smooth gradients. A <strong>notch</strong> mask zeros out isolated frequency spikes, which is the standard technique for removing periodic noise such as a regular stripe pattern from a scanner. Using a smooth Gaussian mask instead of a hard circular cut-off avoids an artefact known as <em>ringing</em>, where sharp transitions in the frequency domain create oscillating bands in the spatial output. A smaller cut-off radius on a low-pass mask keeps fewer frequencies, resulting in stronger blurring.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 550 184" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a16" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="20" y="10" width="150" height="150" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><circle cx="95" cy="85" r="28" fill="var(--accent)" fill-opacity="0.25" stroke="var(--accent)"/><text x="95" y="88" text-anchor="middle" fill="var(--text)" font-size="10">low-pass</text><text x="95" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10">keep centre = blur</text><rect x="200" y="10" width="150" height="150" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><circle cx="275" cy="85" r="28" fill="var(--bg)" stroke="var(--accent)"/><text x="275" y="88" text-anchor="middle" fill="var(--text)" font-size="10">zero</text><text x="275" y="50" text-anchor="middle" fill="var(--text)" font-size="10">high-pass</text><text x="275" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10">keep outside = edges</text><rect x="380" y="10" width="150" height="150" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><circle cx="440" cy="50" r="4" fill="var(--warning)"/><circle cx="440" cy="50" r="9" fill="none" stroke="var(--warning)" stroke-dasharray="3 2"/><circle cx="510" cy="120" r="4" fill="var(--warning)"/><circle cx="510" cy="120" r="9" fill="none" stroke="var(--warning)" stroke-dasharray="3 2"/><circle cx="455" cy="85" r="4" fill="var(--accent)"/><text x="455" y="100" text-anchor="middle" fill="var(--text)" font-size="8.5">DC</text><text x="455" y="175" text-anchor="middle" fill="var(--text-muted)" font-size="10">notch: remove spikes</text></svg>
+</div><pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg", cv2.IMREAD_GRAYSCALE)
+
+dft = cv2.dft(np.float32(img), flags=cv2.DFT_COMPLEX_OUTPUT)   # forward DFT; output has 2 channels (real, imaginary)
+dft = np.fft.fftshift(dft)                                     # move low frequencies (DC) to the centre
+
+mag = 20 * np.log(cv2.magnitude(dft[:, :, 0], dft[:, :, 1]) + 1)  # magnitude spectrum; log makes it visible
+
+rows, cols = img.shape
+mask = np.zeros((rows, cols, 2), np.float32)                   # low-pass mask: zeros everywhere...
+cv2.circle(mask, (cols // 2, rows // 2), 30, (1, 1), -1)       # ...except a filled circle of radius 30 at the centre
+
+filtered = dft * mask                                          # filtering = simple multiplication
+back = cv2.idft(np.fft.ifftshift(filtered))                    # undo the shift, then inverse DFT
+result = cv2.magnitude(back[:, :, 0], back[:, :, 1])           # real image again (blurred)</code></pre>
+<p><strong>Applications:</strong> frequency-domain processing is used for removal of periodic noise from scanned documents, controlled blurring and sharpening with precise frequency cut-offs, image compression (JPEG works by quantising DCT coefficients, effectively discarding less perceptible high-frequency information), and texture classification where the frequency signature of a pattern is more discriminative than raw pixel values.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q16 -->
+  <div class="tab-content" id="tab-5">
+    <div class="question-block" data-qid="cv-u2-q16">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q16', 5)" aria-label="Mark as done"></button>
+        <h2 class="q-title">16. Implement an OpenCV operation to access and modify selected pixel values using the Mat structure.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q16', 5)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>The aim is to read selected pixels of a <code>Mat</code> and change them programmatically. Pixel modification falls into three categories: accessing a <strong>single pixel</strong> by its row and column coordinates, modifying an entire <strong>rectangular region</strong> (ROI — region of interest) in one operation, and changing <strong>all pixels that satisfy a condition</strong> using a boolean mask. The C++ interface provides <code>at&lt;&gt;</code> for safe element access and <code>Rect</code> for region selection, while the Python interface leverages NumPy array indexing to achieve the same operations with more concise syntax.</p>
+
+<p>This kind of direct pixel manipulation is the basis for operations like drawing bounding boxes around detected objects, anonymising faces by filling regions with a solid colour, applying selective colour corrections, and implementing custom segmentation masks. Understanding both the C++ and Python approaches is important because C++ is used in production systems requiring maximum speed, while Python is preferred for prototyping and research.</p>
+<h3>C++ (cv::Mat)</h3>
+
+<h3>Steps in words</h3>
+<ol>
+  <li>Load the image and check it is not empty.</li>
+  <li>Choose the pixel(s): by one coordinate (row, column), or by a region (a slice).</li>
+  <li>Read the pixel. In C++, <code>img.at&lt;Vec3b&gt;(y, x)</code> returns the three BGR values of a colour pixel (<code>at&lt;uchar&gt;</code> for gray). In Python, <code>img[y, x]</code> returns the array of three values.</li>
+  <li>Write the new value to the same expression, then display or save the image.</li>
+</ol>
+<p><strong>Points to remember:</strong> the first index is the <em>row</em> (y), the second the <em>column</em> (x); the channel order is B, G, R; the type in <code>at&lt;&gt;</code> must match the image type or the values will be wrong; values are <code>uchar</code>/<code>uint8</code>, so arithmetic must be clipped to 0&ndash;255 (use <code>saturate_cast</code> in C++).</p><pre><code>#include &lt;opencv2/opencv.hpp&gt;
+using namespace cv;
+
+int main() {
+    Mat img = imread("photo.jpg");                       // 8-bit, 3-channel BGR Mat
+    if (img.empty()) return -1;                          // always test that loading worked
+
+    Vec3b p = img.at&lt;Vec3b&gt;(50, 80);                     // READ pixel at row 50, col 80: Vec3b = {B, G, R}
+    std::cout &lt;&lt; (int)p[0] &lt;&lt; " " &lt;&lt; (int)p[1] &lt;&lt; " " &lt;&lt; (int)p[2] &lt;&lt; std::endl;
+
+    img.at&lt;Vec3b&gt;(50, 80) = Vec3b(0, 0, 255);            // MODIFY one pixel: set it red (B=0, G=0, R=255)
+
+    Mat roi = img(Rect(100, 100, 60, 40));               // ROI: Rect(x, y, width, height); shares img's data
+    roi.setTo(Scalar(255, 0, 0));                        // paint the whole region blue; this also changes img
+
+    for (int y = 0; y &lt; img.rows; y++) {                 // MODIFY by condition: scan every row...
+        uchar* row = img.ptr&lt;uchar&gt;(y);                  // ...with a pointer to the start of that row (fast)
+        for (int x = 0; x &lt; img.cols * img.channels(); x++)  // channels are interleaved, so cols*channels values
+            if (row[x] &gt; 200) row[x] = 255;              // push very bright values to 255
+    }
+    imwrite("modified.jpg", img);
+    return 0;
+}</code></pre>
+<h3>Python (same operations)</h3>
+<pre><code>import cv2
+img = cv2.imread("photo.jpg")
+
+print(img[50, 80])                 # read pixel [B G R] at row 50, column 80
+img[50, 80] = (0, 0, 255)          # set that pixel to red
+
+roi = img[100:140, 100:160]        # ROI slice [y1:y2, x1:x2]: a view of img, not a copy
+roi[:] = (255, 0, 0)               # paint the region blue; img changes too
+
+img[img &gt; 200] = 255               # condition on all values at once (vectorised, fast)</code></pre>
+<h3>Explanation</h3>
+<ul>
+  <li><code>at&lt;Vec3b&gt;(row, col)</code> accesses one colour pixel; <code>Vec3b</code> holds three <code>uchar</code> values in B, G, R order. For a gray image use <code>at&lt;uchar&gt;</code>.</li>
+  <li>The ROI is only a new header over the same data (see Q11), so editing it edits the original image; use <code>clone()</code> if an independent copy is needed.</li>
+  <li><code>ptr&lt;uchar&gt;(y)</code> gives a pointer to row <code>y</code>, which is the fastest way to scan in C++; <code>at&lt;&gt;</code> is easier but slower because each call recalculates the address.</li>
+  <li>Index order is <code>(row, col)</code> = <code>(y, x)</code> for <code>at</code>, but <code>Rect</code> and drawing functions use <code>(x, y)</code>.</li>
+</ul>
+
+<p><strong>Modifying selected pixels:</strong> a single pixel is changed through its coordinates, a whole region by slicing (<code>img[50:100, 80:160] = (0, 0, 255)</code> paints a red rectangle), and pixels that satisfy a condition can be selected with a boolean mask (<code>img[img &gt; 200] = 255</code>). In Python, explicit for-loops over every pixel are extremely slow because each iteration crosses the Python–C boundary; NumPy array slicing and boolean masks delegate the loop to optimised C code, making them hundreds of times faster for the same operation.</p>
+
+<p><strong>Performance consideration:</strong> in C++, the <code>ptr&lt;&gt;</code> method is preferred inside tight loops because it computes the row address once and then accesses columns through simple pointer arithmetic. The <code>at&lt;&gt;</code> method recalculates the full address on every call and includes a bounds check in debug mode, which adds overhead. For bulk operations in Python, always prefer vectorised expressions over pixel-by-pixel loops.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q17 -->
+  <div class="tab-content" id="tab-6">
+    <div class="question-block" data-qid="cv-u2-q17">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q17', 6)" aria-label="Mark as done"></button>
+        <h2 class="q-title">17. Demonstrate how brightness and contrast of an image can be adjusted using OpenCV.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q17', 6)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Brightness and contrast are the two most fundamental visual properties of an image that users and algorithms routinely need to adjust. Both are controlled by a single linear (point) transformation applied independently to every pixel, making the operation extremely fast since no neighbourhood information is needed:</p>
+<div class="formula">\[ g(x,y)=\alpha\, f(x,y)+\beta \]</div>
+<p>Here \(f(x,y)\) is the input pixel value, \(g(x,y)\) is the output value, \(\alpha\) (gain) controls <strong>contrast</strong> and \(\beta\) (bias) controls <strong>brightness</strong>. The gain \(\alpha\) acts as a multiplier: with \(\alpha>1\) the differences between dark and bright pixels are stretched, increasing contrast and making the image appear more vivid. With \(0<\alpha<1\) those differences are compressed, reducing contrast and giving a flat, washed-out appearance. The bias \(\beta\) is an additive offset: a positive value shifts all pixels upward on the intensity scale (brighter), while a negative value shifts them downward (darker). Results that exceed 255 or fall below 0 are clipped (saturated) to the valid 8-bit range.</p>
+
+<p>The graph below illustrates these effects. The identity line (\(\alpha=1, \beta=0\)) leaves every pixel unchanged. The steeper line (\(\alpha=1.5, \beta=30\)) amplifies differences and lifts the baseline, but saturates at 255 for input values above approximately 150, destroying highlight detail. This saturation trade-off is why practical values of \(\alpha\) rarely exceed 2.0 and \(\beta\) is typically kept between &minus;100 and +100.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 520 270" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a17" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="56" y1="20" x2="56" y2="226" stroke="var(--text-muted)" stroke-width="1"/><line x1="56" y1="226" x2="500" y2="226" stroke="var(--text-muted)" stroke-width="1"/><text x="56.0" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">0</text><text x="50" y="229.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><text x="167.43529411764706" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">64</text><text x="50" y="177.7980392156863" text-anchor="end" fill="var(--text-muted)" font-size="9.5">64</text><line x1="56" y1="174.2980392156863" x2="500" y2="174.2980392156863" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="278.8705882352941" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">128</text><text x="50" y="126.09607843137255" text-anchor="end" fill="var(--text-muted)" font-size="9.5">128</text><line x1="56" y1="122.59607843137255" x2="500" y2="122.59607843137255" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="390.3058823529412" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">192</text><text x="50" y="74.39411764705883" text-anchor="end" fill="var(--text-muted)" font-size="9.5">192</text><line x1="56" y1="70.89411764705883" x2="500" y2="70.89411764705883" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="500.0" y="240" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">255</text><text x="50" y="23.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">255</text><line x1="56" y1="20.0" x2="500" y2="20.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><line x1="56.0" y1="226.0" x2="500.0" y2="20.0" stroke="var(--text-dim)" stroke-width="1.2" stroke-dasharray="5 4"/><text x="430.3529411764706" y="68.31372549019608" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">identity</text><path d="M56.0,201.8 L317.2,20.0 L500.0,20.0" fill="none" stroke="var(--accent)" stroke-width="2.2"/><text x="177.88235294117646" y="96.74509803921569" text-anchor="start" fill="var(--accent)" font-size="10">alpha=1.5, beta=30</text><text x="386.8235294117647" y="21.192156862745094" text-anchor="middle" fill="var(--accent)" font-size="9.5">clipped at 255</text><path d="M56.0,226.0 L500.0,123.0" fill="none" stroke="var(--success)" stroke-width="2.2"/><text x="317.1764705882353" y="189.64705882352942" text-anchor="start" fill="var(--success)" font-size="10">alpha=0.5, beta=0</text><path d="M56.0,185.6 L412.9,20.0 L500.0,20.0" fill="none" stroke="var(--warning)" stroke-width="1.6" stroke-dasharray="6 3"/><text x="87.34117647058824" y="149.2549019607843" text-anchor="start" fill="var(--warning)" font-size="9.5">beta=+50 only</text><text x="278.0" y="262" text-anchor="middle" fill="var(--text-muted)" font-size="10">input pixel value</text><text transform="rotate(-90 14 123.0)" x="14" y="123.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">output pixel value</text></svg>
+</div>
+<h3>Effect of the two parameters</h3>
+<table>
+  <tr><th>Change</th><th>Effect on the image</th></tr>
+  <tr><td>\(\beta>0\) (e.g. +50)</td><td>Brighter: every pixel is shifted up; histogram moves right</td></tr>
+  <tr><td>\(\beta<0\)</td><td>Darker: histogram moves left</td></tr>
+  <tr><td>\(\alpha>1\) (e.g. 1.5)</td><td>Higher contrast: the difference between dark and bright pixels is stretched</td></tr>
+  <tr><td>\(0<\alpha<1\)</td><td>Lower contrast: the intensities are squeezed together, image looks flat</td></tr>
+</table>
+<p>Results above 255 or below 0 are <strong>saturated</strong> (clipped to the valid range); this is why a large \(\alpha\) or \(\beta\) can cause bright areas to turn pure white and lose all detail — a problem known as <em>highlight clipping</em>. Similarly, dark regions can be crushed to pure black. OpenCV handles this clipping automatically in <code>convertScaleAbs</code> (C++) and <code>cv2.convertScaleAbs</code> (Python), and through the <code>saturate_cast</code> function in custom C++ loops. If you perform the computation manually using NumPy, you must convert to a floating-point type first, apply the formula, and then clip with <code>np.clip</code> before converting back to <code>uint8</code>, because raw <code>uint8</code> arithmetic wraps around silently (e.g. 250 + 10 gives 4 instead of 255).</p>
+<h3>Steps</h3>
+<ol>
+  <li>Load the image.</li>
+  <li>Choose \(\alpha\) (contrast) and \(\beta\) (brightness).</li>
+  <li>Apply \(g=\alpha f+\beta\) to every pixel, with saturation.</li>
+  <li>Compare original and result, and adjust the values.</li>
+</ol><pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg")
+
+alpha = 1.5                                         # contrast: 1.0 = unchanged, &gt;1 more, &lt;1 less (typical 0.5-3)
+beta  = 30                                          # brightness offset: positive = brighter (typical -100..+100)
+
+adj = cv2.convertScaleAbs(img, alpha=alpha, beta=beta)   # computes |alpha*img + beta|, clips to 0-255, returns uint8
+# equivalent with addWeighted: add a black image with gamma = beta
+adj2 = cv2.addWeighted(img, alpha, np.zeros_like(img), 0, beta)
+
+# manual NumPy version: convert to float first, otherwise uint8 overflows silently
+manual = np.clip(alpha * img.astype(np.float32) + beta, 0, 255).astype(np.uint8)
+
+cv2.imshow("original | adjusted", np.hstack([img, adj]))  # side by side comparison
+cv2.waitKey(0)</code></pre>
+<p><strong>Remember:</strong> <em>alpha = contrast (multiply), beta = brightness (add).</em> Use <code>convertScaleAbs</code> in practice because it clips and converts safely. Too large \(\alpha\) or \(\beta\) destroys detail in bright or dark regions (saturation), so values are tuned by looking at the result or the histogram. For automatic enhancement, histogram equalization (Q29) is used.</p>
+
+<p><strong>Alternatives and when to use them:</strong> gamma correction applies a non-linear curve \(g = 255 \times (f/255)^{\gamma}\) that selectively brightens shadows without blowing out highlights, making it ideal for underexposed photographs. Histogram equalization (covered in later units) redistributes pixel intensities automatically so the full 0–255 range is used, which is especially effective for low-contrast medical or satellite images. In practice, the linear method shown here is used for quick manual adjustment, while gamma and histogram equalization handle cases where a simple shift and scale are not enough.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q18 -->
+  <div class="tab-content" id="tab-7">
+    <div class="question-block" data-qid="cv-u2-q18">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q18', 7)" aria-label="Mark as done"></button>
+        <h2 class="q-title">18. Compare and analyze different image traversal methods with respect to their processing efficiency.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q18', 7)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Processing efficiency of image traversal depends on two interacting factors: the <strong>order</strong> in which pixels are visited (which determines how well the access pattern exploits the CPU cache hierarchy), and the <strong>method of access</strong> the program uses to read or write each pixel (which determines the per-pixel overhead). Choosing the right combination can make the difference between an algorithm that runs in real time and one that is unusably slow.</p>
+<h3>1. Effect of traversal order</h3>
+<p>A <code>Mat</code> stores its pixel data row after row in contiguous memory. Visiting pixels in <strong>raster (row-major) order</strong> therefore reads consecutive memory addresses, which makes full use of the CPU cache — when a cache line of 64 bytes is loaded, every byte in it is used before the next load. Visiting by columns, in contrast, jumps one whole row (<code>step[0]</code> bytes) between neighbouring accesses, causing frequent cache misses and making the traversal several times slower on large images.</p>
+
+<p><strong>Boustrophedon</strong> order alternates direction on each row. Its cache behaviour is nearly identical to raster because it still accesses within the same row, but it avoids the long repositioning jump at the end of each line, which benefits hardware like print heads and robotic scanners. <strong>Z-order and Hilbert space-filling curves</strong> keep both horizontal and vertical neighbours close in the linear address sequence, which improves locality for block-based GPU processing and database tiling. Hilbert curves have no large jumps at all but require more index arithmetic. <strong>Zigzag diagonal scanning</strong> is designed for JPEG compression efficiency rather than raw speed. Region-based traversals such as flood fill and contour tracing depend on image content, so their running time is data-dependent and hard to predict in advance.</p>
+<h3>2. Effect of access method in OpenCV</h3>
+<table>
+  <tr><th>Method</th><th>How it works</th><th>Efficiency</th></tr>
+  <tr><td>Pointer <code>ptr&lt;&gt;(row)</code></td><td>Direct pointer to the start of each row</td><td>Fastest manual loop</td></tr>
+  <tr><td>Iterator</td><td>Safe, index-free loop over all pixels</td><td>Close to pointer; simpler and safer</td></tr>
+  <tr><td><code>at&lt;&gt;(y, x)</code></td><td>Address computed on every access (with debug checks)</td><td>Slowest of the three; easy to write</td></tr>
+  <tr><td><code>cv::LUT</code></td><td>Precomputed 256-entry table, optimised internally</td><td>Fastest for point operations</td></tr>
+  <tr><td>Python <code>for</code> loops</td><td>Interpreter executes each pixel step</td><td>Very slow (tens to hundreds of times)</td></tr>
+  <tr><td>NumPy / OpenCV vector functions</td><td>Whole-array operation in compiled code</td><td>Best choice in Python</td></tr>
+</table>
+<div class="svg-wrap">
+<svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a18" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="64" y1="26" x2="64" y2="204" stroke="var(--text-muted)" stroke-width="1"/><line x1="64" y1="204" x2="624" y2="204" stroke="var(--text-muted)" stroke-width="1"/><text x="58" y="207.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><line x1="64" y1="159.5" x2="624" y2="159.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="163.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">27.5</text><line x1="64" y1="115.0" x2="624" y2="115.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="118.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">55</text><line x1="64" y1="70.5" x2="624" y2="70.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="74.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">82.5</text><line x1="64" y1="26.0" x2="624" y2="26.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="29.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">110</text><rect x="99.0" y="75.4" width="70.0" height="128.6" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="134.0" y="69.4" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">79.5</text><text x="134.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">C pointer [ ]</text><rect x="239.0" y="68.6" width="70.0" height="135.4" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="274.0" y="62.6" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">83.7</text><text x="274.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">iterator</text><rect x="379.0" y="52.2" width="70.0" height="151.8" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="414.0" y="46.2" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">93.8</text><text x="414.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">at() on the fly</text><rect x="519.0" y="151.2" width="70.0" height="52.8" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="554.0" y="145.2" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">32.6</text><text x="554.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">LUT function</text><text transform="rotate(-90 14 115.0)" x="14" y="115.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">time (ms)</text></svg>
+</div>
+<p class="source-note">Timings are the figures reported in the OpenCV &ldquo;How to scan images&rdquo; tutorial for reducing the colours of a large image; exact values differ from machine to machine, but the order of the methods is typical.</p>
+<p><strong>Conclusion.</strong> For best efficiency: visit memory in row-major order to maximise cache hits, avoid per-pixel function-call overhead by using pointers or iterators in C++, use a LUT for any per-value transformation since it replaces repeated floating-point computation with a single table read, and never write pixel-level for-loops in Python — always use NumPy vectorised operations or OpenCV built-in functions that execute the loop in compiled C/C++ code. When even these are not fast enough, GPU acceleration through CUDA or OpenCL can process all pixels in parallel, achieving orders-of-magnitude speedup for large images.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q19 -->
+  <div class="tab-content" id="tab-8">
+    <div class="question-block" data-qid="cv-u2-q19">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q19', 8)" aria-label="Mark as done"></button>
+        <h2 class="q-title">19. An image looks satisfactory in the spatial domain but contains unwanted periodic patterns. Analyze why frequency-domain processing using DFT may be more appropriate.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q19', 8)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>An image can look acceptable overall yet contain a regular repeating pattern such as horizontal stripes, a fine mesh or diagonal scan lines. Such patterns commonly arise when scanning a printed halftone photograph, from electromagnetic interference in a sensor, from aliasing in under-sampled video, or from mechanical vibration in the camera. This is called <strong>periodic noise</strong>, and it is one of the few noise types that is fundamentally easier to handle in the frequency domain than in the spatial domain. The key reason is that a periodic pattern, by definition, has a well-defined frequency and direction, which maps to a compact, identifiable signature in the DFT spectrum.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 580 180" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a19" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="20" y="10" width="140" height="140" rx="6" fill="var(--surface)" stroke="var(--text-muted)"/><line x1="20" y1="22" x2="160" y2="22" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="37" x2="160" y2="37" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="52" x2="160" y2="52" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="67" x2="160" y2="67" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="82" x2="160" y2="82" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="97" x2="160" y2="97" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="112" x2="160" y2="112" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="127" x2="160" y2="127" stroke="var(--text-dim)" stroke-width="3"/><line x1="20" y1="142" x2="160" y2="142" stroke="var(--text-dim)" stroke-width="3"/><text x="90" y="168" text-anchor="middle" fill="var(--text-muted)" font-size="10">spatial: image + stripes</text><line x1="168" y1="80" x2="214" y2="80" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a19)"/><text x="191" y="70" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">DFT</text><rect x="220" y="10" width="140" height="140" rx="6" fill="var(--surface)" stroke="var(--text-muted)"/><circle cx="290" cy="80" r="14" fill="var(--accent)" fill-opacity="0.35"/><circle cx="290" cy="38" r="5" fill="var(--warning)"/><circle cx="290" cy="38" r="10" fill="none" stroke="var(--warning)" stroke-dasharray="3 2"/><circle cx="290" cy="122" r="5" fill="var(--warning)"/><circle cx="290" cy="122" r="10" fill="none" stroke="var(--warning)" stroke-dasharray="3 2"/><text x="290" y="168" text-anchor="middle" fill="var(--text-muted)" font-size="10">spectrum: 2 bright spikes = stripes</text><line x1="368" y1="80" x2="414" y2="80" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a19)"/><text x="391" y="70" text-anchor="middle" fill="var(--text-muted)" font-size="9">notch + IDFT</text><rect x="420" y="10" width="140" height="140" rx="6" fill="var(--surface)" stroke="var(--success)"/><text x="490" y="84" text-anchor="middle" fill="var(--text)" font-size="11">clean image</text><text x="490" y="168" text-anchor="middle" fill="var(--text-muted)" font-size="10">stripes gone, detail kept</text></svg>
+</div>
+<ul>
+  <li><strong>The pattern is concentrated in the spectrum.</strong> A regular pattern repeats with one fixed frequency and direction, so in the DFT it appears as a few isolated bright spikes (symmetric around the centre), while in the spatial domain it is spread over the whole image and mixed with real detail.</li>
+  <li><strong>Spatial filters cannot separate it from detail.</strong> A blur or median filter reduces noise by averaging neighbouring pixels, which also removes real edges and texture; it would soften the picture and may still leave the stripes visible. A mask small enough to keep detail does not remove a low-frequency pattern.</li>
+  <li><strong>A notch filter targets only the noise.</strong> In the frequency domain the spikes can be located and set to zero (or masked by small notches) while all other frequencies stay unchanged. The inverse DFT then returns the image without the pattern and with its sharpness preserved.</li>
+  <li><strong>Control and efficiency.</strong> The cut-off, notch size and smoothness are easy to tune, and filtering becomes a simple multiplication by a mask, which is fast when the FFT is used (large spatial kernels would be slow).</li>
+</ul>
+<p><strong>Procedure:</strong> compute the DFT and shift it so low frequencies are centred &rarr; display the log-magnitude spectrum to make the spikes visible &rarr; identify the isolated bright spikes (ignoring the central DC component, which represents overall average brightness) &rarr; multiply by a mask that is 0 at and around each spike and 1 everywhere else (using a Gaussian taper rather than a hard circle avoids ringing artefacts) &rarr; undo the shift and apply the inverse DFT to recover the cleaned image.</p>
+
+<p>In summary, periodic noise is simple and concentrated in the frequency domain — just a few spikes — but complex and spread everywhere in the spatial domain. Frequency-domain filtering can surgically remove those spikes without touching anything else, while spatial filtering would inevitably blur or distort the image content along with the noise. This makes DFT-based processing the standard approach for periodic noise removal in fields such as document scanning, satellite imaging and industrial inspection.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q20 -->
+  <div class="tab-content" id="tab-9">
+    <div class="question-block" data-qid="cv-u2-q20">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u2-q20', 9)" aria-label="Mark as done"></button>
+        <h2 class="q-title">20. Evaluate the suitability of XML and YAML for storing and retrieving configuration data in OpenCV applications. Justify your choice.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u2-q20', 9)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Computer vision applications routinely produce and consume non-image data: camera intrinsic and extrinsic matrices from calibration, trained classifier parameters, detection thresholds, region-of-interest coordinates and file paths. This data must be stored persistently so that a pipeline configured once can be reloaded without re-running expensive calibration or training steps. OpenCV&rsquo;s <code>FileStorage</code> class provides a unified API for reading and writing such data in <strong>XML</strong>, <strong>YAML</strong> and JSON formats. The format is selected entirely by the file extension (<code>.xml</code>, <code>.yml</code>/<code>.yaml</code>, <code>.json</code>), and the same code works unchanged regardless of which format is chosen. Both XML and YAML are human-readable, hierarchical, cross-platform and natively support <code>Mat</code> objects, scalars, strings and sequences.</p>
+<pre><code>import cv2, numpy as np
+
+fs = cv2.FileStorage("config.yml", cv2.FILE_STORAGE_WRITE)  # open for writing; extension chooses YAML (use .xml for XML)
+fs.write("camera_matrix", np.eye(3))                        # store a Mat/array under a key
+fs.write("threshold", 127)                                  # store a number
+fs.write("model_name", "face_v1")                           # store a string
+fs.release()                                                # always close: flushes data to disk
+
+fs = cv2.FileStorage("config.yml", cv2.FILE_STORAGE_READ)   # open for reading
+K = fs.getNode("camera_matrix").mat()                       # read back the matrix
+t = int(fs.getNode("threshold").real())                     # numbers come back as nodes: convert them
+fs.release()</code></pre>
+<table>
+  <tr><th>Aspect</th><th>XML</th><th>YAML</th></tr>
+  <tr><td>Structure</td><td>Opening and closing tags, attributes</td><td>Indentation and key&ndash;value pairs</td></tr>
+  <tr><td>Readability / editing</td><td>Verbose; harder to read and edit by hand</td><td>Short and clean; easy to read and edit</td></tr>
+  <tr><td>File size</td><td>Larger because of repeated tag names</td><td>Smaller</td></tr>
+  <tr><td>Strengths</td><td>Strict, widely supported in enterprise tools and standards; can use schemas for validation; OpenCV&rsquo;s own cascade and legacy model files are XML</td><td>Natural for configuration; supports comments; standard in Docker, Kubernetes and ML hyper-parameter files</td></tr>
+  <tr><td>Weaknesses</td><td>Cluttered for simple settings</td><td>Indentation errors can change meaning; fewer validation tools</td></tr>
+</table>
+<h3>Evaluation and choice</h3>
+<p>Since the OpenCV API is identical for both formats, the decision comes down to the people and tools that will interact with the file. For <strong>configuration data</strong> of an OpenCV application — thresholds, paths, camera parameters, calibration results — <strong>YAML</strong> is the stronger choice: it is concise, easy for developers to read and edit by hand without any special tooling, supports inline comments for documenting parameter choices, and is the de facto standard for configuration in modern DevOps and ML workflows (Docker Compose, Kubernetes, hyperparameter files). Its compactness also means smaller file sizes and faster version-control diffs.</p>
+
+<p><strong>XML</strong> is the better choice when the configuration must be exchanged with enterprise systems that require strict structure or XML Schema (XSD) validation, when interoperating with legacy systems that consume XML exclusively, or when working with existing OpenCV XML files such as pre-trained Haar cascade classifiers. XML&rsquo;s verbosity is a drawback for human editing but a benefit for machine validation. In both cases data is saved by <code>write</code> and restored by <code>getNode</code>, so the format can be switched later by simply changing the file extension — no code changes required.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(i) {
+  document.querySelectorAll('.tab-content').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === i);
+  });
+}
+function toggleDone(qid, tabIdx) {
+  const block = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const isDone = block.classList.toggle('q-done');
+  const btn = document.querySelectorAll('.tab-btn')[tabIdx];
+  btn.classList.toggle('done', isDone);
+  try { localStorage.setItem('done-' + qid, isDone ? '1' : ''); } catch (e) {}
+}
+document.querySelectorAll('.question-block').forEach((block, idx) => {
+  let saved = false;
+  try { saved = !!localStorage.getItem('done-' + block.dataset.qid); } catch (e) {}
+  if (saved) {
+    block.classList.add('q-done');
+    const btn = document.querySelectorAll('.tab-btn')[idx];
+    if (btn) btn.classList.add('done');
+  }
+});
+function toggleSkip(qid, tabIdx) {
+  const blocks = document.querySelectorAll('.question-block');
+  const btns = document.querySelectorAll('.tab-btn');
+  const target = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const wasSkipped = target.classList.contains('q-skipped');
+  blocks.forEach((b, i) => { b.classList.remove('q-skipped'); if (btns[i]) btns[i].classList.remove('skipped'); });
+  try { localStorage.removeItem('skip:' + location.pathname); } catch (e) {}
+  if (!wasSkipped) {
+    target.classList.add('q-skipped');
+    btns[tabIdx].classList.add('skipped');
+    try { localStorage.setItem('skip:' + location.pathname, qid); } catch (e) {}
+  }
+}
+(function () {
+  let saved = null;
+  try { saved = localStorage.getItem('skip:' + location.pathname); } catch (e) {}
+  if (!saved) return;
+  document.querySelectorAll('.question-block').forEach((b, i) => {
+    if (b.dataset.qid === saved) {
+      b.classList.add('q-skipped');
+      const btn = document.querySelectorAll('.tab-btn')[i];
+      if (btn) btn.classList.add('skipped');
+    }
+  });
+})();
+showTab(0);
+</script>
+</body>
+</html>

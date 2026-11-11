@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit I — OpenCV Basics & Image Representation | Computer Vision</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav class="unit-nav">
+    <span class="nav-title">Unit I: OpenCV Basics &amp; Image Representation</span>
+    <a href="unit2.html" class="nav-next">Unit II →</a>
+    <a href="index.html" class="nav-home">Home</a>
+  </nav>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" onclick="showTab(0)">Q1</button>
+    <button class="tab-btn" onclick="showTab(1)">Q2</button>
+    <button class="tab-btn" onclick="showTab(2)">Q3</button>
+    <button class="tab-btn" onclick="showTab(3)">Q4</button>
+    <button class="tab-btn" onclick="showTab(4)">Q5</button>
+    <button class="tab-btn" onclick="showTab(5)">Q6</button>
+    <button class="tab-btn" onclick="showTab(6)">Q7</button>
+    <button class="tab-btn" onclick="showTab(7)">Q8</button>
+    <button class="tab-btn" onclick="showTab(8)">Q9</button>
+    <button class="tab-btn" onclick="showTab(9)">Q10</button>
+  </div>
+
+  <!-- Q1 -->
+  <div class="tab-content" id="tab-0">
+    <div class="question-block" data-qid="cv-u1-q1">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q1', 0)" aria-label="Mark as done"></button>
+        <h2 class="q-title">1. Define computer vision and list its major application areas.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q1', 0)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Computer vision (CV)</strong> is the branch of artificial intelligence that enables computers to <em>acquire, process, analyse and understand</em> digital images and videos so that they can extract meaningful information and act on it. In simple words, it teaches a machine to &ldquo;see&rdquo;: given an array of pixel values, the system must decide what is in the scene, where it is, and what it is doing. Image processing transforms an image into another image (denoise, sharpen); computer vision goes further and produces <em>understanding</em> (a label, a position, a measurement).</p>
+<h3>Typical computer-vision pipeline</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 557 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="82.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="51.25" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Image</text><text x="51.25" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">acquisition</text><line x1="94.5" y1="37.0" x2="120.5" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a1)"/><rect x="122.5" y="14" width="77.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="161.0" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Pre-</text><text x="161.0" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">processing</text><line x1="201.5" y1="37.0" x2="227.5" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a1)"/><rect x="229.5" y="14" width="77.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="268.0" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Feature</text><text x="268.0" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">extraction</text><line x1="308.5" y1="37.0" x2="334.5" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a1)"/><rect x="336.5" y="14" width="85.25" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="379.125" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Analysis /</text><text x="379.125" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">recognition</text><line x1="423.75" y1="37.0" x2="449.75" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a1)"/><rect x="451.75" y="14" width="85.25" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="494.375" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Decision /</text><text x="494.375" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">action</text></svg>
+</div>
+<h3>Major application areas</h3>
+<ul>
+  <li><strong>Healthcare:</strong> tumour and fracture detection in X-ray, CT and MRI, cell counting, retinal screening.</li>
+  <li><strong>Autonomous vehicles and robotics:</strong> lane, pedestrian, vehicle and traffic-sign detection, obstacle avoidance, visual navigation.</li>
+  <li><strong>Security and surveillance:</strong> face recognition, intrusion detection, number-plate recognition, crowd monitoring.</li>
+  <li><strong>Industry:</strong> defect inspection on production lines, barcode reading, measurement and sorting.</li>
+  <li><strong>Agriculture and remote sensing:</strong> crop disease detection, yield estimation, land-use mapping from satellite images.</li>
+  <li><strong>Retail and documents:</strong> product recognition, cashier-less stores, OCR and document scanning.</li>
+  <li><strong>Augmented and virtual reality, entertainment:</strong> marker tracking, face filters, motion capture, photo enhancement.</li>
+</ul>
+<p>Common tasks behind these applications are classification, object detection, segmentation, tracking, 3D reconstruction and image matching. Libraries such as OpenCV supply the building blocks for all of them, enabling rapid prototyping and deployment of vision systems across platforms.</p>
+
+<h3>Relationship with other AI fields</h3>
+<p>Computer vision overlaps with <strong>natural language processing</strong> in tasks such as image captioning and visual question answering, where a model must both see the image and generate language. It intersects with <strong>robotics</strong> through visual navigation and grasping, and with <strong>signal processing</strong> through the filtering and frequency-domain techniques that underpin many pre-processing steps. Modern multimodal models like CLIP and GPT-4V demonstrate that vision and language are converging into unified architectures.</p>
+
+<h3>Core tasks of computer vision</h3>
+<p>Most applications are built from a few basic tasks: <strong>image classification</strong> (what is in the image), <strong>object detection</strong> (what and where), <strong>segmentation</strong> (which pixels belong to which object), <strong>tracking</strong> (following an object through video), <strong>3D reconstruction and pose estimation</strong> (depth and position), and <strong>recognition</strong> (identifying a particular face, character or gesture).</p>
+<h3>Computer vision and related fields</h3>
+<p><em>Image processing</em> takes an image and produces another image (denoising, sharpening); <em>computer vision</em> takes an image and produces an understanding (labels, positions, measurements). Image processing is therefore usually the first stage inside a computer-vision system. Computer vision is also a part of artificial intelligence, since modern systems learn from data using machine learning and deep learning.</p>
+<h3>Why it is difficult</h3>
+<p>The same object looks different under changes in lighting, viewpoint, scale, occlusion and background clutter, and an image is only a 2D projection of a 3D world; a vision system must work correctly in spite of all these variations.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="tab-content" id="tab-1">
+    <div class="question-block" data-qid="cv-u1-q2">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q2', 1)" aria-label="Mark as done"></button>
+        <h2 class="q-title">2. State the role of OpenCV in computer vision and identify its major features.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q2', 1)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>OpenCV (Open Source Computer Vision Library)</strong> is a free, open-source library (Apache 2.0 licence) of more than 2500 optimised algorithms for computer vision and machine learning. It is written in C++ with bindings for Python, Java and others, and runs on Windows, Linux, macOS, Android and iOS. Its role is to provide ready-made, fast building blocks so that a developer does not have to implement image reading, filtering, feature detection or camera calibration from scratch, and can move quickly from an idea to a working real-time application.</p>
+<h3>Major features</h3>
+<ul>
+  <li><strong>Image and video I/O:</strong> read, write and display images, files, webcams and streams (<code>imread</code>, <code>VideoCapture</code>).</li>
+  <li><strong>Core data structures:</strong> the <code>Mat</code> class, which stores images as N-dimensional arrays, plus basic array maths.</li>
+  <li><strong>Image processing:</strong> colour conversion, resizing, filtering, morphology, thresholding, edge detection, histograms.</li>
+  <li><strong>Feature detection and matching:</strong> Harris, Shi-Tomasi, SIFT, ORB, FLANN matching, homography.</li>
+  <li><strong>Object detection:</strong> Haar/LBP cascade classifiers, HOG, and the <code>dnn</code> module to run deep networks (YOLO, SSD) from ONNX or Caffe.</li>
+  <li><strong>Video analysis:</strong> optical flow, background subtraction, object tracking.</li>
+  <li><strong>3D vision:</strong> camera calibration, stereo, pose estimation, undistortion.</li>
+  <li><strong>Machine learning:</strong> SVM, k-NN, decision trees, k-means.</li>
+  <li><strong>Performance:</strong> optimised C++, SIMD instructions, multithreading, OpenCL and CUDA acceleration.</li>
+</ul>
+<p>The library is organised in modules, as the figure shows. Higher layers (detection, matching, calibration) are built on the processing layer, which in turn rests on the core data structures and the hardware. This layered design means a developer can mix high-level convenience functions with low-level pixel manipulation in the same application, choosing the right level of abstraction for each part of the pipeline.</p>
+
+<h3>Community and ecosystem</h3>
+<p>OpenCV has a vast community of contributors and a rich ecosystem of tutorials, sample code and pre-trained models. It integrates smoothly with NumPy, Matplotlib and deep-learning frameworks such as TensorFlow and PyTorch through its <code>dnn</code> module, which can load models in ONNX, Caffe and TensorFlow formats. This interoperability makes it a bridge between classical vision techniques and modern deep-learning approaches.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 660 274" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="6" y="8" width="118" height="40" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="65.0" y="32.0" text-anchor="middle" fill="var(--text)" font-size="10.5">Application layer</text><rect x="132.0" y="8" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="193.75" y="32.0" text-anchor="middle" fill="var(--text)" font-size="10">Face / object detection</text><rect x="263.5" y="8" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="325.25" y="32.0" text-anchor="middle" fill="var(--text)" font-size="10">Tracking</text><rect x="395.0" y="8" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="456.75" y="32.0" text-anchor="middle" fill="var(--text)" font-size="10">Panorama</text><rect x="526.5" y="8" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="588.25" y="32.0" text-anchor="middle" fill="var(--text)" font-size="10">AR / robotics</text><line x1="370.0" y1="48" x2="370.0" y2="62" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a2)"/><rect x="6" y="62" width="118" height="40" rx="6" fill="var(--surface2)" stroke="var(--success)"/><text x="65.0" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10.5">High-level modules</text><rect x="132.0" y="62" width="97.2" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="180.6" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10">objdetect</text><rect x="237.2" y="62" width="97.2" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="285.8" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10">features2d</text><rect x="342.4" y="62" width="97.2" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="391.0" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10">calib3d</text><rect x="447.6" y="62" width="97.2" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="496.20000000000005" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10">dnn</text><rect x="552.8" y="62" width="97.2" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="601.4" y="86.0" text-anchor="middle" fill="var(--text)" font-size="10">ml</text><line x1="370.0" y1="102" x2="370.0" y2="116" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a2)"/><rect x="6" y="116" width="118" height="40" rx="6" fill="var(--surface2)" stroke="var(--warning)"/><text x="65.0" y="140.0" text-anchor="middle" fill="var(--text)" font-size="10.5">Processing modules</text><rect x="132.0" y="116" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="193.75" y="140.0" text-anchor="middle" fill="var(--text)" font-size="10">imgproc</text><rect x="263.5" y="116" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="325.25" y="140.0" text-anchor="middle" fill="var(--text)" font-size="10">video</text><rect x="395.0" y="116" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="456.75" y="140.0" text-anchor="middle" fill="var(--text)" font-size="10">photo</text><rect x="526.5" y="116" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="588.25" y="140.0" text-anchor="middle" fill="var(--text)" font-size="10">stitching</text><line x1="370.0" y1="156" x2="370.0" y2="170" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a2)"/><rect x="6" y="170" width="118" height="40" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><text x="65.0" y="194.0" text-anchor="middle" fill="var(--text)" font-size="10.5">Core modules</text><rect x="132.0" y="170" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="193.75" y="194.0" text-anchor="middle" fill="var(--text)" font-size="10">core (Mat, math)</text><rect x="263.5" y="170" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="325.25" y="194.0" text-anchor="middle" fill="var(--text)" font-size="10">imgcodecs</text><rect x="395.0" y="170" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="456.75" y="194.0" text-anchor="middle" fill="var(--text)" font-size="10">videoio</text><rect x="526.5" y="170" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="588.25" y="194.0" text-anchor="middle" fill="var(--text)" font-size="10">highgui</text><line x1="370.0" y1="210" x2="370.0" y2="224" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a2)"/><rect x="6" y="224" width="118" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="65.0" y="248.0" text-anchor="middle" fill="var(--text)" font-size="10.5">Hardware</text><rect x="132.0" y="224" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="193.75" y="248.0" text-anchor="middle" fill="var(--text)" font-size="10">CPU + SIMD</text><rect x="263.5" y="224" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="325.25" y="248.0" text-anchor="middle" fill="var(--text)" font-size="10">OpenCL</text><rect x="395.0" y="224" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="456.75" y="248.0" text-anchor="middle" fill="var(--text)" font-size="10">CUDA GPU</text><rect x="526.5" y="224" width="123.5" height="40" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="588.25" y="248.0" text-anchor="middle" fill="var(--text)" font-size="10">Cross-platform</text></svg>
+</div>
+
+<h3>Why OpenCV is the standard choice</h3>
+<ul>
+  <li><strong>Free and open source</strong> (BSD licence), so it can be used in academic and commercial projects.</li>
+  <li><strong>Multiple languages:</strong> C++ (core), Python, Java and others, so prototypes are quick and production code is fast.</li>
+  <li><strong>Cross-platform:</strong> Windows, Linux, macOS, Android and iOS.</li>
+  <li><strong>Optimised:</strong> highly tuned C++ with SIMD, multi-threading, OpenCL and CUDA support, which makes real-time use possible.</li>
+  <li><strong>Large community and documentation</strong>, with many examples and tutorials.</li>
+</ul>
+<h3>Major modules</h3>
+<p><code>core</code> (the Mat structure and basic operations), <code>imgproc</code> (filtering, thresholding, morphology, geometric transforms), <code>imgcodecs</code> and <code>highgui</code> (reading, writing and displaying images), <code>videoio</code> and <code>video</code> (camera access, tracking, optical flow), <code>calib3d</code> (calibration and 3D), <code>features2d</code> (keypoints and matching), <code>objdetect</code> (cascade classifiers), <code>dnn</code> (running trained deep networks) and <code>ml</code> (SVM, k-NN and other classic machine learning).</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="tab-content" id="tab-2">
+    <div class="question-block" data-qid="cv-u1-q3">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q3', 2)" aria-label="Mark as done"></button>
+        <h2 class="q-title">3. Explain the historical development of computer vision with a neat graph showing its major milestones.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q3', 2)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Computer vision grew out of the wish to give machines human-like sight. Its history can be read as three eras: early geometry-based work, the feature-engineering era, and the current deep-learning era.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 680 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="40" y1="100" x2="640" y2="100" stroke="var(--text-muted)" stroke-width="2"/><line x1="82.85714285714286" y1="96" x2="82.85714285714286" y2="104" stroke="var(--text-muted)" stroke-width="1"/><text x="82.85714285714286" y="116" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">1960</text><line x1="254.28571428571428" y1="96" x2="254.28571428571428" y2="104" stroke="var(--text-muted)" stroke-width="1"/><text x="254.28571428571428" y="116" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">1980</text><line x1="425.7142857142857" y1="96" x2="425.7142857142857" y2="104" stroke="var(--text-muted)" stroke-width="1"/><text x="425.7142857142857" y="116" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">2000</text><line x1="597.1428571428571" y1="96" x2="597.1428571428571" y2="104" stroke="var(--text-muted)" stroke-width="1"/><text x="597.1428571428571" y="116" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">2020</text><circle cx="74.3" cy="100" r="4" fill="var(--accent)"/><line x1="74.3" y1="104" x2="74.3" y2="134" stroke="var(--border)" stroke-width="1"/><text x="74.3" y="146" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Hubel &amp; Wiesel</text><text x="74.3" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">visual cortex</text><circle cx="108.6" cy="100" r="4" fill="var(--accent)"/><line x1="108.6" y1="96" x2="108.6" y2="72" stroke="var(--border)" stroke-width="1"/><text x="108.6" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Roberts</text><text x="108.6" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">3D from 2D</text><circle cx="271.4" cy="100" r="4" fill="var(--accent)"/><line x1="271.4" y1="96" x2="271.4" y2="72" stroke="var(--border)" stroke-width="1"/><text x="271.4" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Marr</text><text x="271.4" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">vision theory</text><circle cx="305.7" cy="100" r="4" fill="var(--accent)"/><line x1="305.7" y1="104" x2="305.7" y2="134" stroke="var(--border)" stroke-width="1"/><text x="305.7" y="146" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Canny</text><text x="305.7" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">edge detector</text><circle cx="322.9" cy="100" r="4" fill="var(--accent)"/><line x1="322.9" y1="96" x2="322.9" y2="72" stroke="var(--border)" stroke-width="1"/><text x="322.9" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Harris</text><text x="322.9" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">corners</text><circle cx="417.1" cy="100" r="4" fill="var(--accent)"/><line x1="417.1" y1="104" x2="417.1" y2="134" stroke="var(--border)" stroke-width="1"/><text x="417.1" y="146" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">SIFT</text><text x="417.1" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">Lowe</text><circle cx="434.3" cy="100" r="4" fill="var(--accent)"/><line x1="434.3" y1="96" x2="434.3" y2="72" stroke="var(--border)" stroke-width="1"/><text x="434.3" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">Viola-Jones</text><text x="434.3" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">face detector</text><circle cx="468.6" cy="100" r="4" fill="var(--accent)"/><line x1="468.6" y1="104" x2="468.6" y2="134" stroke="var(--border)" stroke-width="1"/><text x="468.6" y="146" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">HOG</text><text x="468.6" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">pedestrians</text><circle cx="528.6" cy="100" r="4" fill="var(--accent)"/><line x1="528.6" y1="96" x2="528.6" y2="72" stroke="var(--border)" stroke-width="1"/><text x="528.6" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">AlexNet</text><text x="528.6" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">deep CNN</text><circle cx="554.3" cy="100" r="4" fill="var(--accent)"/><line x1="554.3" y1="104" x2="554.3" y2="134" stroke="var(--border)" stroke-width="1"/><text x="554.3" y="146" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">ResNet /</text><text x="554.3" y="158" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">YOLO</text><circle cx="605.7" cy="100" r="4" fill="var(--accent)"/><line x1="605.7" y1="96" x2="605.7" y2="72" stroke="var(--border)" stroke-width="1"/><text x="605.7" y="46" text-anchor="middle" fill="var(--text)" font-size="9.5" font-weight="600">ViT /</text><text x="605.7" y="58" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">CLIP</text><rect x="40.0" y="170" width="214.28571428571428" height="18" rx="6" fill="var(--surface2)" stroke="var(--text-dim)"/><text x="147.14285714285714" y="183.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Early era: geometry</text><rect x="254.28571428571428" y="170" width="257.14285714285717" height="18" rx="6" fill="var(--surface2)" stroke="var(--text-dim)"/><text x="382.8571428571429" y="183.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Feature-engineering era</text><rect x="511.42857142857144" y="170" width="128.57142857142856" height="18" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="575.7142857142858" y="183.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Deep learning</text></svg>
+</div>
+<h3>Major milestones</h3>
+<ul>
+  <li><strong>1959:</strong> Hubel and Wiesel discover edge-sensitive neurons in the cat visual cortex, inspiring hierarchical feature detection.</li>
+  <li><strong>1963:</strong> Larry Roberts&rsquo; thesis recovers 3D block shapes from 2D images; <strong>1966:</strong> the MIT Summer Vision Project optimistically tries to solve &ldquo;vision&rdquo; in one summer and shows how hard it is.</li>
+  <li><strong>1970s&ndash;80s:</strong> David Marr proposes a staged theory of vision (primal sketch &rarr; 2.5D sketch &rarr; 3D model); Fukushima&rsquo;s Neocognitron (1980) anticipates CNNs; Canny (1986) and Harris (1988) give the standard edge and corner detectors.</li>
+  <li><strong>1989:</strong> LeCun trains a convolutional network to read handwritten zip-code digits.</li>
+  <li><strong>1999&ndash;2005:</strong> SIFT (Lowe) for scale-invariant features, Viola&ndash;Jones (2001) for real-time face detection, HOG (2005) for pedestrian detection. OpenCV is released by Intel in 2000.</li>
+  <li><strong>2009&ndash;2012:</strong> the ImageNet dataset (2009) and AlexNet (2012) show that deep CNNs trained on GPUs beat all hand-crafted methods.</li>
+  <li><strong>2014&ndash;2016:</strong> VGG, GoogLeNet, ResNet; R-CNN family and YOLO bring accurate real-time object detection.</li>
+  <li><strong>2020s:</strong> Vision Transformers (ViT), CLIP and large multimodal models connect vision with language.</li>
+</ul>
+<h3>Graph: effect of deep learning on image recognition</h3>
+<p>The graph shows the winning top-5 error of the ImageNet (ILSVRC) classification challenge. The sharp drop in 2012, when AlexNet replaced hand-crafted features, and the fall below the commonly quoted human error of about 5% by 2015 mark the turning point of the field.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a33" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="56" y1="22" x2="56" y2="210" stroke="var(--text-muted)" stroke-width="1"/><line x1="56" y1="210" x2="620" y2="210" stroke="var(--text-muted)" stroke-width="1"/><text x="50" y="213.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><text x="50" y="154.75" text-anchor="end" fill="var(--text-muted)" font-size="9.5">10</text><line x1="56" y1="151.25" x2="620" y2="151.25" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="50" y="96.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">20</text><line x1="56" y1="92.5" x2="620" y2="92.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="50" y="37.25" text-anchor="end" fill="var(--text-muted)" font-size="9.5">30</text><line x1="56" y1="33.75" x2="620" y2="33.75" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><line x1="56" y1="180.0375" x2="620" y2="180.0375" stroke="var(--warning)" stroke-width="1.2" stroke-dasharray="6 4"/><text x="64" y="175.0375" text-anchor="start" fill="var(--warning)" font-size="9.5">human ≈ 5.1%</text><polyline points="103.0,44.3 197.0,58.4 291.0,113.7 385.0,141.3 479.0,170.6 573.0,188.8" fill="none" stroke="var(--accent)" stroke-width="2.2"/><circle cx="103.0" cy="44.3" r="4" fill="var(--accent)"/><text x="103.0" y="35.3" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">28.2%</text><text x="103.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2010</text><text x="103.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">hand-crafted</text><circle cx="197.0" cy="58.4" r="4" fill="var(--accent)"/><text x="197.0" y="49.4" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">25.8%</text><text x="197.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2011</text><text x="197.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">hand-crafted</text><circle cx="291.0" cy="113.7" r="4" fill="var(--accent)"/><text x="291.0" y="104.7" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">16.4%</text><text x="291.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2012</text><text x="291.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">AlexNet</text><circle cx="385.0" cy="141.3" r="4" fill="var(--accent)"/><text x="385.0" y="132.3" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">11.7%</text><text x="385.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2013</text><text x="385.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">ZFNet</text><circle cx="479.0" cy="170.6" r="4" fill="var(--accent)"/><text x="479.0" y="161.6" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">6.7%</text><text x="479.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2014</text><text x="479.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">GoogLeNet</text><circle cx="573.0" cy="188.8" r="4" fill="var(--accent)"/><text x="573.0" y="179.8" text-anchor="middle" fill="var(--text)" font-size="10" font-weight="600">3.6%</text><text x="573.0" y="224" text-anchor="middle" fill="var(--text)" font-size="10">2015</text><text x="573.0" y="237" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">ResNet</text><text transform="rotate(-90 14 116.0)" x="14" y="116.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">top-5 error (%)</text></svg>
+</div>
+
+<h3>Explanation of the milestones</h3>
+<ul>
+  <li><strong>1960s&ndash;70s, beginnings:</strong> early work extracted simple 3D shapes and edges from images (block-world, edge detection), and the first digital image processing methods appeared. Computers were slow and data was scarce.</li>
+  <li><strong>1980s, mathematical foundations:</strong> edge detection (Canny), optical flow, stereo vision and the study of how the visual system builds a 3D description.</li>
+  <li><strong>1990s&ndash;2000s, feature and learning era:</strong> hand-designed features (corners, SIFT, HOG) combined with classifiers such as SVMs; the Viola-Jones face detector gave the first practical real-time detection; OpenCV was released.</li>
+  <li><strong>2012, deep learning:</strong> AlexNet reduced the ImageNet top-5 error sharply and started the switch from hand-crafted features to features learned by CNNs; error kept falling until it passed the human level (about 5%).</li>
+  <li><strong>Today:</strong> deep detectors (YOLO), segmentation networks, vision transformers and multimodal models, running in real time on GPUs and mobile devices.</li>
+</ul>
+<p>The graph shows how fast progress became once large datasets, GPUs and deep networks came together. This convergence, sometimes called the &ldquo;deep learning revolution,&rdquo; not only improved accuracy but also enabled real-time inference on edge devices, opening up consumer applications such as smartphone face unlock and drone navigation that were previously impractical.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="tab-content" id="tab-3">
+    <div class="question-block" data-qid="cv-u1-q4">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q4', 3)" aria-label="Mark as done"></button>
+        <h2 class="q-title">4. Describe the procedure for installing and configuring OpenCV on Windows and explain the purpose of each major step.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q4', 3)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>OpenCV can be installed on Windows in two common ways: the quick <strong>Python route</strong> (a prebuilt package) or the <strong>C++ route</strong> (the official binaries linked into Visual Studio).</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 455 170" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><text x="10" y="16" text-anchor="start" fill="var(--accent)" font-size="10.5" font-weight="600">Route A: Python</text><rect x="10" y="24" width="66.275" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="43.1375" y="46.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Install</text><text x="43.1375" y="60.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Python</text><line x1="78.275" y1="47.0" x2="104.275" y2="47.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a4)"/><rect x="106.275" y="24" width="93.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="153.025" y="46.0" text-anchor="middle" fill="var(--text)" font-size="11.5">pip install</text><text x="153.025" y="60.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">opencv-python</text><line x1="201.775" y1="47.0" x2="227.775" y2="47.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a4)"/><rect x="229.775" y="24" width="77.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="268.275" y="46.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Verify</text><text x="268.275" y="60.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">import cv2</text><text x="10" y="96" text-anchor="start" fill="var(--accent)" font-size="10.5" font-weight="600">Route B: C++ with Visual Studio</text><rect x="10" y="104" width="72.6" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="46.3" y="126.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Download</text><text x="46.3" y="140.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">OpenCV</text><line x1="84.6" y1="127.0" x2="110.6" y2="127.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a4)"/><rect x="112.6" y="104" width="77.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="151.1" y="126.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Set PATH</text><text x="151.1" y="140.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">OPENCV_DIR</text><line x1="191.6" y1="127.0" x2="217.6" y2="127.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a4)"/><rect x="219.6" y="104" width="93.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="266.35" y="126.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Configure</text><text x="266.35" y="140.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Visual Studio</text><line x1="315.1" y1="127.0" x2="341.1" y2="127.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a4)"/><rect x="343.1" y="104" width="91.575" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="388.88750000000005" y="126.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Build &amp;</text><text x="388.88750000000005" y="140.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">run C++</text></svg>
+</div>
+<h3>Route A: Python (recommended for learning)</h3>
+<ol>
+  <li><strong>Install Python 3</strong> from python.org and tick &ldquo;Add Python to PATH&rdquo;, so that <code>python</code> and <code>pip</code> work from any command prompt.</li>
+  <li><strong>Create a virtual environment</strong> (<code>python -m venv cvenv</code>, then <code>cvenv\Scripts\activate</code>) to keep library versions isolated per project.</li>
+  <li><strong>Install the package:</strong> <code>pip install opencv-python</code> (main modules). Use <code>opencv-contrib-python</code> instead if the extra modules (SIFT in older builds, tracking, xfeatures2d) are needed. NumPy is installed automatically because images are NumPy arrays.</li>
+  <li><strong>Verify:</strong> run the test below. If it prints a version number, the installation and the Python bindings work.</li>
+</ol>
+<pre><code>import cv2                      # load the OpenCV module (named cv2 for historical reasons)
+print(cv2.__version__)          # prints e.g. 4.9.0 -&gt; install is working
+img = cv2.imread("test.jpg")    # quick functional test: read any image
+print(img is not None)          # True means file I/O (imgcodecs) works</code></pre>
+<h3>Route B: C++ with Visual Studio</h3>
+<ol>
+  <li><strong>Download</strong> the Windows release from opencv.org and extract it, for example to <code>C:\opencv</code>. It contains headers (<code>build\include</code>), libraries (<code>build\x64\vc16\lib</code>) and DLLs (<code>build\x64\vc16\bin</code>).</li>
+  <li><strong>Set environment variables:</strong> create <code>OPENCV_DIR = C:\opencv\build</code> and add <code>%OPENCV_DIR%\x64\vc16\bin</code> to <code>PATH</code>, so that the program finds the DLLs at run time.</li>
+  <li><strong>Configure the Visual Studio project</strong> (platform x64): add the include folder under <em>C/C++ &rarr; Additional Include Directories</em>, the library folder under <em>Linker &rarr; Additional Library Directories</em>, and the library file (<code>opencv_world490d.lib</code> for Debug, <code>opencv_world490.lib</code> for Release) under <em>Linker &rarr; Input</em>. These three settings tell the compiler where the declarations are, tell the linker where the compiled code is, and name which library to link.</li>
+  <li><strong>Test</strong> with a small program that includes <code>&lt;opencv2/opencv.hpp&gt;</code>, reads and shows an image, and run it. A &ldquo;DLL not found&rdquo; error means the <code>PATH</code> step was missed; a linker error means the library path or name is wrong.</li>
+</ol>
+<p>Alternatively OpenCV can be built from source with CMake, which allows custom options such as CUDA support, at the cost of a longer set-up.</p>
+
+<h3>Verifying the installation</h3>
+<p>Run <code>import cv2; print(cv2.__version__)</code> in Python; a version number means the installation works. For C++, build and run a small program that loads and shows an image. If the image window does not appear, check that the image path is correct and that <code>waitKey</code> is called.</p>
+<h3>Common problems and fixes</h3>
+<ul>
+  <li><strong><code>ModuleNotFoundError: No module named 'cv2'</code>:</strong> pip installed it into a different Python than the one being used; install again with that interpreter (<code>python -m pip install opencv-python</code>).</li>
+  <li><strong>DLL not found (C++):</strong> the OpenCV <code>bin</code> folder is not in the PATH; add it and restart the IDE.</li>
+  <li><strong>Linker errors (C++):</strong> the <code>.lib</code> files or their names (debug vs release, version number) are not set correctly in the project.</li>
+  <li><strong>Architecture mismatch:</strong> the project platform (x64) must match the OpenCV build.</li>
+</ul><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="tab-content" id="tab-4">
+    <div class="question-block" data-qid="cv-u1-q5">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q5', 4)" aria-label="Mark as done"></button>
+        <h2 class="q-title">5. Explain the concept of a cross-platform development workflow in OpenCV. Why is it important in practical computer vision applications?</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q5', 4)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>cross-platform development workflow</strong> means writing an OpenCV application once, building and testing it on one operating system, and running it unchanged (or with only a rebuild) on others, such as Windows, Linux, macOS, Android or an embedded board. OpenCV supports this because it presents the same API on every platform, and platform-specific work (camera drivers, codecs, GUI back-ends) is hidden inside the library.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 578 104" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="16" width="99.0" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="59.5" y="38.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Develop</text><text x="59.5" y="52.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Windows laptop</text><line x1="111.0" y1="39.0" x2="137.0" y2="39.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a5)"/><rect x="139.0" y="16" width="116.87500000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="197.4375" y="38.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Version control</text><text x="197.4375" y="52.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Git + CMake / pip</text><line x1="257.875" y1="39.0" x2="283.875" y2="39.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a5)"/><rect x="285.875" y="16" width="115.50000000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="343.625" y="38.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Test</text><text x="343.625" y="52.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Linux CI / Docker</text><line x1="403.375" y1="39.0" x2="429.375" y2="39.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a5)"/><rect x="431.375" y="16" width="126.50000000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="494.625" y="38.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Deploy</text><text x="494.625" y="52.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">Server, Pi, Android</text><text x="283.9375" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="10">the same OpenCV code and API run at every stage</text></svg>
+</div>
+<h3>How the workflow is organised</h3>
+<ul>
+  <li><strong>Portable code:</strong> use only OpenCV and standard-language features; avoid Windows-only calls and hard-coded paths such as <code>C:\data\img.jpg</code> (use relative paths, <code>os.path</code> or <code>pathlib</code>).</li>
+  <li><strong>Portable build system:</strong> CMake (C++) or <code>pip</code> with a <code>requirements.txt</code> (Python) generates the correct project for each OS, instead of a Visual Studio-only solution.</li>
+  <li><strong>Version control and environments:</strong> Git for shared code, virtual environments or Docker containers to pin the same OpenCV version everywhere.</li>
+  <li><strong>Automated testing:</strong> a continuous-integration server builds and tests on Windows and Linux, so a platform-specific bug is caught early.</li>
+  <li><strong>Hardware abstraction:</strong> <code>VideoCapture</code> uses DirectShow on Windows, V4L2 on Linux and AVFoundation on macOS, but the program just calls <code>cap.read()</code>.</li>
+</ul>
+<h3>Why it is important in practice</h3>
+<p>Computer-vision products are rarely deployed where they are written. A model is prototyped on a laptop, trained on a Linux GPU server, and finally run on a Raspberry Pi, a Jetson, a phone or a cloud service. A cross-platform workflow avoids rewriting code for each target, keeps results consistent, lets teams with different machines collaborate, reduces cost and speeds up delivery, and makes the system easier to maintain and upgrade.</p>
+
+<h3>Challenges and how they are handled</h3>
+<table>
+  <tr><th>Challenge</th><th>Solution</th></tr>
+  <tr><td>Different compilers and build systems</td><td>CMake generates the right project files for each platform</td></tr>
+  <tr><td>Different file path styles and image folders</td><td>Use relative paths or portable path functions (<code>os.path</code>, <code>std::filesystem</code>)</td></tr>
+  <tr><td>Different camera and codec support</td><td>Test <code>VideoCapture</code> on each platform; pick a supported backend and codec</td></tr>
+  <tr><td>Library versions differ between machines</td><td>Fix versions in <code>requirements.txt</code> or a virtual environment; use Git for the source</td></tr>
+  <tr><td>Different hardware (CPU, GPU, mobile)</td><td>Keep the algorithm separate from the platform code; enable CUDA/OpenCL only where available</td></tr>
+</table>
+<p><strong>Importance in practice:</strong> a model prototyped on a laptop is often deployed on a Linux server, a Raspberry Pi or an Android phone. A portable workflow means the same code runs everywhere with little change, saves porting time, and lets a team on different operating systems work on one project. Without cross-platform design, teams waste weeks porting code to each target, debugging platform-specific issues that should have been caught early. Industry projects such as autonomous driving and smart surveillance routinely deploy the same codebase across cloud, edge and mobile environments.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="tab-content" id="tab-5">
+    <div class="question-block" data-qid="cv-u1-q6">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q6', 5)" aria-label="Mark as done"></button>
+        <h2 class="q-title">6. Demonstrate how an image can be loaded, displayed, modified, and saved using OpenCV.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q6', 5)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Every OpenCV program begins with the same four operations: <strong>load</strong> (bring a file from disk into memory as a matrix), <strong>display</strong> (render the matrix in a window for visual inspection), <strong>modify</strong> (apply any transformation to the pixel data), and <strong>save</strong> (write the resulting matrix back to a file). These map directly to the functions <code>imread</code>, <code>imshow</code>, an editing step, and <code>imwrite</code>. Understanding this pipeline is fundamental because every subsequent OpenCV task, from simple filtering to complex detection, follows the same structure of reading pixel data, processing it, and outputting the result.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 389 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="59.95" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="39.975" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">imread</text><text x="39.975" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">load</text><line x1="71.95" y1="37.0" x2="97.95" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a6)"/><rect x="99.95" y="14" width="60.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="130.2" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">imshow</text><text x="130.2" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">display</text><line x1="162.45" y1="37.0" x2="188.45" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a6)"/><rect x="190.45" y="14" width="82.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="231.7" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">modify</text><text x="231.7" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">gray / draw</text><line x1="274.95" y1="37.0" x2="300.95" y2="37.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a6)"/><rect x="302.95" y="14" width="66.275" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="336.0875" y="36.0" text-anchor="middle" fill="var(--text)" font-size="11.5">imwrite</text><text x="336.0875" y="50.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">save</text></svg>
+</div>
+<h3>Steps in words</h3>
+<ol>
+  <li><strong>Load:</strong> <code>cv2.imread(path, flag)</code> reads the file into a NumPy array in <em>BGR</em> order. The flag selects the mode: <code>IMREAD_COLOR</code> (default), <code>IMREAD_GRAYSCALE</code> or <code>IMREAD_UNCHANGED</code> (keeps the alpha channel). If the path is wrong, it does <strong>not</strong> raise an error; it returns <code>None</code>, so always check.</li>
+  <li><strong>Display:</strong> <code>cv2.imshow(window_name, img)</code> opens a window; <code>cv2.waitKey(0)</code> waits for a key (without it the window closes at once); <code>cv2.destroyAllWindows()</code> closes the windows.</li>
+  <li><strong>Modify:</strong> because the image is an array, any array operation changes it: convert colour (<code>cvtColor</code>), draw shapes and text (<code>rectangle</code>, <code>putText</code>), change pixels (<code>img[y, x] = (0, 0, 255)</code>), blur or threshold.</li>
+  <li><strong>Save:</strong> <code>cv2.imwrite(filename, img)</code> writes the image; the format follows the extension (<code>.jpg</code>, <code>.png</code>); it returns True on success.</li>
+</ol>
+<h3>Why BGR and not RGB</h3>
+<p>OpenCV was originally developed in the late 1990s when BGR was the dominant ordering in camera hardware and Windows bitmap formats. This convention persisted for backward compatibility. When integrating OpenCV with libraries that expect RGB, such as Matplotlib or PIL, an explicit <code>cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</code> conversion is required, otherwise reds appear blue and vice versa.</p>
+
+<h3>Internal representation</h3>
+<p>Internally, <code>imread</code> decodes the file format (JPEG, PNG, BMP, TIFF) and produces a dense NumPy array of shape <code>(height, width, channels)</code> with <code>dtype=uint8</code> by default. Each pixel occupies one byte per channel, giving values 0&ndash;255. Grayscale images have shape <code>(height, width)</code> with no channel dimension, which matters when performing channel-wise operations.</p>
+
+<h3>Common mistakes</h3>
+<p>Not checking for <code>None</code> after <code>imread</code> is the most frequent beginner error, because the function silently returns <code>None</code> on an invalid path instead of raising an exception. Forgetting <code>waitKey</code> after <code>imshow</code> causes the window to freeze or close instantly. Expecting RGB order leads to swapped colours when plotting. Modifying the original array instead of calling <code>copy()</code> first means the original data is lost permanently.</p><pre><code>import cv2                                  # OpenCV library
+
+img = cv2.imread("lena.jpg")                # LOAD: returns a NumPy array in BGR order, or None if the path is wrong
+if img is None:                             # always check, imread does not raise an error
+    raise FileNotFoundError("image not found")
+
+print(img.shape, img.dtype)                 # e.g. (512, 512, 3) uint8 -&gt; (rows=height, cols=width, channels)
+
+cv2.imshow("Original", img)                 # DISPLAY: first argument is the window title
+cv2.waitKey(0)                              # wait for a key press; without it the window closes/hangs at once
+
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # MODIFY 1: colour -&gt; grayscale (BGR2GRAY: "from BGR to GRAY")
+img[100:150, 100:200] = (0, 0, 255)         # MODIFY 2: paint a block red; slicing is [rows, cols]; colour is (B, G, R)
+cv2.rectangle(img, (50, 50), (250, 250), (0, 255, 0), 2)  # MODIFY 3: green box, corners are (x, y), thickness 2
+
+cv2.imshow("Modified", img)                 # show the changed image
+cv2.waitKey(0)
+cv2.destroyAllWindows()                     # close all windows to free resources
+
+cv2.imwrite("output.png", img)              # SAVE: format is chosen from the extension (.png lossless, .jpg lossy)
+cv2.imwrite("gray.jpg", gray, [cv2.IMWRITE_JPEG_QUALITY, 90])  # optional quality parameter</code></pre>
+<p><strong>Points to remember.</strong> (1) OpenCV stores colour as <strong>BGR</strong>, not RGB. (2) <code>imread</code> flags: <code>IMREAD_COLOR</code> (default), <code>IMREAD_GRAYSCALE</code> and <code>IMREAD_UNCHANGED</code> (keeps the alpha channel and bit depth). (3) <code>imshow</code> needs <code>waitKey</code> to refresh the window. (4) Pixels are indexed <code>[row, column]</code> = <code>[y, x]</code>, but drawing functions take points as <code>(x, y)</code>. (5) Saving a JPEG repeatedly loses quality; use PNG for lossless storage.</p>
+
+<h3>Practical considerations</h3>
+<p>When saving, the output format is determined entirely by the file extension passed to <code>imwrite</code>. JPEG is lossy and produces smaller files, making it suitable for photographs; PNG is lossless and supports transparency, making it better for processed results where precision matters. Repeatedly saving and reloading a JPEG introduces cumulative quality loss known as generation loss, so intermediate results should be kept as PNG or in memory.</p>
+
+<p><strong>Expected output:</strong> a window showing the loaded image; after modification, a second window with the changed image; a new file saved on disk.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="tab-content" id="tab-6">
+    <div class="question-block" data-qid="cv-u1-q7">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q7', 6)" aria-label="Mark as done"></button>
+        <h2 class="q-title">7. Apply basic OpenCV operations to resize, crop, and rotate a given image.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q7', 6)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Resizing, cropping and rotating</strong> are the three most common geometric transformations in computer vision. Resizing changes the dimensions of the entire image, cropping extracts a rectangular sub-region, and rotation moves pixels around a chosen centre point. All three operate on the NumPy array returned by <code>imread</code> and produce a new array as output. These operations are essential in nearly every CV pipeline: neural networks require a fixed input size, object detectors work on cropped regions of interest, and document scanners must correct tilt before OCR can proceed.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 600 190" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="40" y="20" width="240" height="150" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><rect x="100" y="60" width="120" height="70" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="160" y="98" text-anchor="middle" fill="var(--text)" font-size="12" font-weight="600">crop</text><text x="160" y="114" text-anchor="middle" fill="var(--text-muted)" font-size="10">img[y1:y2, x1:x2]</text><text x="100" y="52" text-anchor="middle" fill="var(--accent)" font-size="9.5">x1</text><text x="220" y="52" text-anchor="middle" fill="var(--accent)" font-size="9.5">x2</text><text x="88" y="64" text-anchor="end" fill="var(--accent)" font-size="9.5">y1</text><text x="88" y="136" text-anchor="end" fill="var(--accent)" font-size="9.5">y2</text><text x="38" y="14" text-anchor="end" fill="var(--text-muted)" font-size="9.5">(0,0)</text><line x1="46" y1="12" x2="160" y2="12" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a7)"/><text x="170" y="14" text-anchor="start" fill="var(--text-muted)" font-size="9.5">x (columns)</text><line x1="32" y1="22" x2="32" y2="100" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a7)"/><text x="26" y="114" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">y</text><rect x="340" y="20" width="100" height="70" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><text x="390" y="60" text-anchor="middle" fill="var(--text)" font-size="10">original</text><line x1="445" y1="55" x2="490" y2="55" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a7)"/><rect x="494" y="26" width="50" height="58" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="519" y="60" text-anchor="middle" fill="var(--text)" font-size="10">resize</text><rect x="340" y="110" width="100" height="60" rx="6" fill="var(--surface2)" stroke="var(--text-muted)"/><text x="390" y="144" text-anchor="middle" fill="var(--text)" font-size="10">original</text><line x1="445" y1="140" x2="490" y2="140" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a7)"/><g transform="rotate(-25 519 140)"><rect x="494" y="118" width="50" height="44" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="519" y="144" text-anchor="middle" fill="var(--text)" font-size="10">rotate</text></g></svg>
+</div>
+<h3>Steps in words</h3>
+<ol>
+  <li><strong>Resize</strong> with <code>cv2.resize(img, (width, height))</code> or with scale factors <code>fx, fy</code>. Note the order: the size tuple is (width, height), but <code>img.shape</code> gives (height, width). Interpolation: <code>INTER_AREA</code> for shrinking, <code>INTER_LINEAR</code> (default) or <code>INTER_CUBIC</code> for enlarging.</li>
+  <li><strong>Crop</strong> by array slicing: <code>img[y1:y2, x1:x2]</code>. Rows (y) come first. The result is a view of the same memory, so use <code>.copy()</code> if the original must stay unchanged.</li>
+  <li><strong>Rotate:</strong> compute the matrix with <code>cv2.getRotationMatrix2D(center, angle, scale)</code> (positive angle = counter-clockwise) and apply it with <code>cv2.warpAffine(img, M, (w, h))</code>. For exact multiples of 90&deg; use the simpler <code>cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)</code>.</li>
+</ol>
+<p><strong>Common mistakes:</strong> swapping x and y in the slice; giving (height, width) to <code>resize</code>; rotating about the top-left corner instead of the centre; corners cut off after rotation because the output size was not enlarged.</p><pre><code>import cv2
+
+img = cv2.imread("lena.jpg")
+h, w = img.shape[:2]                                   # height (rows) and width (cols); [:2] drops channels
+
+# ---- RESIZE ----
+small = cv2.resize(img, (w // 2, h // 2),              # dsize is (width, height): order differs from shape!
+                   interpolation=cv2.INTER_AREA)       # INTER_AREA best for shrinking
+big = cv2.resize(img, None, fx=2, fy=2,                # or give scale factors instead of a size
+                 interpolation=cv2.INTER_CUBIC)        # INTER_CUBIC / INTER_LINEAR best for enlarging
+
+# ---- CROP ----
+roi = img[50:200, 100:300]                             # NumPy slicing [y1:y2, x1:x2]; a view, not a copy
+roi = img[50:200, 100:300].copy()                      # .copy() if you will edit it independently
+
+# ---- ROTATE ----
+r90 = cv2.rotate(img, cv2.ROTATE_90_CLOCKWISE)         # fast exact rotation by 90, 180 or 270 degrees
+M = cv2.getRotationMatrix2D((w / 2, h / 2), 45, 1.0)   # (centre, angle in degrees (+ = anticlockwise), scale)
+rot = cv2.warpAffine(img, M, (w, h))                   # apply the 2x3 matrix; output size is (w, h)
+
+cv2.imwrite("rot45.jpg", rot)</code></pre>
+<p>For rotation by an arbitrary angle, OpenCV builds a \(2\times3\) affine matrix:</p>
+<div class="formula">\[ M=\begin{bmatrix}\alpha&\beta&t_x\\-\beta&\alpha&t_y\end{bmatrix},\qquad \alpha=s\cos\theta,\quad \beta=s\sin\theta \]</div>
+<p>Here \(\theta\) is the rotation angle, \(s\) is the scale factor (1 keeps the size), and \(t_x,t_y\) are shifts chosen so that the chosen centre stays in place instead of rotating about the top-left corner. <code>warpAffine</code> multiplies every pixel position by \(M\) to find its new position. In practice this means: pick the centre, angle and scale, and OpenCV returns the matrix. Note that a 45&deg; rotation with the same output size cuts off the corners; enlarge the output canvas if the whole image must be kept.</p>
+<p><strong>Interpolation</strong> is needed because new pixel positions rarely fall exactly on the old grid: nearest-neighbour is fastest but blocky, bilinear is a good default, bicubic is smoother but slower, and <code>INTER_AREA</code> avoids aliasing when shrinking.</p>
+
+<h3>Applications in practice</h3>
+<p>Resizing is used to convert images to the fixed input size expected by neural networks, such as 224&times;224 for VGG or 416&times;416 for YOLO. Cropping extracts regions of interest like detected faces for recognition or number plates for OCR. Rotation corrects the tilt in scanned documents, aligns satellite imagery, and serves as a popular data-augmentation technique during training, where random rotations make the model invariant to orientation changes.</p>
+
+<h3>Performance notes</h3>
+<p>Cropping via slicing is the fastest operation because it does not copy data; the returned array is a view into the same memory. Resizing and rotation involve pixel interpolation, which is more expensive. For video streams at 30 fps, choosing <code>INTER_LINEAR</code> over <code>INTER_CUBIC</code> can save several milliseconds per frame while producing acceptable visual quality for most downstream tasks.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="tab-content" id="tab-7">
+    <div class="question-block" data-qid="cv-u1-q8">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q8', 7)" aria-label="Mark as done"></button>
+        <h2 class="q-title">8. Analyze how an image is represented as a matrix and examine the relationship between image dimensions, pixels, and matrix elements.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q8', 7)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A digital image is a two-dimensional grid of tiny elements called <strong>pixels</strong>. In OpenCV (and NumPy) this grid is stored as a <strong>matrix</strong>, so every image operation is really an operation on numbers. Each matrix element holds the intensity of one pixel: a grayscale image is an \(M\times N\) matrix (one value per pixel), while a colour image is an \(M\times N\times 3\) array with three values (blue, green, red) per pixel.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 560 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><text x="77.0" y="28" text-anchor="middle" fill="var(--text-muted)" font-size="9">col 0</text><text x="111.0" y="28" text-anchor="middle" fill="var(--text-muted)" font-size="9">col 1</text><text x="145.0" y="28" text-anchor="middle" fill="var(--text-muted)" font-size="9">col 2</text><text x="179.0" y="28" text-anchor="middle" fill="var(--text-muted)" font-size="9">col 3</text><text x="54" y="56.5" text-anchor="end" fill="var(--text-muted)" font-size="9">row 0</text><rect x="60" y="36" width="34" height="34" fill="rgb(29,29,29)" stroke="var(--border)"/><text x="77.0" y="57.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">12</text><rect x="94" y="36" width="34" height="34" fill="rgb(52,52,52)" stroke="var(--border)"/><text x="111.0" y="57.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">40</text><rect x="128" y="36" width="34" height="34" fill="rgb(180,180,180)" stroke="var(--border)"/><text x="145.0" y="57.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">200</text><rect x="162" y="36" width="34" height="34" fill="rgb(224,224,224)" stroke="var(--border)"/><text x="179.0" y="57.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">255</text><text x="54" y="90.5" text-anchor="end" fill="var(--text-muted)" font-size="9">row 1</text><rect x="60" y="70" width="34" height="34" fill="rgb(44,44,44)" stroke="var(--border)"/><text x="77.0" y="91.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">30</text><rect x="94" y="70" width="34" height="34" fill="rgb(92,92,92)" stroke="var(--border)"/><text x="111.0" y="91.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">90</text><rect x="128" y="70" width="34" height="34" fill="rgb(164,164,164)" stroke="var(--border)"/><text x="145.0" y="91.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">180</text><rect x="162" y="70" width="34" height="34" fill="rgb(204,204,204)" stroke="var(--border)"/><text x="179.0" y="91.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">230</text><text x="54" y="124.5" text-anchor="end" fill="var(--text-muted)" font-size="9">row 2</text><rect x="60" y="104" width="34" height="34" fill="rgb(68,68,68)" stroke="var(--border)"/><text x="77.0" y="125.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">60</text><rect x="94" y="104" width="34" height="34" fill="rgb(116,116,116)" stroke="var(--border)"/><text x="111.0" y="125.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">120</text><rect x="128" y="104" width="34" height="34" fill="rgb(140,140,140)" stroke="var(--border)"/><text x="145.0" y="125.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">150</text><rect x="162" y="104" width="34" height="34" fill="rgb(188,188,188)" stroke="var(--border)"/><text x="179.0" y="125.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">210</text><text x="54" y="158.5" text-anchor="end" fill="var(--text-muted)" font-size="9">row 3</text><rect x="60" y="138" width="34" height="34" fill="rgb(92,92,92)" stroke="var(--border)"/><text x="77.0" y="159.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">90</text><rect x="94" y="138" width="34" height="34" fill="rgb(100,100,100)" stroke="var(--border)"/><text x="111.0" y="159.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">100</text><rect x="128" y="138" width="34" height="34" fill="rgb(124,124,124)" stroke="var(--border)"/><text x="145.0" y="159.0" text-anchor="middle" fill="#fff" font-size="10.5" font-weight="600">130</text><rect x="162" y="138" width="34" height="34" fill="rgb(172,172,172)" stroke="var(--border)"/><text x="179.0" y="159.0" text-anchor="middle" fill="#000" font-size="10.5" font-weight="600">190</text><text x="128" y="192" text-anchor="middle" fill="var(--text-muted)" font-size="10">grayscale: M x N matrix, one number per pixel</text><text x="128" y="206" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="600">f(2,1) = 120   (row 2, column 1)</text><rect x="330" y="66" width="110" height="110" fill="#3b82f6" fill-opacity="0.25" stroke="#3b82f6" stroke-width="1.5"/><text x="385" y="124" text-anchor="middle" fill="#3b82f6" font-size="16" font-weight="600">B</text><rect x="346" y="50" width="110" height="110" fill="#22c55e" fill-opacity="0.25" stroke="#22c55e" stroke-width="1.5"/><text x="401" y="108" text-anchor="middle" fill="#22c55e" font-size="16" font-weight="600">G</text><rect x="362" y="34" width="110" height="110" fill="#ef4444" fill-opacity="0.25" stroke="#ef4444" stroke-width="1.5"/><text x="417" y="92" text-anchor="middle" fill="#ef4444" font-size="16" font-weight="600">R</text><text x="410" y="192" text-anchor="middle" fill="var(--text-muted)" font-size="10">colour: M x N x 3 (B, G, R planes)</text><text x="410" y="206" text-anchor="middle" fill="var(--accent)" font-size="10" font-weight="600">img[2, 1] = [ 40, 200, 90 ]</text></svg>
+</div>
+<h3>Relationship between dimensions, pixels and matrix elements</h3>
+<ul>
+  <li><strong>Height = number of rows</strong> and <strong>width = number of columns</strong>. In code, <code>img.shape</code> returns <code>(rows, cols, channels)</code>, that is <code>(height, width, channels)</code>.</li>
+  <li><strong>Pixel = one matrix element</strong> addressed by <code>img[row, col]</code>, which is <code>img[y, x]</code>. The origin <code>(0,0)</code> is the <em>top-left</em> corner; y grows downwards and x grows to the right.</li>
+  <li><strong>Total pixels</strong> \(=\) rows \(\times\) columns. The number of stored values is that times the number of channels.</li>
+  <li><strong>Value range:</strong> for the usual 8-bit type (<code>uint8</code>), intensities are 0 (black) to 255 (white); each value takes one byte.</li>
+</ul>
+<div class="formula">\[ \text{size (bytes)} = H \times W \times C \times b \]</div>
+<p>Here \(H\) is the height (rows), \(W\) is the width (columns), \(C\) is the number of channels (1 for gray, 3 for colour) and \(b\) is the bytes per value (1 for <code>uint8</code>). The formula tells how much memory an image needs: a 1920&times;1080 colour frame needs \(1080\times1920\times3\times1=6{,}220{,}800\) bytes, about 6 MB, which is why speed and memory matter in video processing.</p>
+<p><strong>Why the matrix view is useful.</strong> Because an image is a matrix, filtering becomes a neighbourhood multiplication, brightness change becomes adding a constant, cropping becomes slicing, and a whole image can be processed with fast vectorised array operations. In memory the rows are stored one after another (row-major) and the channels of a pixel sit next to each other (B0 G0 R0 B1 G1 R1 &hellip;).</p>
+
+<h3>Types of images by matrix content</h3>
+<table>
+  <tr><th>Type</th><th>Matrix</th><th>Values</th></tr>
+  <tr><td>Binary</td><td>\(M\times N\)</td><td>0 or 1 (0 or 255 when displayed)</td></tr>
+  <tr><td>Grayscale</td><td>\(M\times N\)</td><td>0&ndash;255 (8-bit): one intensity per pixel</td></tr>
+  <tr><td>Colour (BGR)</td><td>\(M\times N\times3\)</td><td>Three 0&ndash;255 values per pixel (blue, green, red)</td></tr>
+</table>
+<p>OpenCV stores colour in <em>BGR</em> order rather than the more common RGB, a legacy of early camera hardware conventions. The <em>bit depth</em> sets the number of possible values: 8 bits give 256 levels, and a 16-bit or float image holds finer values. The useful attributes of the array are <code>img.shape</code> (rows, columns, channels), <code>img.size</code> (total number of values), <code>img.dtype</code> (data type) and <code>img[y, x]</code> (one pixel). Example: for a 480&times;640 colour image, <code>shape = (480, 640, 3)</code>, there are \(480\times640=307{,}200\) pixels and \(307{,}200\times3=921{,}600\) stored values.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="tab-content" id="tab-8">
+    <div class="question-block" data-qid="cv-u1-q9">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q9', 8)" aria-label="Mark as done"></button>
+        <h2 class="q-title">9. A program successfully loads an image, but the displayed image appears completely black. Analyze the possible causes and suggest suitable solutions.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q9', 8)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>If <code>imread</code> succeeded (the result is not <code>None</code>) but <code>imshow</code> shows black, the pixel <em>values</em> or the way they are <em>displayed</em> are wrong. A black image means the values are all (or nearly all) 0, or are being mapped to 0. The first step is always to print the array statistics and then follow the checklist below.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 656 110" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="140" height="34" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="80.0" y="35.0" text-anchor="middle" fill="var(--text)" font-size="10.5">1. Check the data</text><line x1="151" y1="31.0" x2="171" y2="31.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a9)"/><text x="80.0" y="64" text-anchor="middle" fill="var(--text-muted)" font-size="9">print(img.shape, img.dtype,</text><text x="80.0" y="78" text-anchor="middle" fill="var(--text-muted)" font-size="9">img.min(), img.max())</text><text x="80.0" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="9">min = max = 0 ?</text><rect x="172" y="14" width="140" height="34" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="242.0" y="35.0" text-anchor="middle" fill="var(--text)" font-size="10.5">2. Check type/range</text><line x1="313" y1="31.0" x2="333" y2="31.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a9)"/><text x="242.0" y="64" text-anchor="middle" fill="var(--text-muted)" font-size="9">float 0-1 shown as 0-255?</text><text x="242.0" y="78" text-anchor="middle" fill="var(--text-muted)" font-size="9">uint8 after x/255 -> all 0</text><text x="242.0" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="9">16-bit image looks dark</text><rect x="334" y="14" width="140" height="34" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="404.0" y="35.0" text-anchor="middle" fill="var(--text)" font-size="10.5">3. Check display</text><line x1="475" y1="31.0" x2="495" y2="31.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a9)"/><text x="404.0" y="64" text-anchor="middle" fill="var(--text-muted)" font-size="9">missing waitKey()</text><text x="404.0" y="78" text-anchor="middle" fill="var(--text-muted)" font-size="9">wrong window / mask</text><text x="404.0" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="9">alpha channel only</text><rect x="496" y="14" width="140" height="34" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="566.0" y="35.0" text-anchor="middle" fill="var(--text)" font-size="10.5">4. Check processing</text><text x="566.0" y="64" text-anchor="middle" fill="var(--text-muted)" font-size="9">mask all zeros (bitwise)</text><text x="566.0" y="78" text-anchor="middle" fill="var(--text-muted)" font-size="9">slice set to 0</text><text x="566.0" y="92" text-anchor="middle" fill="var(--text-muted)" font-size="9">negative / overflow clipped</text></svg>
+</div>
+<h3>Possible causes and solutions</h3>
+<table>
+  <tr><th>Cause</th><th>Why it looks black</th><th>Solution</th></tr>
+  <tr><td>The image really is dark or empty</td><td>The file contains very low values (under-exposed or a blank/transparent PNG)</td><td>Open the file in another viewer; use brightness/contrast correction or histogram equalization</td></tr>
+  <tr><td>Wrong data type or range</td><td>Values were divided by 255 (0&ndash;1) and then cast to <code>uint8</code>, so they all become 0; a 16-bit image shown as 8-bit appears very dark</td><td>Multiply back (<code>(img*255).astype('uint8')</code>), or use <code>cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX)</code> / <code>cv2.convertScaleAbs</code></td></tr>
+  <tr><td>Alpha / unchanged flag</td><td>Loaded with <code>IMREAD_UNCHANGED</code> and the transparent areas are shown as black, or only the alpha channel was displayed</td><td>Load with <code>IMREAD_COLOR</code> or split the channels and display the colour part</td></tr>
+  <tr><td>Previous operation zeroed the data</td><td>A slice assignment (<code>img[:] = 0</code>), a mask of all zeros in <code>bitwise_and</code>, a wrong ROI, or subtraction that saturates at 0</td><td>Print values after each step; check masks and ROI coordinates; use <code>cv2.add/subtract</code> deliberately</td></tr>
+  <tr><td>Display problem</td><td>No <code>waitKey()</code>, so the window is created but never painted; wrong variable shown</td><td>Call <code>cv2.waitKey(0)</code> after <code>imshow</code> and display the correct array</td></tr>
+  <tr><td>Created image instead of loaded</td><td><code>np.zeros(...)</code> was used as the image and the real data was never copied in</td><td>Verify the variable that is shown and that the data is written into it</td></tr>
+</table>
+<pre><code>img = cv2.imread("photo.jpg", cv2.IMREAD_UNCHANGED)   # load without altering depth or channels
+print(img.shape, img.dtype, img.min(), img.max())    # diagnosis: if min = max = 0 the data itself is black
+if img.dtype != "uint8":                             # float or 16-bit -&gt; convert for display
+    img = cv2.normalize(img, None, 0, 255, cv2.NORM_MINMAX).astype("uint8")
+cv2.imshow("check", img)
+cv2.waitKey(0)                                       # needed, otherwise nothing is drawn</code></pre>
+<p>Method: <em>inspect (shape, dtype, min, max) &rarr; check range and type &rarr; check display call &rarr; walk back through the processing steps</em>, and fix the first place where the values become zero.</p>
+
+<h3>Systematic debugging approach</h3>
+<p><strong>Quick diagnosis order:</strong> (1) check <code>img is None</code> and the path; (2) print <code>img.shape</code>, <code>img.dtype</code>, <code>img.min()</code>, <code>img.max()</code>; (3) if the values are fine, the fault is in display (<code>waitKey</code>, wrong variable shown); (4) if the values are zero, trace backwards through the processing steps to find the one that produced them (a division, a mask, a type cast).</p>
+
+<h3>Why this matters in real systems</h3>
+<p>In production pipelines, a black or corrupted frame can silently propagate through the entire processing chain, producing meaningless detections or measurements. Building the habit of checking shape, dtype and value range at every stage of the pipeline is essential for robust CV systems. Logging these diagnostics automatically helps catch intermittent failures in deployed applications, such as camera dropouts in surveillance systems or corrupted frames in video streams.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="tab-content" id="tab-9">
+    <div class="question-block" data-qid="cv-u1-q10">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u1-q10', 9)" aria-label="Mark as done"></button>
+        <h2 class="q-title">10. Evaluate the importance of OpenCV in developing practical and real-time computer vision applications. Justify your answer with suitable examples.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u1-q10', 9)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>OpenCV is the standard working library of practical computer vision.</strong> It gives developers a fast, free and tested toolbox, so that real systems can be built in days rather than months. Its importance can be evaluated under the following points.</p>
+<ul>
+  <li><strong>Real-time performance.</strong> The core is optimised C++ with SIMD instructions, multithreading, and optional OpenCL/CUDA acceleration. Real-time video needs each frame processed within the frame time:</li>
+</ul>
+<div class="formula">\[ t_{\text{frame}} = \frac{1000}{\text{FPS}}\ \text{ms} \]</div>
+<p>Here FPS is the frames per second and \(t_{\text{frame}}\) is the time available to process one frame. At 30 FPS the whole pipeline must finish in about 33 ms. The figure shows an illustrative budget in which capture, pre-processing, detection and drawing together take 27 ms and so keep up with the camera.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a10" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="64" y1="26" x2="64" y2="204" stroke="var(--text-muted)" stroke-width="1"/><line x1="64" y1="204" x2="624" y2="204" stroke="var(--text-muted)" stroke-width="1"/><text x="58" y="207.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><line x1="64" y1="159.5" x2="624" y2="159.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="163.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">9</text><line x1="64" y1="115.0" x2="624" y2="115.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="118.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">18</text><line x1="64" y1="70.5" x2="624" y2="70.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="74.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">27</text><line x1="64" y1="26.0" x2="624" y2="26.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="29.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">36</text><rect x="92.0" y="179.3" width="56.0" height="24.7" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="120.0" y="173.3" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">5</text><text x="120.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">capture</text><rect x="204.0" y="184.2" width="56.0" height="19.8" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="232.0" y="178.2" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">4</text><text x="232.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">pre-process</text><rect x="316.0" y="129.8" width="56.0" height="74.2" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="344.0" y="123.8" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">15</text><text x="344.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">detect</text><rect x="428.0" y="189.2" width="56.0" height="14.8" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="456.0" y="183.2" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">3</text><text x="456.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">draw / show</text><rect x="540.0" y="70.5" width="56.0" height="133.5" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="568.0" y="64.5" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">27</text><text x="568.0" y="219" text-anchor="middle" fill="var(--text)" font-size="10">total</text><text transform="rotate(-90 14 115.0)" x="14" y="115.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">ms per frame (illustrative)</text></svg>
+</div>
+<ul>
+  <li><strong>Breadth.</strong> One library covers I/O, filtering, features, detection, tracking, calibration, 3D and machine learning, and its <code>dnn</code> module runs deep models (YOLO, SSD, ONNX) without a separate framework.</li>
+  <li><strong>Accessibility.</strong> Open source, free for commercial use, cross-platform, with C++, Python and Java interfaces, large documentation and community.</li>
+  <li><strong>Integration.</strong> Works with NumPy, Matplotlib, TensorFlow/PyTorch pipelines and hardware such as Raspberry Pi and Jetson.</li>
+</ul>
+<h3>Examples</h3>
+<table>
+  <tr><th>Application</th><th>OpenCV tools used</th></tr>
+  <tr><td>Attendance by face recognition</td><td>Cascade/DNN face detection, <code>VideoCapture</code>, feature matching</td></tr>
+  <tr><td>Lane and vehicle detection</td><td>Canny edges, Hough lines, perspective transform, tracking</td></tr>
+  <tr><td>Document scanner</td><td>Contours, <code>getPerspectiveTransform</code>, thresholding</td></tr>
+  <tr><td>Factory defect inspection</td><td>Thresholding, morphology, contours, template/feature matching</td></tr>
+  <tr><td>Augmented reality</td><td>Camera calibration, feature matching, homography, pose estimation</td></tr>
+</table>
+<p><strong>Evaluation and limits.</strong> OpenCV is excellent for pre-processing, classical algorithms and deploying models in real time, but it is not a deep-learning training framework, and its low-level API needs careful use. For the hardest recognition tasks it is combined with deep-learning libraries, with OpenCV doing the surrounding image handling and display. Overall it is the most practical foundation for real-time computer-vision systems because it combines speed, completeness and availability.</p>
+
+<h3>Why it supports real-time use</h3>
+<ul>
+  <li><strong>Speed:</strong> C++ core with vectorised and parallel code, plus GPU back-ends, so each frame can be processed within the 33 ms budget of 30 fps video.</li>
+  <li><strong>Complete toolbox:</strong> capture, pre-processing, feature detection, tracking, calibration and deep-network inference are in one library, so a full application needs no extra glue code.</li>
+  <li><strong>Hardware reach:</strong> runs on desktops, embedded boards (Raspberry Pi, Jetson) and phones, which is where real-time systems are deployed.</li>
+  <li><strong>Rapid development:</strong> Python bindings let ideas be tested in minutes, and the same logic can be moved to C++ for production.</li>
+</ul>
+<p><strong>Justification:</strong> examples such as lane detection in driver-assistance systems, face detection in cameras, barcode and number-plate readers, and industrial defect inspection all combine fast frame capture, classic filtering and detection, and sometimes a neural network, and all of them are routinely built with OpenCV.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(i) {
+  document.querySelectorAll('.tab-content').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === i);
+  });
+}
+function toggleDone(qid, tabIdx) {
+  const block = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const isDone = block.classList.toggle('q-done');
+  const btn = document.querySelectorAll('.tab-btn')[tabIdx];
+  btn.classList.toggle('done', isDone);
+  try { localStorage.setItem('done-' + qid, isDone ? '1' : ''); } catch (e) {}
+}
+document.querySelectorAll('.question-block').forEach((block, idx) => {
+  let saved = false;
+  try { saved = !!localStorage.getItem('done-' + block.dataset.qid); } catch (e) {}
+  if (saved) {
+    block.classList.add('q-done');
+    const btn = document.querySelectorAll('.tab-btn')[idx];
+    if (btn) btn.classList.add('done');
+  }
+});
+function toggleSkip(qid, tabIdx) {
+  const blocks = document.querySelectorAll('.question-block');
+  const btns = document.querySelectorAll('.tab-btn');
+  const target = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const wasSkipped = target.classList.contains('q-skipped');
+  blocks.forEach((b, i) => { b.classList.remove('q-skipped'); if (btns[i]) btns[i].classList.remove('skipped'); });
+  try { localStorage.removeItem('skip:' + location.pathname); } catch (e) {}
+  if (!wasSkipped) {
+    target.classList.add('q-skipped');
+    btns[tabIdx].classList.add('skipped');
+    try { localStorage.setItem('skip:' + location.pathname, qid); } catch (e) {}
+  }
+}
+(function () {
+  let saved = null;
+  try { saved = localStorage.getItem('skip:' + location.pathname); } catch (e) {}
+  if (!saved) return;
+  document.querySelectorAll('.question-block').forEach((b, i) => {
+    if (b.dataset.qid === saved) {
+      b.classList.add('q-skipped');
+      const btn = document.querySelectorAll('.tab-btn')[i];
+      if (btn) btn.classList.add('skipped');
+    }
+  });
+})();
+showTab(0);
+</script>
+</body>
+</html>

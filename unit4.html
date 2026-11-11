@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit IV — Feature Detection, Matching & Object Detection | Computer Vision</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav class="unit-nav">
+    <a href="unit3.html" class="nav-prev">← Unit III</a>
+    <span class="nav-title">Unit IV: Feature Detection, Matching &amp; Object Detection</span>
+    <a href="unit5.html" class="nav-next">Unit V →</a>
+    <a href="index.html" class="nav-home">Home</a>
+  </nav>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" onclick="showTab(0)">Q31</button>
+    <button class="tab-btn" onclick="showTab(1)">Q32</button>
+    <button class="tab-btn" onclick="showTab(2)">Q33</button>
+    <button class="tab-btn" onclick="showTab(3)">Q34</button>
+    <button class="tab-btn" onclick="showTab(4)">Q35</button>
+    <button class="tab-btn" onclick="showTab(5)">Q36</button>
+    <button class="tab-btn" onclick="showTab(6)">Q37</button>
+    <button class="tab-btn" onclick="showTab(7)">Q38</button>
+    <button class="tab-btn" onclick="showTab(8)">Q39</button>
+    <button class="tab-btn" onclick="showTab(9)">Q40</button>
+  </div>
+
+  <!-- Q31 -->
+  <div class="tab-content" id="tab-0">
+    <div class="question-block" data-qid="cv-u4-q31">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q31', 0)" aria-label="Mark as done"></button>
+        <h2 class="q-title">31. Define feature detection and list its major applications in computer vision.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q31', 0)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Feature detection</strong> is the process of automatically identifying distinctive, repeatable points or regions in an image — called <em>keypoints</em> or <em>interest points</em> — that can be reliably located again in a different image of the same scene, even when the viewpoint, scale, rotation or lighting conditions have changed. Good features occur at places with strong local variation in intensity, such as corners, junctions or textured patches, rather than in flat, uniform regions where every pixel looks the same as its neighbours. Feature detection is the essential first step in almost every higher-level vision task because it reduces an image from millions of raw pixels to a compact, meaningful set of landmarks that downstream algorithms can efficiently compare, match and reason about.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 520 176" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a31" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="30" y="30" width="150" height="110" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><circle cx="30" cy="30" r="6" fill="none" stroke="var(--important)" stroke-width="2.2"/><circle cx="180" cy="30" r="6" fill="none" stroke="var(--important)" stroke-width="2.2"/><circle cx="30" cy="140" r="6" fill="none" stroke="var(--important)" stroke-width="2.2"/><circle cx="180" cy="140" r="6" fill="none" stroke="var(--important)" stroke-width="2.2"/><line x1="30" y1="85" x2="30" y2="85" stroke="var(--success)" stroke-width="1"/><circle cx="380" cy="85" r="34" fill="var(--surface2)" stroke="var(--accent)" stroke-width="2"/><circle cx="380" cy="85" r="46" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="4 3"/><line x1="105" y1="28" x2="105" y2="28" stroke="var(--text-muted)" stroke-width="1"/><line x1="30" y1="30" x2="180" y2="30" stroke="var(--success)" stroke-width="3.2"/><text x="105" y="166" text-anchor="middle" fill="var(--important)" font-size="10">corners (red): change in 2 directions</text><text x="105" y="18" text-anchor="middle" fill="var(--success)" font-size="10">edge (green): change in one direction</text><text x="390" y="166" text-anchor="middle" fill="var(--accent)" font-size="10">blob (blue): differs from surroundings</text></svg>
+</div>
+<h3>Types of features</h3>
+<ul>
+  <li><strong>Edges:</strong> boundaries where intensity changes in one direction (Sobel, Canny).</li>
+  <li><strong>Corners:</strong> points where intensity changes in two directions; stable and easy to localise (Harris, Shi-Tomasi, FAST).</li>
+  <li><strong>Blobs:</strong> regions that differ in brightness from the surroundings (SIFT, SURF, ORB use blob-like keypoints at several scales).</li>
+</ul>
+<h3>Common detectors</h3>
+<p>Harris and Shi-Tomasi are classical corner detectors based on the eigenvalues of the gradient covariance matrix. FAST (Features from Accelerated Segment Test) detects corners extremely quickly by comparing a pixel with a circle of 16 neighbours, making it suitable for real-time applications on embedded devices. SIFT and SURF detect keypoints at multiple scales using difference-of-Gaussian or Hessian-based blob detection, giving them scale invariance. ORB combines FAST detection with an orientation assignment and the BRIEF binary descriptor, offering a patent-free, computationally efficient alternative to SIFT that is widely used in mobile and robotics applications.</p>
+<h3>Applications</h3>
+<ul>
+  <li>Image matching and panorama stitching — matched keypoints across overlapping photographs determine the geometric alignment needed to produce seamless wide-angle composites.</li>
+  <li>Object recognition and localisation — a homography computed from feature correspondences can outline a known planar object in a cluttered scene.</li>
+  <li>Object tracking and motion estimation in video — sparse optical flow follows detected keypoints frame to frame, giving velocity and trajectory information.</li>
+  <li>3D reconstruction, camera calibration and SLAM — triangulating features seen from multiple viewpoints recovers scene geometry, and robots use this continuously to map and navigate unknown environments.</li>
+  <li>Image retrieval and augmented reality — features act as a visual fingerprint, enabling search-by-image engines and letting AR apps anchor virtual content to physical markers.</li>
+</ul>
+<pre><code>import cv2
+img = cv2.imread("scene.jpg")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)              # detectors work on grayscale
+orb = cv2.ORB_create(nfeatures=500)                       # create the detector (up to 500 keypoints)
+kps = orb.detect(gray, None)                              # list of cv2.KeyPoint (position, size, angle)
+out = cv2.drawKeypoints(img, kps, None, color=(0, 255, 0))  # draw the keypoints for viewing
+print(len(kps), "keypoints found")</code></pre>
+
+<h3>Properties of a good feature</h3>
+<ul>
+  <li><strong>Repeatability:</strong> found again in another image of the same scene.</li>
+  <li><strong>Distinctiveness:</strong> different from other points, so that it can be matched correctly.</li>
+  <li><strong>Invariance:</strong> stays stable when the image is rotated, scaled or lit differently.</li>
+  <li><strong>Efficiency:</strong> fast to compute and few in number but enough to describe the scene.</li>
+</ul><!--x--><h3>Detection in practice</h3><p>A detector scans the image, gives each pixel a score for how "feature-like" it is, keeps the pixels above a threshold and applies <em>non-maximum suppression</em> so that only the best point in each neighbourhood remains. The result is a few hundred repeatable keypoints instead of millions of pixels, which is what makes matching, tracking and recognition affordable.</p><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q32 -->
+  <div class="tab-content" id="tab-1">
+    <div class="question-block" data-qid="cv-u4-q32">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q32', 1)" aria-label="Mark as done"></button>
+        <h2 class="q-title">32. Explain the difference between feature extraction and feature description, with suitable examples.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q32', 1)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Both steps belong to the same pipeline but they answer fundamentally different questions. <strong>Feature extraction</strong> (often used interchangeably with feature detection) finds and pulls out the informative parts of an image — the keypoints and the pixel patches around them — reducing millions of raw pixels to a few hundred meaningful locations. Its job is spatial: <em>where</em> in the image are the distinctive points? <strong>Feature description</strong> then converts the neighbourhood of each detected keypoint into a compact numerical <em>vector</em> (the descriptor) that encodes what the local region looks like in a way that is robust to changes in viewpoint, rotation and illumination. Its job is representational: <em>what</em> does each point look like, in a form that can be compared across images? Without extraction there are no points to describe; without description there is no way to tell whether two points in different images correspond to the same physical location.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 635 86" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a32" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="16" width="137.5" height="50" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="78.75" y="40.0" text-anchor="middle" fill="var(--text)" font-size="10.5">1. Feature detection</text><text x="78.75" y="54.0" text-anchor="middle" fill="var(--text-muted)" font-size="9.0">where?</text><line x1="149.5" y1="41.0" x2="175.5" y2="41.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a32)"/><rect x="177.5" y="16" width="143.275" height="50" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="249.1375" y="40.0" text-anchor="middle" fill="var(--text)" font-size="10.5">2. Feature extraction</text><text x="249.1375" y="54.0" text-anchor="middle" fill="var(--text-muted)" font-size="9.0">neighbourhood</text><line x1="322.775" y1="41.0" x2="348.775" y2="41.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a32)"/><rect x="350.775" y="16" width="149.05" height="50" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="425.29999999999995" y="40.0" text-anchor="middle" fill="var(--text)" font-size="10.5">3. Feature description</text><text x="425.29999999999995" y="54.0" text-anchor="middle" fill="var(--text-muted)" font-size="9.0">vector</text><line x1="501.825" y1="41.0" x2="527.825" y2="41.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a32)"/><rect x="529.825" y="16" width="85.525" height="50" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="572.5875000000001" y="40.0" text-anchor="middle" fill="var(--text)" font-size="10.5">4. Matching</text><text x="572.5875000000001" y="54.0" text-anchor="middle" fill="var(--text-muted)" font-size="9.0">compare</text></svg>
+</div>
+<table>
+  <tr><th></th><th>Feature extraction (detection)</th><th>Feature description</th></tr>
+  <tr><td>Question answered</td><td>Where are the interesting points?</td><td>What does the region around each point look like?</td></tr>
+  <tr><td>Output</td><td>Keypoint locations (x, y), scale, orientation</td><td>Descriptor vector for each keypoint (e.g. 128 numbers for SIFT, 256 bits for ORB)</td></tr>
+  <tr><td>Purpose</td><td>Reduce the image to a few repeatable points</td><td>Make points comparable, ideally invariant to rotation, scale and lighting</td></tr>
+  <tr><td>Examples</td><td>Harris, Shi-Tomasi, FAST, DoG blobs</td><td>SIFT, SURF, BRIEF, ORB (rotated BRIEF)</td></tr>
+  <tr><td>Used by</td><td>Tracking, corner finding</td><td>Matching, recognition, stitching</td></tr>
+</table>
+<p><strong>Example:</strong> in a photo of a book cover, FAST marks the corners of letters and the cover (extraction); ORB then records, for each corner, a 256-bit string describing the pixel intensities around it (description). The same book in another photo — even taken from a different angle or under different lighting — produces similar bit strings at the corresponding corners, which are matched by computing the Hamming distance (number of differing bits) and keeping only pairs below a threshold. Some algorithms do both stages: SIFT and ORB provide a detector and a descriptor, and <code>detectAndCompute</code> runs both together for efficiency.</p>
+<pre><code>import cv2
+gray = cv2.imread("book.jpg", cv2.IMREAD_GRAYSCALE)
+orb = cv2.ORB_create()
+kps = orb.detect(gray, None)                              # extraction: only keypoint positions
+kps, des = orb.compute(gray, kps)                         # description: one 32-byte (256-bit) row per keypoint
+print(des.shape)                                          # (number_of_keypoints, 32)
+kps2, des2 = orb.detectAndCompute(gray, None)             # both steps in one call</code></pre>
+
+<p><strong>Why they are separated:</strong> the same detector can be paired with different descriptors (for example FAST detection with BRIEF description, or FAST with ORB's rotated BRIEF), so the two stages can be chosen independently to balance speed, accuracy and invariance for a given application. A mobile AR app might choose FAST (very fast detection) with a short binary descriptor for real-time performance, while a panorama stitcher might choose SIFT detection with SIFT descriptors for maximum accuracy and scale invariance. The descriptor quality determines how reliably two images can be matched, while the detector quality determines how many stable, repeatable keypoints are available for the descriptor to work with. In OpenCV, algorithms that provide both stages expose a <code>detectAndCompute</code> method that runs them together for efficiency, but the conceptual separation remains.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q33 -->
+  <div class="tab-content" id="tab-2">
+    <div class="question-block" data-qid="cv-u4-q33">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q33', 2)" aria-label="Mark as done"></button>
+        <h2 class="q-title">33. Explain the working principles of Harris and Shi-Tomasi corner detectors and distinguish their outputs.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q33', 2)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Both Harris and Shi-Tomasi are based on the same fundamental idea: slide a small window over the image and measure how much the pixel intensities inside the window change when the window is shifted in every direction. At a <strong>corner</strong>, the intensities change strongly in all directions because the window straddles two or more edges meeting at a point. At an edge, intensities change only perpendicular to the edge but remain constant along it. In a flat, uniform region, there is no significant change in any direction. The magnitude of change is captured mathematically by the <em>structure matrix</em> (also called the auto-correlation or second-moment matrix), which is constructed from the image's horizontal and vertical gradients computed within the window.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 420 148" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a33" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="6" width="100" height="84" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><rect x="35" y="23" width="50" height="50" rx="0" fill="none" stroke="var(--warning)" stroke-dasharray="4 3"/><text x="60" y="106" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">flat region</text><text x="60" y="120" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">no change</text><rect x="150" y="6" width="100" height="84" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><path d="M200,6 L250,6 L250,90 L200,90 Z" fill="var(--accent)" stroke="none" stroke-width="2"/><rect x="175" y="23" width="50" height="50" rx="0" fill="none" stroke="var(--warning)" stroke-dasharray="4 3"/><text x="200" y="106" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">edge</text><text x="200" y="120" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">one direction</text><rect x="290" y="6" width="100" height="84" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><path d="M340,48 L390,48 L390,90 L340,90 Z" fill="var(--accent)" stroke="none" stroke-width="2"/><rect x="315" y="23" width="50" height="50" rx="0" fill="none" stroke="var(--warning)" stroke-dasharray="4 3"/><text x="340" y="106" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">corner</text><text x="340" y="120" text-anchor="middle" fill="var(--text-muted)" font-size="9.5">all directions</text><text x="60" y="138" text-anchor="middle" fill="var(--text-muted)" font-size="10">λ1 ≈ λ2 ≈ 0</text><text x="200" y="138" text-anchor="middle" fill="var(--text-muted)" font-size="10">λ1 large, λ2 small</text><text x="340" y="138" text-anchor="middle" fill="var(--important)" font-size="10" font-weight="600">λ1, λ2 both large</text></svg>
+</div>
+<h3>Harris corner detector</h3>
+<div class="formula">\[ M=\sum_{w}\begin{bmatrix}I_x^{2}&I_xI_y\\I_xI_y&I_y^{2}\end{bmatrix},\qquad R=\det(M)-k\,\big(\operatorname{trace}(M)\big)^{2} \]</div>
+<p>\(I_x,I_y\) are the image gradients in x and y, summed over the window \(w\); \(M\) summarises how strongly the window changes in each direction (its eigenvalues \(\lambda_1,\lambda_2\) are the changes along the two principal directions); \(k\) is a constant, usually 0.04&ndash;0.06. Using \(\det M=\lambda_1\lambda_2\) and \(\operatorname{trace}M=\lambda_1+\lambda_2\), the score \(R\) is large and positive for a corner (both \(\lambda\) large), negative for an edge (one large) and small for a flat region. Pixels with \(R\) above a threshold, and which are local maxima, are the corners.</p>
+<h3>Shi-Tomasi detector</h3>
+<div class="formula">\[ R=\min(\lambda_1,\lambda_2) \]</div>
+<p>Shi-Tomasi uses the same matrix \(M\) but scores a point by the <em>smaller</em> eigenvalue; a point is a corner if even the weaker direction changes strongly, i.e. \(\min(\lambda_1,\lambda_2)\) is above a threshold. This avoids the constant \(k\) and gives points that are better for tracking.</p>
+<table>
+  <tr><th></th><th>Harris</th><th>Shi-Tomasi</th></tr>
+  <tr><td>Score</td><td>\(\det M-k\,\operatorname{trace}^2 M\)</td><td>\(\min(\lambda_1,\lambda_2)\)</td></tr>
+  <tr><td>Parameter</td><td>Constant \(k\) and threshold</td><td>Quality level, number of corners, minimum distance</td></tr>
+  <tr><td>Output (OpenCV)</td><td>A response image \(R\) the size of the input (a map to be thresholded)</td><td>A list of the N strongest corner coordinates</td></tr>
+  <tr><td>Quality</td><td>Good, slightly less stable</td><td>Generally more reliable for tracking</td></tr>
+</table>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("building.jpg")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+harris = cv2.cornerHarris(np.float32(gray), 2, 3, 0.04)   # blockSize=2 window, Sobel ksize=3, k=0.04 -&gt; response map R
+img[harris &gt; 0.01 * harris.max()] = (0, 0, 255)           # mark pixels above 1% of the strongest response in red
+
+pts = cv2.goodFeaturesToTrack(gray, 100, 0.01, 10)        # Shi-Tomasi: max 100 corners, quality 0.01, min distance 10 px
+for p in pts.astype(int):                                 # each p is [[x, y]]
+    cv2.circle(img, tuple(p[0]), 4, (0, 255, 0), -1)      # draw the corner as a green dot</code></pre>
+<h3>Practical notes</h3><p>Both methods work on a grayscale image and rely on intensity gradients, so they are rotation-invariant (rotating the image rotates the gradient directions but does not change the eigenvalues) but <em>not</em> scale-invariant: a sharp corner in a close-up may appear as a smooth edge when the camera zooms out or the image is downsampled. In Harris, the threshold is set relative to the maximum response value, and increasing \(k\) raises the bar for what counts as a corner versus an edge. In Shi-Tomasi, the <code>minDistance</code> parameter enforces a minimum spacing between detected corners, preventing them from clustering on a single texture patch. Because Shi-Tomasi's <code>goodFeaturesToTrack</code> directly returns an ordered array of corner coordinates, its output can be fed immediately into Lucas-Kanade optical-flow tracking without any post-processing.</p><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q34 -->
+  <div class="tab-content" id="tab-3">
+    <div class="question-block" data-qid="cv-u4-q34">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q34', 3)" aria-label="Mark as done"></button>
+        <h2 class="q-title">34. Explain subpixel localization and discuss why it can improve the accuracy of feature-point detection.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q34', 3)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Standard feature detectors report corner positions as whole pixel coordinates (integers), but the true geometric corner in the scene almost never falls exactly on a pixel grid point — it may lie anywhere within that pixel's area, meaning the reported position can be off by up to half a pixel in each direction. <strong>Subpixel localisation</strong> refines this coarse position to a fraction of a pixel (for example (120.3, 87.8) instead of (120, 88)) by analysing the intensity or response values in the immediate neighbourhood of the detected point and interpolating to find the true peak or zero-crossing between the discrete samples. This seemingly small improvement — often reaching an accuracy of 0.05 to 0.1 pixels — has a dramatic impact on tasks where geometry is computed from point positions.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 440 218" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a34" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="50" y1="190" x2="430" y2="190" stroke="var(--text-muted)" stroke-width="1"/><line x1="50" y1="190" x2="50" y2="20" stroke="var(--text-muted)" stroke-width="1"/><path d="M44.0,171.5 L47.9,168.7 L51.8,166.0 L55.7,163.3 L59.6,160.7 L63.5,158.2 L67.4,155.7 L71.3,153.2 L75.2,150.8 L79.1,148.5 L83.0,146.3 L86.9,144.1 L90.8,141.9 L94.7,139.8 L98.6,137.8 L102.5,135.9 L106.4,134.0 L110.3,132.1 L114.2,130.3 L118.1,128.6 L122.0,126.9 L125.9,125.3 L129.8,123.8 L133.7,122.3 L137.6,120.9 L141.5,119.5 L145.4,118.2 L149.3,116.9 L153.2,115.7 L157.1,114.6 L161.0,113.5 L164.9,112.5 L168.8,111.5 L172.7,110.6 L176.6,109.8 L180.5,109.0 L184.4,108.3 L188.3,107.6 L192.2,107.0 L196.1,106.5 L200.0,106.0 L203.9,105.6 L207.8,105.2 L211.7,104.9 L215.6,104.7 L219.5,104.5 L223.4,104.3 L227.3,104.3 L231.2,104.3 L235.1,104.3 L239.0,104.4 L242.9,104.6 L246.8,104.8 L250.7,105.1 L254.6,105.4 L258.5,105.8 L262.4,106.3 L266.3,106.8 L270.2,107.4 L274.1,108.0 L278.0,108.7 L281.9,109.5 L285.8,110.3 L289.7,111.2 L293.6,112.1 L297.5,113.1 L301.4,114.2 L305.3,115.3 L309.2,116.4 L313.1,117.7 L317.0,119.0 L320.9,120.3 L324.8,121.7 L328.7,123.2 L332.6,124.7 L336.5,126.3 L340.4,127.9 L344.3,129.7 L348.2,131.4 L352.1,133.2 L356.0,135.1" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="80.0" cy="148.0" r="5" fill="var(--text)"/><text x="80.0" y="206" text-anchor="middle" fill="var(--text)" font-size="10">x-1</text><circle cx="200.0" cy="106.0" r="5" fill="var(--text)"/><text x="200.0" y="206" text-anchor="middle" fill="var(--text)" font-size="10">x</text><circle cx="320.0" cy="120.0" r="5" fill="var(--text)"/><text x="320.0" y="206" text-anchor="middle" fill="var(--text)" font-size="10">x+1</text><circle cx="230.0" cy="104.2" r="6" fill="var(--important)"/><line x1="230.0" y1="104.25" x2="230.0" y2="190" stroke="var(--important)" stroke-width="1" stroke-dasharray="4 3"/><text x="238.0" y="94.25" text-anchor="start" fill="var(--important)" font-size="10" font-weight="600">true peak (sub-pixel)</text><text x="192.0" y="94.0" text-anchor="end" fill="var(--text)" font-size="10">best pixel</text><text x="240" y="12" text-anchor="middle" fill="var(--text-muted)" font-size="10">corner response around the best pixel</text></svg>
+</div>
+<h3>How it works</h3>
+<p>The corner response near the best pixel is a smooth bump. Fitting a parabola through the response at \(x-1\), \(x\) and \(x+1\) and finding its maximum gives the offset from the central pixel:</p>
+<div class="formula">\[ \delta=\frac{f(x-1)-f(x+1)}{2\,\big(f(x-1)-2f(x)+f(x+1)\big)} \]</div>
+<p>\(f(\cdot)\) is the response (or intensity) value at a pixel, \(x\) is the best integer position and \(\delta\) (between \(-0.5\) and \(+0.5\)) is the shift to add: refined position \(=x+\delta\). With the sample values 6, 9 and 8 in the figure, \(\delta=(6-8)/(2(6-18+8))=0.25\), so the peak lies a quarter of a pixel to the right. The same idea is applied in x and y. OpenCV's <code>cornerSubPix</code> does it iteratively: it looks for the point where the gradient vectors in the neighbourhood are perpendicular to the lines joining them to the point, repeating until the movement is smaller than a set value.</p>
+<h3>Why it is important</h3>
+<p>The practical significance of subpixel refinement becomes clear when you consider the downstream computations that depend on point positions. In camera calibration, the intrinsic and extrinsic parameters are solved from a system of equations built around the detected chessboard corners — even a 0.3-pixel systematic bias across a 40-corner board can shift the focal length estimate noticeably and inflate reprojection error. Industrial measurement systems, autonomous vehicle cameras and medical-imaging pipelines all demand calibration accuracy that whole-pixel corners cannot deliver. In stereo vision and 3D reconstruction, depth is triangulated from the horizontal disparity between corresponding points in left and right images — because disparity is itself only a few pixels for distant objects, a half-pixel error in either image can translate to centimetres of depth error at range. Subpixel localisation also underpins optical-flow tracking, panorama stitching and augmented-reality registration, where accumulated positional drift causes visible jitter or seam artefacts over time.</p>
+<pre><code>import cv2, numpy as np
+gray = cv2.imread("chess.jpg", cv2.IMREAD_GRAYSCALE)
+corners = cv2.goodFeaturesToTrack(gray, 50, 0.01, 10)     # integer-accuracy corners, shape (N, 1, 2)
+corners = np.float32(corners)                             # cornerSubPix needs float32 points
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 40, 0.001)   # stop at 40 iterations or move &lt; 0.001 px
+refined = cv2.cornerSubPix(gray, corners, (5, 5), (-1, -1), criteria)        # (5,5) = half search window; (-1,-1) = no dead zone
+print(corners[0], "-&gt;", refined[0])                       # e.g. [120. 88.] -&gt; [120.31 87.82]</code></pre>
+<h3>Key points to remember</h3><ul><li>Pixel positions are integers; true positions are real numbers; refinement closes the gap using local interpolation of intensity or response values.</li><li>Method: fit a smooth surface (parabola or second-order Taylor expansion) to the response, or use the gradient-perpendicularity condition in <code>cornerSubPix</code>, iterating until convergence.</li><li>Typical accuracy of 0.05–0.1 pixel, enough to lower calibration reprojection error from several pixels to a fraction of a pixel.</li><li>The search window must be large enough to capture the curvature around the peak but small enough to contain only one corner — overlapping windows mix corners and ruin accuracy.</li></ul><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q35 -->
+  <div class="tab-content" id="tab-4">
+    <div class="question-block" data-qid="cv-u4-q35">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q35', 4)" aria-label="Mark as done"></button>
+        <h2 class="q-title">35. Describe the main stages involved in computing feature descriptors and matching features between images.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q35', 4)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>descriptor</strong> is a compact numerical summary — a fixed-length vector of numbers or bits — that captures the visual appearance of the local region around a keypoint. The fundamental goal is to produce a representation that stays nearly identical when the same physical point is seen under different viewpoints, lighting conditions or scales, while remaining distinct enough that points on different surfaces do not get confused. The entire feature-based pipeline rests on descriptors: without them, a detected keypoint is just coordinates with no identity, making it impossible to tell which point in image A corresponds to which point in image B. Computing descriptors and matching them across images involves several clearly defined stages.</p>
+<h3>A. Computing a descriptor</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 543 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a35" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="66.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="43.0" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Keypoint</text><text x="43.0" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">detected</text><line x1="78.0" y1="38.0" x2="96.0" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a35)"/><rect x="98.0" y="14" width="93.5" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="144.75" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Neighbourhood</text><text x="144.75" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">patch</text><line x1="193.5" y1="38.0" x2="211.5" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a35)"/><rect x="213.5" y="14" width="78.1" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="252.55" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Normalise</text><text x="252.55" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">scale, angle</text><line x1="293.6" y1="38.0" x2="311.6" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a35)"/><rect x="313.6" y="14" width="110.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="368.6" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Local properties</text><text x="368.6" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">gradients</text><line x1="425.6" y1="38.0" x2="443.6" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a35)"/><rect x="445.6" y="14" width="77.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="484.1" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Descriptor</text><text x="484.1" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">vector</text></svg>
+</div>
+<ol>
+  <li><strong>Detect keypoints</strong> with a detector (Harris, FAST, DoG) and record position, scale and orientation.</li>
+  <li><strong>Select a local neighbourhood</strong> (a patch, e.g. 16&times;16 pixels in SIFT) whose size follows the keypoint scale.</li>
+  <li><strong>Normalise the region:</strong> rotate it to the keypoint's dominant orientation (rotation invariance) and resize it to a standard size (scale invariance).</li>
+  <li><strong>Calculate local properties:</strong> gradient directions and magnitudes in sub-blocks (SIFT builds histograms of gradient orientation), or intensity comparisons between pixel pairs (BRIEF/ORB).</li>
+  <li><strong>Generate the descriptor</strong> by joining these measurements into one vector (128 numbers for SIFT, 256 bits for ORB).</li>
+  <li><strong>Normalise the descriptor</strong> (for example scale it to unit length) so that changes in brightness and contrast have little effect.</li>
+</ol>
+<h3>B. Matching between images</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 532 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a36" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="93.5" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="56.75" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Descriptors A</text><text x="56.75" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">image 1</text><line x1="105.5" y1="38.0" x2="123.5" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a36)"/><rect x="125.5" y="14" width="78.1" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="164.55" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Distance</text><text x="164.55" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">L2 / Hamming</text><line x1="205.6" y1="38.0" x2="223.6" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a36)"/><rect x="225.6" y="14" width="77.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="264.1" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Best match</text><text x="264.1" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">nearest</text><line x1="304.6" y1="38.0" x2="322.6" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a36)"/><rect x="324.6" y="14" width="77.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="363.1" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Ratio test</text><text x="363.1" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">filter</text><line x1="403.6" y1="38.0" x2="421.6" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a36)"/><rect x="423.6" y="14" width="88.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="467.6" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Good matches</text><text x="467.6" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">output</text></svg>
+</div>
+<ol>
+  <li>Compute descriptors in both images.</li>
+  <li>For every descriptor of image 1, find the closest descriptors in image 2 using a distance: Euclidean (L2) for float descriptors such as SIFT, Hamming distance (number of differing bits) for binary ones such as ORB.</li>
+  <li>Keep a match only if it passes a test: <em>cross-check</em> (A's best is B's best too) or Lowe's <em>ratio test</em>, which accepts a match when the best distance is clearly smaller than the second-best (for example best &lt; 0.75 &times; second).</li>
+  <li>Use the good matches for homography, stitching or tracking, with RANSAC to remove remaining mistakes.</li>
+</ol>
+<pre><code>import cv2
+a = cv2.imread("img1.jpg", 0); b = cv2.imread("img2.jpg", 0)    # 0 = load as grayscale
+orb = cv2.ORB_create(1000)
+ka, da = orb.detectAndCompute(a, None)                    # keypoints + descriptors of image 1
+kb, db = orb.detectAndCompute(b, None)                    # keypoints + descriptors of image 2
+bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)     # brute force; Hamming because ORB is binary
+matches = sorted(bf.match(da, db), key=lambda m: m.distance)   # smaller distance = better match
+vis = cv2.drawMatches(a, ka, b, kb, matches[:30], None)   # draw the 30 best matches</code></pre>
+
+<p><strong>Choosing the descriptor</strong> is a trade-off between accuracy and speed. SIFT produces 128-dimensional float vectors with strong invariance to scale, rotation and moderate viewpoint changes, but each descriptor comparison requires 128 floating-point subtractions and a square-root, making brute-force matching expensive for large sets. ORB encodes 256-bit binary strings computed from simple pixel-pair intensity comparisons, so matching uses XOR-and-popcount (Hamming distance), which modern CPUs execute in a single instruction — this makes ORB orders of magnitude faster than SIFT and well-suited for real-time applications like mobile AR and SLAM. SURF sits between the two in both accuracy and speed. The matching distance must always match the descriptor type: L2 norm for float descriptors, Hamming for binary ones — using the wrong metric silently produces garbage matches.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q36 -->
+  <div class="tab-content" id="tab-5">
+    <div class="question-block" data-qid="cv-u4-q36">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q36', 5)" aria-label="Mark as done"></button>
+        <h2 class="q-title">36. Apply FLANN-based feature matching to identify corresponding keypoints in two images. Explain the major steps.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q36', 5)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>FLANN</strong> (Fast Library for Approximate Nearest Neighbours) is a library specifically designed for high-dimensional nearest-neighbour search, which is the core operation in descriptor matching. When two images together produce thousands of keypoints, brute-force matching must compare every query descriptor against every database descriptor — an \(O(N\times M)\) operation that becomes prohibitively slow for real-time applications or large image databases. FLANN avoids this cost by first building a spatial search structure (an index) over the database descriptors and then searching it approximately, accepting a tiny probability of missing the exact best match in exchange for a speed-up that can reach 10–100× depending on the number of descriptors and the dimensionality of the feature space.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 567 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a37" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="115.50000000000001" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="67.75" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Detect + describe</text><text x="67.75" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">both images</text><line x1="127.50000000000001" y1="38.0" x2="145.5" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a37)"/><rect x="147.5" y="14" width="82.775" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="188.8875" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Build index</text><text x="188.8875" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">KD-tree / LSH</text><line x1="232.275" y1="38.0" x2="250.275" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a37)"/><rect x="252.275" y="14" width="66.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="285.275" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">knnMatch</text><text x="285.275" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">k = 2</text><line x1="320.275" y1="38.0" x2="338.275" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a37)"/><rect x="340.275" y="14" width="96.80000000000001" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="388.67499999999995" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Ratio test</text><text x="388.67499999999995" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">best < 0.7 x 2nd</text><line x1="439.075" y1="38.0" x2="457.075" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a37)"/><rect x="459.075" y="14" width="88.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="503.075" y="37.0" text-anchor="middle" fill="var(--text)" font-size="10">Good matches</text><text x="503.075" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">draw / use</text></svg>
+</div>
+<h3>Major steps</h3>
+<ol>
+  <li><strong>Detect keypoints and compute descriptors</strong> in the query and train images (SIFT or ORB).</li>
+  <li><strong>Choose the index to suit the descriptor:</strong> randomised <em>KD-trees</em> for float descriptors (SIFT/SURF), which partition the 128-dimensional space into regions for fast lookup; <em>LSH</em> (locality-sensitive hashing) for binary descriptors (ORB), which groups similar bit strings into the same hash buckets.</li>
+  <li><strong>Create the matcher</strong> with index parameters (number of trees for KD-tree, or number of hash tables and key size for LSH) and search parameters (number of checks — the number of leaf nodes examined per query; more checks give higher recall but increase latency proportionally).</li>
+  <li><strong>Find the two nearest neighbours</strong> of each query descriptor with <code>knnMatch(k=2)</code>.</li>
+  <li><strong>Apply Lowe's ratio test:</strong> keep a match if \(d_1<0.7\,d_2\), where \(d_1\) and \(d_2\) are the distances to the best and second-best neighbours; an ambiguous match has \(d_1\approx d_2\) and is rejected.</li>
+  <li><strong>Use or draw the good matches</strong> (<code>drawMatches</code>), then estimate a homography with RANSAC if the object is to be located.</li>
+</ol>
+<pre><code>import cv2
+q = cv2.imread("query.jpg", 0); t = cv2.imread("scene.jpg", 0)
+sift = cv2.SIFT_create()                                  # float descriptors (128-D)
+kq, dq = sift.detectAndCompute(q, None)
+kt, dt = sift.detectAndCompute(t, None)
+
+index_params = dict(algorithm=1, trees=5)                 # algorithm 1 = KD-tree, 5 trees
+search_params = dict(checks=50)                           # leaves visited per search; higher = more exact
+flann = cv2.FlannBasedMatcher(index_params, search_params)
+pairs = flann.knnMatch(dq, dt, k=2)                       # two nearest neighbours for every query descriptor
+
+good = [m for m, n in pairs if m.distance &lt; 0.7 * n.distance]   # ratio test keeps only unambiguous matches
+vis = cv2.drawMatches(q, kq, t, kt, good, None)
+# for ORB use: dict(algorithm=6, table_number=6, key_size=12, multi_probe_level=1)  # 6 = LSH</code></pre>
+<p><strong>Remember:</strong> KD-tree for SIFT (floats), LSH for ORB (bits); the ratio test is what removes false matches.</p>
+
+<p><strong>Brute force or FLANN?</strong> The brute-force matcher compares every pair of descriptors and guarantees the exact nearest neighbour; it is perfectly adequate and often faster for a few hundred keypoints because it has no indexing overhead. FLANN pays an upfront cost to build its KD-tree or LSH index, but that investment is repaid many times over when the descriptor count reaches the thousands — panorama stitching with SIFT on high-resolution images, for example, can easily produce 5,000+ descriptors per image. Matching quality is controlled by two knobs: the index structure parameters (number of trees for KD-tree, or table count for LSH) and the ratio-test threshold — a stricter ratio like 0.6 yields fewer but highly reliable matches, while a relaxed 0.8 returns more correspondences at the cost of more false positives that RANSAC must later clean up.</p><!--x--><p><strong>Output:</strong> a list of good matches — pairs of keypoint indices, one from each image — that can be visualised as lines between the two images using <code>drawMatches</code> or fed directly to <code>findHomography</code> with RANSAC to compute the geometric transformation relating the two views.</p><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q37 -->
+  <div class="tab-content" id="tab-6">
+    <div class="question-block" data-qid="cv-u4-q37">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q37', 6)" aria-label="Mark as done"></button>
+        <h2 class="q-title">37. Apply homography estimation to localize a planar object in an image and explain the role of matched keypoints and outlier rejection.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q37', 6)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>homography</strong> is a \(3\times3\) projective transformation matrix \(H\) that maps every point on one plane to the corresponding point on another plane as seen through a camera. The key geometric insight is that when the scene surface is planar — a book cover, a poster, a road sign, a warehouse box face — the relationship between any two views of that surface is completely described by a single homography, regardless of how different the camera angles are. This makes homography estimation one of the most practical tools in computer vision: by computing \(H\) from detected feature correspondences between a known reference image of the object and a live scene, we can localise the object precisely even under significant rotation, scaling, foreshortening or perspective distortion.</p>
+<div class="formula">\[ s\begin{bmatrix}x'\\y'\\1\end{bmatrix}=\begin{bmatrix}h_{11}&h_{12}&h_{13}\\h_{21}&h_{22}&h_{23}\\h_{31}&h_{32}&1\end{bmatrix}\begin{bmatrix}x\\y\\1\end{bmatrix} \]</div>
+<p>\((x,y)\) is a point in the reference image, \((x',y')\) the corresponding point in the scene, \(s\) is a scale factor (divide by it to get the pixel position) and the nine entries of \(H\) hold rotation, translation, scaling and perspective. Fixing the last entry to 1 leaves 8 unknowns, and each point pair gives 2 equations, so at least <strong>4 matched points</strong> are needed.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 530 186" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a98" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="20" y="26" width="130" height="100" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><text x="85" y="18" text-anchor="middle" fill="var(--text-muted)" font-size="10">query (reference object)</text><rect x="250" y="14" width="260" height="130" rx="0" fill="var(--surface2)" stroke="var(--text-muted)"/><text x="380" y="160" text-anchor="middle" fill="var(--text-muted)" font-size="10">scene</text><path d="M330,40 L440,58 L428,118 L322,104 Z" fill="none" stroke="var(--success)" stroke-width="2.6"/><circle cx="20" cy="26" r="4" fill="var(--accent)"/><circle cx="330" cy="40" r="4" fill="var(--accent)"/><line x1="25" y1="26" x2="325" y2="40" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 3"/><circle cx="150" cy="26" r="4" fill="var(--accent)"/><circle cx="440" cy="58" r="4" fill="var(--accent)"/><line x1="155" y1="26" x2="435" y2="58" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 3"/><circle cx="150" cy="126" r="4" fill="var(--accent)"/><circle cx="428" cy="118" r="4" fill="var(--accent)"/><line x1="155" y1="126" x2="423" y2="118" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 3"/><circle cx="20" cy="126" r="4" fill="var(--accent)"/><circle cx="322" cy="104" r="4" fill="var(--accent)"/><line x1="25" y1="126" x2="317" y2="104" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4 3"/><circle cx="480" cy="30" r="4" fill="var(--important)"/><text x="486" y="46" text-anchor="start" fill="var(--important)" font-size="9.5">outlier</text><line x1="150" y1="76" x2="478" y2="31" stroke="var(--important)" stroke-width="1" stroke-dasharray="2 4"/><text x="380" y="176" text-anchor="middle" fill="var(--success)" font-size="10" font-weight="600">green quad = H applied to the 4 corners of the query</text></svg>
+</div>
+<h3>Steps</h3>
+<ol>
+  <li>Detect keypoints and compute descriptors in the reference image and in the scene.</li>
+  <li>Match them (FLANN or brute force) and keep the good matches with the ratio test.</li>
+  <li><strong>Estimate \(H\)</strong> from the matched points: <code>findHomography</code>.</li>
+  <li><strong>Reject outliers with RANSAC:</strong> repeatedly pick 4 random matches, compute \(H\), count how many other matches agree within a pixel threshold (the <em>inliers</em>) and keep the \(H\) with most inliers. Wrong matches (the red outlier in the figure) do not fit the plane and are discarded.</li>
+  <li><strong>Transform the object corners</strong> with <code>perspectiveTransform</code> and draw the resulting quadrilateral in the scene.</li>
+</ol>
+<p>The matched keypoints supply the correspondences without which \(H\) cannot be computed; outlier rejection is essential because even a few wrong matches would give a badly wrong \(H\).</p>
+<pre><code>import cv2, numpy as np
+# kq, kt = keypoints of query / scene; good = matches that passed the ratio test (see Q36)
+src = np.float32([kq[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)   # points in the query image
+dst = np.float32([kt[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)   # same points in the scene
+H, mask = cv2.findHomography(src, dst, cv2.RANSAC, 5.0)   # 5.0 px = max error to count as an inlier; mask marks inliers
+h, w = q.shape                                            # size of the reference image
+corners = np.float32([[0, 0], [w, 0], [w, h], [0, h]]).reshape(-1, 1, 2)
+box = cv2.perspectiveTransform(corners, H)                # where the 4 corners land in the scene
+cv2.polylines(scene, [np.int32(box)], True, (0, 255, 0), 3)   # outline the located object</code></pre>
+<h3>Limits of the method</h3><p>A homography is valid only for a flat surface or a pure camera rotation (where every depth behaves as one plane at infinity); for a genuinely 3D object with multiple surfaces at different depths, no single \(H\) can fit all points simultaneously — you would need the fundamental matrix or a full 3D model instead. The estimation also requires at least 4 non-collinear inlier matches and sufficient texture on the object to generate reliable descriptors; textureless or highly repetitive surfaces (a white wall, a brick pattern) either produce too few keypoints or too many ambiguous matches. Always check the inlier count (<code>mask.sum()</code>) before trusting the result — a low ratio of inliers to total matches is a strong signal that the object was not found. The RANSAC reprojection threshold (typically 3–5 pixels) controls how tightly a match must agree with the model to count as an inlier; too tight rejects correct matches under noise, too loose admits outliers that distort \(H\).</p><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q38 -->
+  <div class="tab-content" id="tab-7">
+    <div class="question-block" data-qid="cv-u4-q38">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q38', 7)" aria-label="Mark as done"></button>
+        <h2 class="q-title">38. Apply a perspective transformation to convert a distorted view of a planar object into a frontal view.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q38', 7)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>When a flat object — a document, whiteboard, number plate or book page — is photographed from an oblique angle rather than head-on, the resulting image exhibits perspective distortion: parallel edges converge, the shape appears trapezoidal and the near side looks proportionally larger than the far side. <strong>Perspective correction</strong> (also called rectification or "de-warping") computes a projective transformation that reverses this distortion, re-projecting the object as if the camera had been positioned exactly perpendicular to the surface. The corrected output is a clean, rectangular frontal view suitable for OCR, measurement, archival scanning or further image analysis. This is one of the most commonly used geometric transformations in practical computer vision, powering document-scanner apps, automatic whiteboard capture, overhead lane-detection views in autonomous driving and art restoration photography.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 450 140" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a38" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><path d="M40,30 L190,10 L210,120 L20,100 Z" fill="var(--surface2)" stroke="var(--important)" stroke-width="2"/><text x="110" y="70" text-anchor="middle" fill="var(--text-muted)" font-size="11">skewed view</text><circle cx="40" cy="30" r="4" fill="var(--warning)"/><text x="32" y="34" text-anchor="middle" fill="var(--warning)" font-size="11" font-weight="600">A</text><circle cx="190" cy="10" r="4" fill="var(--warning)"/><text x="200" y="14" text-anchor="middle" fill="var(--warning)" font-size="11" font-weight="600">B</text><circle cx="210" cy="120" r="4" fill="var(--warning)"/><text x="220" y="124" text-anchor="middle" fill="var(--warning)" font-size="11" font-weight="600">C</text><circle cx="20" cy="100" r="4" fill="var(--warning)"/><text x="12" y="104" text-anchor="middle" fill="var(--warning)" font-size="11" font-weight="600">D</text><line x1="225" y1="66" x2="285" y2="66" stroke="var(--accent)" stroke-width="2" marker-end="url(#a38)"/><text x="255" y="56" text-anchor="middle" fill="var(--accent)" font-size="12" font-weight="600">H</text><rect x="300" y="20" width="130" height="100" rx="0" fill="var(--surface2)" stroke="var(--success)"/><text x="365.0" y="74.0" text-anchor="middle" fill="var(--text)" font-size="11">frontal view</text><circle cx="300" cy="20" r="4" fill="var(--warning)"/><circle cx="430" cy="20" r="4" fill="var(--warning)"/><circle cx="430" cy="120" r="4" fill="var(--warning)"/><circle cx="300" cy="120" r="4" fill="var(--warning)"/></svg>
+</div>
+<p>The mapping is a homography (Q37). For a destination pixel the position in the source is found with</p>
+<div class="formula">\[ x'=\frac{h_{11}x+h_{12}y+h_{13}}{h_{31}x+h_{32}y+1},\qquad y'=\frac{h_{21}x+h_{22}y+h_{23}}{h_{31}x+h_{32}y+1} \]</div>
+<p>\((x,y)\) is a point in the skewed image, \((x',y')\) its position in the corrected image and \(h_{ij}\) are the entries of the \(3\times3\) matrix. The division by the denominator is what makes parallel lines converge (perspective), and an affine transformation is the special case \(h_{31}=h_{32}=0\), which cannot do this. Four point pairs determine the eight unknown \(h\) values.</p>
+<h3>Steps</h3>
+<ol>
+  <li>Locate the four corners of the object in the input (by clicking, or by contour detection and <code>approxPolyDP</code>).</li>
+  <li>Choose where these four corners should go: the corners of a rectangle of the wanted output size.</li>
+  <li>Compute the matrix with <code>getPerspectiveTransform</code>.</li>
+  <li>Apply it with <code>warpPerspective</code> and show or save the result.</li>
+</ol>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("skewed_page.jpg")
+src = np.float32([[120, 80], [520, 60], [560, 400], [90, 430]])   # 4 corners in the photo: TL, TR, BR, BL (same order as dst!)
+W, H = 400, 500                                           # size of the frontal output
+dst = np.float32([[0, 0], [W, 0], [W, H], [0, H]])        # where those corners should land
+M = cv2.getPerspectiveTransform(src, dst)                 # exact 3x3 matrix from 4 point pairs
+flat = cv2.warpPerspective(img, M, (W, H))                # apply: output size is (width, height)
+cv2.imwrite("frontal.jpg", flat)</code></pre>
+<p><strong>Note:</strong> <code>getPerspectiveTransform</code> uses exactly 4 points; with many noisy matches use <code>findHomography</code> instead. Points must be listed in the same order in <code>src</code> and <code>dst</code>.</p>
+
+<h3>Practical uses and cautions</h3>
+<p>Perspective correction is central to mobile document scanning (apps like CamScanner detect the page quadrilateral automatically, warp it and produce a clean PDF), whiteboard-to-notes conversion, licence-plate recognition in traffic systems (where the plate is almost never perfectly frontal) and bird's-eye view generation for autonomous driving lane detection. Accuracy depends critically on the four source corner points — a one-pixel error at a corner can shift a distant part of the corrected image by several pixels, so subpixel refinement or careful manual placement matters. The output dimensions should preserve the real aspect ratio of the object; guessing a square output for a rectangular document will stretch the text. This method works only for planar surfaces — a curved book spine or a cylindrical can cannot be corrected by a single homography. For the interpolation flag in <code>warpPerspective</code>, <code>INTER_LINEAR</code> is the default and is fast, while <code>INTER_CUBIC</code> gives smoother results at a small extra cost, and both are preferred over nearest-neighbour which introduces visible staircase artefacts on text and edges.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q39 -->
+  <div class="tab-content" id="tab-8">
+    <div class="question-block" data-qid="cv-u4-q39">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q39', 8)" aria-label="Mark as done"></button>
+        <h2 class="q-title">39. Analyze the working of cascade classifiers and discuss how scale, illumination, and pose variations affect their detection performance.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q39', 8)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>cascade classifier</strong>, introduced by Viola and Jones in 2001 for real-time face detection, detects objects by sliding a fixed-size window across the image and passing each window position through a series of increasingly strict tests. The framework rests on three mutually reinforcing ideas. <strong>Haar-like features</strong> encode local contrast patterns — for instance the difference between the sum of pixels in a bright rectangular region and the sum in an adjacent dark region captures the fact that the eye sockets are darker than the cheek or forehead. The <strong>integral image</strong> (also called a summed-area table) pre-computes cumulative pixel sums so that the sum of any axis-aligned rectangle can be evaluated with exactly four array look-ups regardless of its size, making Haar feature evaluation essentially free. <strong>AdaBoost</strong> (Adaptive Boosting) then selects the most discriminative features from the enormous pool of all possible rectangle placements and combines hundreds of individually weak classifiers into a strong composite classifier that achieves high accuracy.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 610 160" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a39" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="50" width="80" height="44" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="50.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="10">Sub-window</text><text x="50.0" y="85.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">every position/scale</text><line x1="92" y1="72" x2="114" y2="72" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a39)"/><rect x="116" y="50" width="74" height="44" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="153.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="10">Stage 1</text><text x="153.0" y="85.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">few features</text><line x1="153" y1="96" x2="153" y2="128" stroke="var(--important)" stroke-width="1" marker-end="url(#a39)"/><text x="153" y="142" text-anchor="middle" fill="var(--important)" font-size="9.5">reject</text><line x1="192" y1="72" x2="214" y2="72" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a39)"/><rect x="216" y="50" width="74" height="44" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="253.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="10">Stage 2</text><text x="253.0" y="85.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">more</text><line x1="253" y1="96" x2="253" y2="128" stroke="var(--important)" stroke-width="1" marker-end="url(#a39)"/><text x="253" y="142" text-anchor="middle" fill="var(--important)" font-size="9.5">reject</text><line x1="292" y1="72" x2="314" y2="72" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a39)"/><rect x="316" y="50" width="74" height="44" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="353.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="10">Stage 3</text><text x="353.0" y="85.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">more</text><line x1="353" y1="96" x2="353" y2="128" stroke="var(--important)" stroke-width="1" marker-end="url(#a39)"/><text x="353" y="142" text-anchor="middle" fill="var(--important)" font-size="9.5">reject</text><line x1="392" y1="72" x2="414" y2="72" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a39)"/><rect x="416" y="50" width="74" height="44" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="453.0" y="71.0" text-anchor="middle" fill="var(--text)" font-size="10">Stage N</text><text x="453.0" y="85.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.5">most</text><line x1="453" y1="96" x2="453" y2="128" stroke="var(--important)" stroke-width="1" marker-end="url(#a39)"/><text x="453" y="142" text-anchor="middle" fill="var(--important)" font-size="9.5">reject</text><line x1="492" y1="72" x2="518" y2="72" stroke="var(--success)" stroke-width="1" marker-end="url(#a39)"/><text x="550" y="68" text-anchor="middle" fill="var(--success)" font-size="10.5" font-weight="600">object</text><text x="550" y="82" text-anchor="middle" fill="var(--success)" font-size="10.5" font-weight="600">detected</text><text x="230" y="24" text-anchor="middle" fill="var(--text-muted)" font-size="10">most windows are rejected early, so average cost is low</text></svg>
+</div>
+<h3>Working</h3>
+<p>The strong classifiers are arranged in a <em>cascade</em> of stages, as in the figure. Early stages use a handful of features and reject most background windows cheaply; only windows that look like the object continue to the more detailed later stages. A window is reported as an object only if it passes all stages. To find objects of different sizes, the detector is run on an image pyramid (or with a growing window), and overlapping detections are merged using a minimum-neighbours rule.</p>
+<h3>Effect of variations</h3>
+<table>
+  <tr><th>Variation</th><th>Effect on detection</th><th>Remedy</th></tr>
+  <tr><td>Scale</td><td>Features are fixed-size, so objects much smaller or larger than the training window are missed; scale steps that are too coarse miss in-between sizes</td><td>Scale pyramid with a small <code>scaleFactor</code> (1.05&ndash;1.2); set <code>minSize</code>/<code>maxSize</code>; more steps are slower</td></tr>
+  <tr><td>Illumination</td><td>Haar features are differences of brightness, so strong shadows, backlight or uneven lighting change the pattern and cause misses or false detections</td><td>Histogram equalization or CLAHE before detection; training data with varied lighting</td></tr>
+  <tr><td>Pose</td><td>A classifier is trained for one view (e.g. frontal face), so rotated, tilted or profile views fail; occlusion also reduces accuracy</td><td>Use separate cascades (frontal, profile), rotate the image, or use CNN-based detectors for large pose changes</td></tr>
+</table>
+<pre><code>import cv2
+face = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")   # load the trained cascade
+img = cv2.imread("group.jpg")
+gray = cv2.equalizeHist(cv2.cvtColor(img, cv2.COLOR_BGR2GRAY))   # gray + equalize: reduces lighting effects
+faces = face.detectMultiScale(gray, scaleFactor=1.1,     # shrink by 10% per pyramid level (smaller = finer but slower)
+                              minNeighbors=5,            # neighbouring hits needed to accept (higher = fewer false positives)
+                              minSize=(30, 30))          # ignore anything smaller than 30x30 px
+for (x, y, w, h) in faces:
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)    # box each detected face</code></pre>
+<p><strong>Summary:</strong> cascade classifiers remain valuable for constrained real-time detection scenarios — frontal face detection under reasonable lighting is the classic success case, running at 15–30 fps even on modest hardware because the cascade rejects over 99% of windows in the first two stages. However, they are fundamentally limited by their reliance on a single viewpoint and fixed feature templates: strong pose variation, dramatic lighting shifts, heavy occlusion and non-rigid deformation all degrade performance significantly. For unconstrained detection across poses and conditions, deep-learning detectors like YOLO and SSD have largely superseded cascades, though the Viola-Jones framework remains an important conceptual foundation and a practical choice when computational resources are extremely limited or training data is scarce.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q40 -->
+  <div class="tab-content" id="tab-9">
+    <div class="question-block" data-qid="cv-u4-q40">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u4-q40', 9)" aria-label="Mark as done"></button>
+        <h2 class="q-title">40. Evaluate the effectiveness of feature matching and video analysis for real-time object recognition, considering reliability and processing speed.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u4-q40', 9)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Feature matching recognises a known object in a new image by detecting keypoints, computing descriptors and finding correspondences with a stored reference — essentially answering "is the same physical pattern present here?" Video analysis extends this to the temporal domain: rather than running the full detect-describe-match pipeline on every frame independently, the system tracks already-found keypoints from one frame to the next using lightweight methods like sparse optical flow, re-running the expensive matching step only when tracking confidence drops or when a new object must be identified. Whether this combination is effective for real-time recognition depends on two competing requirements: reliability (correct detection under viewpoint, lighting and motion changes) and processing speed (fitting the full pipeline within a per-frame time budget).</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 651 76" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a40" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="10" y="14" width="89.92500000000001" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="54.962500000000006" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Capture frame</text><text x="54.962500000000006" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">video</text><line x1="101.92500000000001" y1="38.0" x2="115.92500000000001" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a40)"/><rect x="117.92500000000001" y="14" width="110.825" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="173.3375" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Detect + describe</text><text x="173.3375" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">ORB / FAST</text><line x1="230.75" y1="38.0" x2="244.75" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a40)"/><rect x="246.75" y="14" width="88.0" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="290.75" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Match</text><text x="290.75" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">Hamming + ratio</text><line x1="336.75" y1="38.0" x2="350.75" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a40)"/><rect x="352.75" y="14" width="96.80000000000001" height="48" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="401.15" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Verify</text><text x="401.15" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">RANSAC homography</text><line x1="451.55" y1="38.0" x2="465.55" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a40)"/><rect x="467.55" y="14" width="74.80000000000001" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="504.95000000000005" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Track</text><text x="504.95000000000005" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">optical flow</text><line x1="544.35" y1="38.0" x2="558.35" y2="38.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a40)"/><rect x="560.35" y="14" width="70.4" height="48" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="595.5500000000001" y="37.0" text-anchor="middle" fill="var(--text)" font-size="9.5">Output</text><text x="595.5500000000001" y="51.0" text-anchor="middle" fill="var(--text-muted)" font-size="8.0">box / label</text></svg>
+</div>
+<h3>Reliability</h3>
+<ul>
+  <li><strong>Strengths:</strong> scale- and rotation-invariant descriptors (SIFT, ORB) cope with viewpoint changes, partial occlusion (only some keypoints are needed) and clutter; RANSAC removes false matches; no large training set is needed, a single reference image is enough.</li>
+  <li><strong>Weaknesses:</strong> fails on texture-less or shiny objects (few keypoints), motion blur, strong lighting change or very large viewpoint change; works best on rigid, planar, textured objects; many similar patterns cause wrong matches.</li>
+</ul>
+<h3>Processing speed</h3>
+<table>
+  <tr><th>Choice</th><th>Speed</th><th>Reliability</th></tr>
+  <tr><td>SIFT (float, 128-D)</td><td>Slowest; often below real time on CPU</td><td>Highest, most invariant</td></tr>
+  <tr><td>SURF</td><td>Faster than SIFT</td><td>High (patented, in non-free module)</td></tr>
+  <tr><td>ORB (binary, 256-bit)</td><td>Fastest; real time on CPU, Hamming distance is cheap</td><td>Good, slightly less robust to scale and noise</td></tr>
+  <tr><td>Brute-force vs FLANN</td><td>FLANN faster for large descriptor sets</td><td>Approximate, tiny chance of missing the best match</td></tr>
+</table>
+<p>A <strong>frame budget</strong> of about 33 ms is available at 30 frames per second, so the full pipeline must fit in it. Practical ways to meet it: use ORB; reduce resolution; detect only inside the region of interest; run the full detection and matching only every N frames or when tracking is lost, and between them use cheap tracking such as Lucas-Kanade optical flow; use a GPU where available.</p>
+<p><strong>Evaluation:</strong> feature matching with tracking is effective for real-time recognition of textured, rigid objects (posters, book covers, markers, landmarks) with ORB, giving a good balance of speed and reliability; it is not suitable for texture-less, deformable or highly varying object classes, where a learned detector (CNN, YOLO) is preferred.</p>
+<pre><code>import cv2, numpy as np
+ref = cv2.imread("ref.jpg", 0)
+orb = cv2.ORB_create(500)
+kr, dr = orb.detectAndCompute(ref, None)                  # reference features computed once, outside the loop
+bf = cv2.BFMatcher(cv2.NORM_HAMMING)
+cap = cv2.VideoCapture(0)                                 # webcam; use a file name for a video file
+while True:
+    ok, frame = cap.read()                                # grab one frame; ok is False when the stream ends
+    if not ok: break
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    kf, df = orb.detectAndCompute(gray, None)             # features of the current frame
+    if df is not None:
+        pairs = bf.knnMatch(dr, df, k=2)                  # two nearest neighbours per reference descriptor
+        good = [p[0] for p in pairs if len(p) == 2 and p[0].distance &lt; 0.75 * p[1].distance]   # ratio test
+        cv2.putText(frame, f"matches: {len(good)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    cv2.imshow("video", frame)
+    if cv2.waitKey(1) &amp; 0xFF == 27: break                 # press Esc to quit
+cap.release(); cv2.destroyAllWindows()                    # free camera and windows</code></pre>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(i) {
+  document.querySelectorAll('.tab-content').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === i);
+  });
+}
+function toggleDone(qid, tabIdx) {
+  const block = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const isDone = block.classList.toggle('q-done');
+  const btn = document.querySelectorAll('.tab-btn')[tabIdx];
+  btn.classList.toggle('done', isDone);
+  try { localStorage.setItem('done-' + qid, isDone ? '1' : ''); } catch (e) {}
+}
+document.querySelectorAll('.question-block').forEach((block, idx) => {
+  let saved = false;
+  try { saved = !!localStorage.getItem('done-' + block.dataset.qid); } catch (e) {}
+  if (saved) {
+    block.classList.add('q-done');
+    const btn = document.querySelectorAll('.tab-btn')[idx];
+    if (btn) btn.classList.add('done');
+  }
+});
+function toggleSkip(qid, tabIdx) {
+  const blocks = document.querySelectorAll('.question-block');
+  const btns = document.querySelectorAll('.tab-btn');
+  const target = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const wasSkipped = target.classList.contains('q-skipped');
+  blocks.forEach((b, i) => { b.classList.remove('q-skipped'); if (btns[i]) btns[i].classList.remove('skipped'); });
+  try { localStorage.removeItem('skip:' + location.pathname); } catch (e) {}
+  if (!wasSkipped) {
+    target.classList.add('q-skipped');
+    btns[tabIdx].classList.add('skipped');
+    try { localStorage.setItem('skip:' + location.pathname, qid); } catch (e) {}
+  }
+}
+(function () {
+  let saved = null;
+  try { saved = localStorage.getItem('skip:' + location.pathname); } catch (e) {}
+  if (!saved) return;
+  document.querySelectorAll('.question-block').forEach((b, i) => {
+    if (b.dataset.qid === saved) {
+      b.classList.add('q-skipped');
+      const btn = document.querySelectorAll('.tab-btn')[i];
+      if (btn) btn.classList.add('skipped');
+    }
+  });
+})();
+showTab(0);
+</script>
+</body>
+</html>

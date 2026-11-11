@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit III — Filtering, Morphology, Thresholding, Edges & Geometric Transforms | Computer Vision</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <nav class="unit-nav">
+    <a href="unit2.html" class="nav-prev">← Unit II</a>
+    <span class="nav-title">Unit III: Filtering, Morphology, Thresholding, Edges &amp; Geometric Transforms</span>
+    <a href="unit4.html" class="nav-next">Unit IV →</a>
+    <a href="index.html" class="nav-home">Home</a>
+  </nav>
+
+  <div class="tabs" role="tablist">
+    <button class="tab-btn" onclick="showTab(0)">Q21</button>
+    <button class="tab-btn" onclick="showTab(1)">Q22</button>
+    <button class="tab-btn" onclick="showTab(2)">Q23</button>
+    <button class="tab-btn" onclick="showTab(3)">Q24</button>
+    <button class="tab-btn" onclick="showTab(4)">Q25</button>
+    <button class="tab-btn" onclick="showTab(5)">Q26</button>
+    <button class="tab-btn" onclick="showTab(6)">Q27</button>
+    <button class="tab-btn" onclick="showTab(7)">Q28</button>
+    <button class="tab-btn" onclick="showTab(8)">Q29</button>
+    <button class="tab-btn" onclick="showTab(9)">Q30</button>
+  </div>
+
+  <!-- Q21 -->
+  <div class="tab-content" id="tab-0">
+    <div class="question-block" data-qid="cv-u3-q21">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q21', 0)" aria-label="Mark as done"></button>
+        <h2 class="q-title">21. Define spatial smoothing filters and state why they are used in image processing.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q21', 0)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Spatial smoothing filters</strong> (also called low-pass filters) replace each pixel&rsquo;s value by a weighted average of the pixels in its local neighbourhood, using a small kernel that slides across the entire image one pixel at a time. The averaging process suppresses rapid intensity changes — primarily noise and fine texture — while preserving slow, gradual variations such as broad shapes and uniform regions. The one-dimensional profile below illustrates this: the random noise riding on top of the signal disappears after smoothing, but the sharp step edge becomes a slightly gradual transition, which is the fundamental trade-off of all smoothing filters.</p>
+
+<p>Smoothing is among the most frequently performed operations in any image processing pipeline. It is almost never the end goal itself but rather a critical preparatory step that improves the quality and reliability of downstream operations such as edge detection, segmentation and feature matching.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a21" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="50" y1="16" x2="50" y2="192" stroke="var(--text-muted)" stroke-width="1"/><line x1="50" y1="192" x2="544" y2="192" stroke="var(--text-muted)" stroke-width="1"/><path d="M50.0,167.8 L58.4,154.0 L66.7,140.2 L75.1,164.4 L83.5,150.6 L91.9,136.8 L100.2,160.9 L108.6,147.1 L117.0,133.3 L125.4,157.5 L133.7,143.7 L142.1,167.8 L150.5,154.0 L158.8,140.2 L167.2,164.4 L175.6,150.6 L184.0,136.8 L192.3,160.9 L200.7,147.1 L209.1,133.3 L217.5,157.5 L225.8,143.7 L234.2,167.8 L242.6,154.0 L250.9,140.2 L259.3,164.4 L267.7,150.6 L276.1,136.8 L284.4,160.9 L292.8,147.1 L301.2,36.7 L309.6,60.9 L317.9,47.1 L326.3,71.2 L334.7,57.4 L343.1,43.6 L351.4,67.8 L359.8,54.0 L368.2,40.2 L376.5,64.3 L384.9,50.5 L393.3,36.7 L401.7,60.9 L410.0,47.1 L418.4,71.2 L426.8,57.4 L435.2,43.6 L443.5,67.8 L451.9,54.0 L460.3,40.2 L468.6,64.3 L477.0,50.5 L485.4,36.7 L493.8,60.9 L502.1,47.1 L510.5,71.2 L518.9,57.4 L527.3,43.6 L535.6,67.8 L544.0,54.0" fill="none" stroke="var(--text-dim)" stroke-width="1.4"/><path d="M50.0,150.6 L58.4,150.6 L66.7,150.6 L75.1,150.6 L83.5,150.6 L91.9,150.6 L100.2,150.6 L108.6,150.6 L117.0,150.6 L125.4,150.6 L133.7,150.5 L142.1,150.5 L150.5,150.5 L158.8,150.4 L167.2,150.3 L175.6,150.2 L184.0,150.1 L192.3,149.8 L200.7,149.4 L209.1,148.9 L217.5,148.1 L225.8,147.0 L234.2,145.5 L242.6,143.3 L250.9,140.2 L259.3,136.0 L267.7,130.6 L276.1,123.9 L284.4,115.8 L292.8,106.9 L301.2,97.6 L309.6,88.7 L317.9,80.7 L326.3,73.9 L334.7,68.5 L343.1,64.4 L351.4,61.3 L359.8,59.1 L368.2,57.5 L376.5,56.4 L384.9,55.6 L393.3,55.1 L401.7,54.7 L410.0,54.5 L418.4,54.3 L426.8,54.2 L435.2,54.1 L443.5,54.1 L451.9,54.0 L460.3,54.0 L468.6,54.0 L477.0,54.0 L485.4,54.0 L493.8,54.0 L502.1,54.0 L510.5,54.0 L518.9,54.0 L527.3,54.0 L535.6,54.0 L544.0,54.0" fill="none" stroke="var(--accent)" stroke-width="2.4"/><text x="116.98305084745763" y="148.98039215686276" text-anchor="start" fill="var(--text-muted)" font-size="10">noisy input</text><text x="351.4237288135593" y="22.0" text-anchor="start" fill="var(--accent)" font-size="10">smoothed (low-pass)</text><text x="297.0" y="222" text-anchor="middle" fill="var(--text-muted)" font-size="10">pixel position along a line</text><text transform="rotate(-90 14 104.0)" x="14" y="104.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">intensity</text></svg>
+</div>
+<h3>Why they are used</h3>
+<ul>
+  <li><strong>Noise reduction:</strong> camera sensors introduce Gaussian noise, quantisation noise and salt-and-pepper noise. Smoothing suppresses these artefacts so that subsequent algorithms operate on cleaner data with fewer false detections.</li>
+  <li><strong>Pre-processing for downstream algorithms:</strong> edge detectors like Canny begin with a Gaussian blur internally because raw noise creates many false edges. Similarly, thresholding and feature-point detectors (SIFT, ORB) benefit from a smoothed input.</li>
+  <li><strong>Removing unimportant detail:</strong> smoothing suppresses fine texture so that large-scale structures dominate, which is useful for object detection and scene classification. It also serves as the <strong>anti-aliasing</strong> step before down-sampling in image pyramids, preventing high-frequency content from folding back as aliasing artefacts.</li>
+  <li><strong>Visual and creative effects:</strong> portrait retouching (skin softening), synthetic depth-of-field (background blur), and privacy protection (face blurring in video feeds).</li>
+</ul>
+<h3>Common smoothing filters</h3>
+<table>
+  <tr><th>Filter</th><th>Principle</th><th>Strength</th><th>Limitation</th><th>OpenCV</th></tr>
+  <tr><td>Mean (box)</td><td>Equal weights \(1/k^2\)</td><td>Simple, fast</td><td>Blurs edges strongly</td><td><code>cv2.blur</code></td></tr>
+  <tr><td>Gaussian</td><td>Bell-shaped weights, centre largest</td><td>Natural smoothing, good for Gaussian noise</td><td>Still blurs edges</td><td><code>cv2.GaussianBlur</code></td></tr>
+  <tr><td>Median</td><td>Replaces by the median of the neighbourhood (non-linear)</td><td>Removes salt-and-pepper noise, keeps edges</td><td>Slower; can remove thin lines</td><td><code>cv2.medianBlur</code></td></tr>
+  <tr><td>Bilateral</td><td>Weights depend on distance and on intensity difference</td><td>Smooths flat areas, keeps edges</td><td>Slow</td><td><code>cv2.bilateralFilter</code></td></tr>
+</table>
+<div class="formula">\[ G(x,y)=\frac{1}{2\pi\sigma^{2}}\,e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}} \]</div>
+<p>This is the two-dimensional Gaussian kernel, the most widely used smoothing kernel in computer vision. \(x,y\) are the horizontal and vertical distances of a neighbour from the centre pixel, and \(\sigma\) is the standard deviation that controls the spread of the bell curve and therefore the strength of the blur. Neighbours close to the centre receive large weights while distant ones contribute very little, producing a natural-looking smooth result. The weights are normalised to sum to 1 so that the overall brightness of the image is preserved. Increasing \(\sigma\) (and correspondingly the kernel size, which must always be odd) produces a stronger blur. For comparison, the simplest box filter assigns every position the same weight \(1/k^2\), which produces a less natural blur with visible boxy artefacts on diagonal edges.</p>
+<pre><code>import cv2
+img = cv2.imread("noisy.jpg")
+
+box   = cv2.blur(img, (5, 5))                    # mean filter: 5x5 average
+gauss = cv2.GaussianBlur(img, (5, 5), 0)         # kernel size must be odd; sigma 0 = computed from the size
+med   = cv2.medianBlur(img, 5)                   # best for salt-and-pepper noise; size must be odd
+bil   = cv2.bilateralFilter(img, 9, 75, 75)      # (diameter, sigma in colour, sigma in space): edge-preserving</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q22 -->
+  <div class="tab-content" id="tab-1">
+    <div class="question-block" data-qid="cv-u3-q22">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q22', 1)" aria-label="Mark as done"></button>
+        <h2 class="q-title">22. Define morphological transformations and list the basic morphological operations used in image processing.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q22', 1)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Morphological transformations</strong> are non-linear image-processing operations that change the <em>shape</em> of objects in an image. Unlike convolution-based filters that compute a weighted sum of pixel intensities, morphological operations probe the image with a small shape called a <strong>structuring element</strong> (a kernel such as a 3&times;3 square, a cross or an ellipse) and take the minimum or maximum of the covered pixels. The structuring element acts as a geometric template: its size and shape determine which spatial features are preserved, removed or enhanced. These operations are mostly applied to binary images produced after thresholding, but they also extend to grayscale images where they affect intensity peaks and valleys. In practice they serve as the primary tool for cleaning segmentation masks, removing noise, filling holes, separating or joining objects, and extracting boundaries before further analysis such as contour detection or shape measurement.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 938 112" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a22" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><text x="10" y="12" text-anchor="start" fill="var(--accent)" font-size="10" font-weight="600">basic</text><rect x="10" y="22" width="104.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="62.25" y="44.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Erosion</text><text x="62.25" y="58.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">shrinks objects</text><line x1="116.5" y1="45.0" x2="172.5" y2="45.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a22)"/><rect x="174.5" y="22" width="93.5" height="46" rx="6" fill="var(--surface2)" stroke="var(--accent)"/><text x="221.25" y="44.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Dilation</text><text x="221.25" y="58.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">grows objects</text><text x="308.0" y="12" text-anchor="start" fill="var(--accent)" font-size="10" font-weight="600">composite</text><rect x="308.0" y="22" width="121.00000000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="368.5" y="44.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Opening</text><text x="368.5" y="58.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">erode, then dilate</text><line x1="431.0" y1="45.0" x2="487.0" y2="45.0" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a22)"/><rect x="489.0" y="22" width="121.00000000000001" height="46" rx="6" fill="var(--surface2)" stroke="var(--border)"/><text x="549.5" y="44.0" text-anchor="middle" fill="var(--text)" font-size="11.5">Closing</text><text x="549.5" y="58.0" text-anchor="middle" fill="var(--text-muted)" font-size="10.0">dilate, then erode</text><text x="10" y="98" text-anchor="start" fill="var(--text-muted)" font-size="9.5">Gradient = dilation - erosion (outline)     Top-hat = image - opening (small bright spots)     Black-hat = closing - image (small dark spots)</text></svg>
+</div>
+<h3>Basic morphological operations</h3>
+<table>
+  <tr><th>Operation</th><th>Effect</th><th>Typical use</th></tr>
+  <tr><td><strong>Erosion</strong></td><td>Shrinks white objects, removes thin parts and small white specks</td><td>Remove small noise, separate touching objects</td></tr>
+  <tr><td><strong>Dilation</strong></td><td>Expands white objects, fills small gaps</td><td>Join broken parts, enlarge objects</td></tr>
+  <tr><td><strong>Opening</strong> (erosion then dilation)</td><td>Removes small white noise while keeping the object size</td><td>Clean up background noise</td></tr>
+  <tr><td><strong>Closing</strong> (dilation then erosion)</td><td>Fills small black holes and gaps inside objects</td><td>Close holes in objects</td></tr>
+  <tr><td><strong>Morphological gradient</strong></td><td>Dilation minus erosion gives the outline of objects</td><td>Edge/boundary extraction</td></tr>
+  <tr><td><strong>Top-hat / Black-hat</strong></td><td>Image minus opening gives small bright details; closing minus image gives small dark details</td><td>Uneven illumination correction, small-feature detection</td></tr>
+</table>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("text.png", cv2.IMREAD_GRAYSCALE)
+_, bw = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)       # binary image first
+
+k = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))          # 5x5 structuring element (also MORPH_ELLIPSE, MORPH_CROSS)
+
+er  = cv2.erode(bw, k, iterations=1)                           # shrink
+di  = cv2.dilate(bw, k, iterations=1)                          # grow
+op  = cv2.morphologyEx(bw, cv2.MORPH_OPEN,  k)                 # remove small white noise
+cl  = cv2.morphologyEx(bw, cv2.MORPH_CLOSE, k)                 # fill small black holes
+gr  = cv2.morphologyEx(bw, cv2.MORPH_GRADIENT, k)              # object outlines</code></pre>
+
+<h3>Effect of each operation</h3>
+<ul>
+  <li><strong>Erosion:</strong> shrinks white objects, removes small white noise and thin connections.</li>
+  <li><strong>Dilation:</strong> enlarges white objects, fills small holes and joins nearby parts.</li>
+  <li><strong>Opening</strong> (erosion then dilation): removes small bright specks while keeping the size of the main objects.</li>
+  <li><strong>Closing</strong> (dilation then erosion): closes small black holes and gaps inside objects.</li>
+  <li><strong>Gradient</strong> (dilation minus erosion): gives the outline of the object.</li>
+  <li><strong>Top-hat / Black-hat:</strong> extract small bright / small dark details compared with the surroundings.</li>
+</ul>
+<p>All of them depend on the <em>structuring element</em> (the small shape probed over the image): its size and shape (rectangle, ellipse or cross, made with <code>getStructuringElement</code>) decide how strong the effect is. A larger element produces a more aggressive transformation, while an elliptical element yields smoother, more isotropic results compared to a rectangular one. Multiple iterations of a small kernel can approximate the effect of a single pass with a larger kernel, giving finer control over the transformation strength. In document analysis, morphological operations are indispensable for cleaning scanned text: opening removes speckle noise between characters, while closing repairs broken strokes. In industrial inspection they help isolate defects by separating touching components on a conveyor belt image.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q23 -->
+  <div class="tab-content" id="tab-2">
+    <div class="question-block" data-qid="cv-u3-q23">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q23', 2)" aria-label="Mark as done"></button>
+        <h2 class="q-title">23. Explain erosion and dilation with suitable examples and describe their effects on image objects.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q23', 2)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Erosion</strong> and <strong>dilation</strong> are the two fundamental morphological operations from which every other morphological transformation is built. They work on binary images where white pixels represent the foreground object and black pixels represent the background. Both operations slide a structuring element \(B\) (commonly a 3&times;3 square, though crosses and ellipses are also used) across every pixel of the image. The structuring element's shape and size determine the scale of features that are affected: a larger element causes a more dramatic change per iteration, while different shapes bias the operation along certain directions.</p>
+<div class="formula">\[ \text{erosion: } g(x,y)=\min_{(i,j)\in B} f(x+i,\,y+j) \qquad \text{dilation: } g(x,y)=\max_{(i,j)\in B} f(x+i,\,y+j) \]</div>
+<p>Here \(f\) is the input image, \(g\) the output, \((x,y)\) the current pixel, \((i,j)\) the offsets covered by the structuring element \(B\). Erosion takes the <strong>minimum</strong> of the neighbourhood: a pixel stays white only if <em>every</em> pixel under the element is white, so objects lose a layer of pixels at their border. Dilation takes the <strong>maximum</strong>: a pixel becomes white if <em>any</em> pixel under the element is white, so objects gain a layer.</p>
+<h3>Example</h3>
+<div class="svg-wrap">
+<svg viewBox="0 0 540 200" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a23" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><text x="87.0" y="18" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">original (dot and hole)</text><rect x="10" y="26" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="32" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="76" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="98" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="120" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="76" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="98" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="120" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="76" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="98" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="120" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="76" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="98" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="120" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="76" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="98" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="120" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="76" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="98" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="120" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="10" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="32" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="54" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="76" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="98" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="120" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="142" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><text x="267.0" y="18" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">after erosion</text><rect x="190" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="190" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="212" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="234" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="256" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="278" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="300" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="322" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><text x="447.0" y="18" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">after dilation</text><rect x="370" y="26" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="392" y="26" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="436" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="458" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="480" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="502" y="26" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="392" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="436" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="458" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="480" y="48" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="502" y="48" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="392" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="436" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="458" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="480" y="70" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="502" y="70" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="392" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="436" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="458" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="480" y="92" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="502" y="92" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="392" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="436" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="458" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="480" y="114" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="502" y="114" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="392" y="136" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="414" y="136" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="436" y="136" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="458" y="136" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="480" y="136" width="22" height="22" fill="var(--accent)" fill-opacity="0.8" stroke="var(--border)"/><rect x="502" y="136" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="370" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="392" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="414" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="436" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="458" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="480" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/><rect x="502" y="158" width="22" height="22" fill="var(--surface2)" fill-opacity="1" stroke="var(--border)"/></svg>
+</div>
+<ul>
+  <li><strong>Erosion:</strong> the 3&times;3 object shrinks to one pixel, the isolated noise dot at the corner disappears (it cannot fill the element), and the hole inside the object becomes larger.</li>
+  <li><strong>Dilation:</strong> the object grows by one pixel on each side (3&times;3 becomes 5&times;5), the internal hole is filled, but the noise dot also grows (it becomes a 2&times;2 blob).</li>
+</ul>
+<table>
+  <tr><th></th><th>Erosion</th><th>Dilation</th></tr>
+  <tr><td>Effect on objects</td><td>Shrinks, thins</td><td>Expands, thickens</td></tr>
+  <tr><td>Effect on noise</td><td>Removes small white specks</td><td>Enlarges white noise</td></tr>
+  <tr><td>Effect on holes / gaps</td><td>Enlarges them</td><td>Fills small ones</td></tr>
+  <tr><td>Typical use</td><td>Remove noise, separate touching objects</td><td>Join broken parts, restore size</td></tr>
+</table>
+<pre><code>import cv2, numpy as np
+bw = cv2.imread("blobs.png", 0)                       # binary image: objects white
+k = np.ones((3, 3), np.uint8)                         # 3x3 square structuring element
+
+er = cv2.erode(bw, k, iterations=1)                   # each pixel = MIN of its 3x3 neighbourhood -&gt; shrink
+di = cv2.dilate(bw, k, iterations=1)                  # each pixel = MAX of its 3x3 neighbourhood -&gt; grow
+# more iterations (or a bigger kernel) = stronger effect</code></pre>
+<p>The two operations are mathematical duals of each other: erosion of the foreground is equivalent to dilation of the background, and vice versa. This duality is the foundation of all composite morphological operations. Opening (erosion followed by dilation) removes small bright noise while preserving the overall size of larger objects, because the erosion eliminates features smaller than the structuring element and the subsequent dilation restores the remaining boundaries. Closing (dilation followed by erosion) fills small dark holes and gaps for the same reason in reverse.</p>
+
+<p><strong>Effects on objects, summarised:</strong> erosion makes white objects smaller and can split a touching pair or erase thin objects completely; dilation makes them bigger and can join nearby objects or fill holes. The larger the kernel or the greater the number of iterations, the stronger the effect. In practice, the <code>iterations</code> parameter in OpenCV provides a convenient way to control the strength without changing the kernel: two iterations of a 3&times;3 kernel approximate one pass of a 5&times;5 kernel but with a slightly different shape footprint. Choosing the right balance between kernel size and iteration count is important for tasks like separating overlapping coins in an image, where too much erosion would destroy small coins entirely while too little would fail to break the connections between touching ones.</p><!--x-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q24 -->
+  <div class="tab-content" id="tab-3">
+    <div class="question-block" data-qid="cv-u3-q24">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q24', 3)" aria-label="Mark as done"></button>
+        <h2 class="q-title">24. Describe image pyramids and explain their major applications in computer vision.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q24', 3)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>An <strong>image pyramid</strong> is a multi-scale representation that stores the same image at progressively decreasing resolutions, arranged like a pyramid with the full-resolution original at the bottom and the smallest, coarsest version at the top. The fundamental problem it solves is scale variation: objects appear at different sizes depending on their distance from the camera, and a fixed-size filter or detector only responds correctly to features at one particular scale. By processing every level of the pyramid with the same operator, algorithms become scale-independent. Each level typically halves both the width and height, so a four-level pyramid requires only about one-third extra storage beyond the original image.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 560 196" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a24" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><rect x="42.0" y="10" width="256.0" height="26" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="170" y="27" text-anchor="middle" fill="var(--text)" font-size="9.5">G0: 512 x 512</text><line x1="308.0" y1="23" x2="308.0" y2="52" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a24)"/><rect x="106.0" y="52" width="128.0" height="26" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="170" y="69" text-anchor="middle" fill="var(--text)" font-size="9.5">G1: 256 x 256</text><line x1="244.0" y1="65" x2="244.0" y2="94" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a24)"/><rect x="138.0" y="94" width="64.0" height="26" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="170" y="111" text-anchor="middle" fill="var(--text)" font-size="9.5">G2: 128 x 128</text><line x1="212.0" y1="107" x2="212.0" y2="136" stroke="var(--text-muted)" stroke-width="1" marker-end="url(#a24)"/><rect x="154.0" y="136" width="32.0" height="26" rx="6" fill="var(--surface)" stroke="var(--accent)"/><text x="170" y="153" text-anchor="middle" fill="var(--text)" font-size="9.5">G3: 64 x 64</text><text x="340" y="36" text-anchor="start" fill="var(--accent)" font-size="10">pyrDown: blur, then drop</text><text x="340" y="50" text-anchor="start" fill="var(--accent)" font-size="10">every 2nd row and column</text><text x="340" y="120" text-anchor="start" fill="var(--success)" font-size="10">pyrUp: insert zero rows/cols,</text><text x="340" y="134" text-anchor="start" fill="var(--success)" font-size="10">then blur to interpolate</text><text x="230" y="176" text-anchor="start" fill="var(--text-muted)" font-size="10">Laplacian level:  L_i = G_i - pyrUp(G_i+1)</text></svg>
+</div>
+<h3>Types</h3>
+<ul>
+  <li><strong>Gaussian pyramid:</strong> each level is obtained from the one below by smoothing with a Gaussian filter and then discarding every second row and column, so the size is halved (<code>cv2.pyrDown</code>). Going up (<code>cv2.pyrUp</code>) enlarges the image again, but the detail lost in smoothing is not recovered.</li>
+  <li><strong>Laplacian pyramid:</strong> stores the <em>difference</em> between a Gaussian level and the enlarged next level, \(L_i=G_i-\text{pyrUp}(G_{i+1})\). Here \(G_i\) is the \(i\)-th Gaussian level and \(L_i\) holds the detail (edges) lost between level \(i\) and \(i+1\). The original can be rebuilt exactly from the Laplacian levels and the smallest Gaussian image.</li>
+</ul>
+<pre><code>import cv2
+img = cv2.imread("photo.jpg")
+
+down1 = cv2.pyrDown(img)                  # blur with a 5x5 Gaussian, remove even rows/cols -&gt; half width and height
+down2 = cv2.pyrDown(down1)                # next level: quarter size
+up    = cv2.pyrUp(down1)                  # enlarge x2 (smooth, but detail is not restored)
+
+up = cv2.resize(up, (img.shape[1], img.shape[0]))   # match sizes before subtracting
+lap = cv2.subtract(img, up)                         # Laplacian level = original - blurred version (the lost detail)</code></pre>
+<h3>Applications</h3>
+<ul>
+  <li><strong>Multi-scale object detection and matching:</strong> a fixed-size detector (such as a face detector or the sliding window of a classifier) is run on every pyramid level to find objects of any size; scale-space feature detectors such as SIFT use the same idea.</li>
+  <li><strong>Image blending (mosaics, panoramas):</strong> the Laplacian pyramids of two images are blended level by level, giving seamless joins (the &ldquo;apple-orange&rdquo; example).</li>
+  <li><strong>Compression:</strong> the Laplacian levels are mostly near zero and can be coded with few bits.</li>
+  <li><strong>Coarse-to-fine processing:</strong> optical flow, registration and stereo are first solved on small images (fast, large motions) and refined at higher resolution.</li>
+  <li><strong>Speed:</strong> expensive operations can be done on small versions of the image.</li>
+</ul>
+<h3>Why pyramids are useful</h3><p>An object can appear at any size in a scene, but a fixed-size filter or sliding window only responds to one size. By searching every level of the pyramid with the same window, objects of every size are found — this is how Viola-Jones face detectors and SIFT-like feature extractors obtain scale invariance. Coarse levels are computationally cheap because they have far fewer pixels, so algorithms can start on a small image, identify regions of interest and then refine only those regions at higher resolution, saving a great deal of processing time. This coarse-to-fine strategy is fundamental to optical flow estimation, stereo matching and medical image registration where processing the full resolution image directly would be prohibitively slow.</p><!--y-->
+      </div>
+    </div>
+  </div>
+
+  <!-- Q25 -->
+  <div class="tab-content" id="tab-4">
+    <div class="question-block" data-qid="cv-u3-q25">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q25', 4)" aria-label="Mark as done"></button>
+        <h2 class="q-title">25. Explain different thresholding methods used in computer vision and describe their suitability for different image conditions.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q25', 4)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Thresholding</strong> converts a grayscale image into a binary image by comparing each pixel's intensity with a threshold value \(T\): pixels above \(T\) become the object value (typically 255, white) and the rest become the background (0, black). It is the simplest and most widely used form of image segmentation, serving as the first step in nearly every pipeline that needs to separate foreground objects from the background — for instance, extracting text from a scanned page, isolating cells in a microscopy image, or detecting defects on a manufactured surface. The central challenge in thresholding is choosing \(T\) well: an incorrect threshold either merges objects with the background or introduces false foreground pixels. The methods described below differ primarily in how \(T\) is determined and whether it varies across the image.</p>
+<h3>1. Global (simple) thresholding</h3>
+<p>One fixed value \(T\) is used for the whole image. OpenCV types: <code>THRESH_BINARY</code> (above T gives max value, otherwise 0), <code>THRESH_BINARY_INV</code> (inverse), <code>THRESH_TRUNC</code> (values above T are cut to T), <code>THRESH_TOZERO</code> (values below T become 0) and <code>THRESH_TOZERO_INV</code>. It works when lighting is uniform and the contrast between object and background is clear.</p>
+<h3>2. Otsu&rsquo;s method (automatic global)</h3>
+<p>Instead of guessing \(T\), Otsu&rsquo;s method examines the histogram and chooses the threshold that best separates two groups of pixels. The graph shows a typical bimodal histogram (a background peak and an object peak) with \(T\) placed in the valley between them.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a25" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="40" y1="16" x2="40" y2="194" stroke="var(--text-muted)" stroke-width="1"/><line x1="40" y1="194" x2="544" y2="194" stroke="var(--text-muted)" stroke-width="1"/><path d="M40.0,194.0 40.0,190.5 L47.9,190.4 L55.8,190.0 L63.7,189.2 L71.6,187.7 L79.5,184.7 L87.4,179.5 L95.3,171.2 L103.2,158.7 L111.2,141.6 L119.1,120.1 L127.0,95.7 L134.9,71.0 L142.8,49.5 L150.7,34.8 L158.6,29.6 L166.5,34.8 L174.4,49.5 L182.3,71.0 L190.2,95.7 L198.1,120.1 L206.0,141.6 L213.9,158.7 L221.8,171.2 L229.7,179.5 L237.6,184.7 L245.6,187.7 L253.5,189.2 L261.4,190.0 L269.3,190.3 L277.2,190.3 L285.1,190.2 L293.0,189.8 L300.9,189.1 L308.8,187.9 L316.7,185.9 L324.6,182.9 L332.5,178.3 L340.4,172.0 L348.3,163.7 L356.2,153.6 L364.1,142.1 L372.0,129.8 L380.0,118.0 L387.9,107.9 L395.8,100.8 L403.7,97.5 L411.6,98.6 L419.5,103.9 L427.4,112.7 L435.3,123.8 L443.2,135.9 L451.1,148.0 L459.0,158.9 L466.9,168.1 L474.8,175.4 L482.7,180.8 L490.6,184.6 L498.5,187.1 L506.4,188.6 L514.4,189.5 L522.3,190.1 L530.2,190.3 L538.1,190.5 L538.1,194.0 Z" fill="var(--surface2)" stroke="var(--accent)" stroke-width="1.8"/><line x1="287.05882352941177" y1="16" x2="287.05882352941177" y2="194" stroke="var(--warning)" stroke-width="2" stroke-dasharray="6 4"/><text x="287.05882352941177" y="26" text-anchor="middle" fill="var(--warning)" font-size="10" font-weight="600">T (Otsu)</text><text x="158.58823529411765" y="22.714285714285722" text-anchor="middle" fill="var(--text-muted)" font-size="10">background</text><text x="405.6470588235294" y="90.52380952380952" text-anchor="middle" fill="var(--text-muted)" font-size="10">object</text><text x="292.0" y="222" text-anchor="middle" fill="var(--text-muted)" font-size="10">intensity (0-255)</text><text transform="rotate(-90 12 105.0)" x="12" y="105.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">number of pixels</text></svg>
+</div>
+<div class="formula">\[ \sigma_B^{2}(T)=w_0\,w_1\,(\mu_0-\mu_1)^2,\qquad T^{*}=\arg\max_T\ \sigma_B^{2}(T) \]</div>
+<p>For a candidate threshold \(T\), \(w_0\) and \(w_1\) are the fractions of pixels in the dark and bright classes, and \(\mu_0\), \(\mu_1\) are the mean intensities of those classes. \(\sigma_B^2\) is the between-class variance: it is large when the two classes are well separated. Otsu tries all \(T\) from 0 to 255 and keeps the one with the largest value, \(T^{*}\). It needs a bimodal histogram and fails with strong uneven lighting.</p>
+<h3>3. Adaptive thresholding</h3>
+<p>A different threshold is calculated for every pixel based on the statistics of its local neighbourhood: \(T(x,y)=\) (mean or Gaussian-weighted mean of the block around the pixel) \(-\,C\), where the block size and constant \(C\) are user-specified parameters. Because the threshold adapts to local intensity, this method handles uneven illumination, shadows, gradual lighting gradients and the varying ink density of scanned documents far better than any global approach. OpenCV provides two variants: <code>ADAPTIVE_THRESH_MEAN_C</code> which uses a simple average of the block, and <code>ADAPTIVE_THRESH_GAUSSIAN_C</code> which weights pixels closer to the centre more heavily, producing smoother boundaries. A larger block size captures broader illumination changes but may blur the boundary between closely spaced objects, while a smaller block responds to finer local contrast at the cost of more sensitivity to noise.</p>
+<table>
+  <tr><th>Image condition</th><th>Suitable method</th></tr>
+  <tr><td>Uniform lighting, known contrast</td><td>Global thresholding with a fixed \(T\)</td></tr>
+  <tr><td>Uniform lighting, unknown \(T\), bimodal histogram</td><td>Otsu&rsquo;s method</td></tr>
+  <tr><td>Uneven lighting, shadows, text on paper</td><td>Adaptive (mean or Gaussian)</td></tr>
+  <tr><td>Noisy image</td><td>Blur first (Gaussian), then Otsu or adaptive</td></tr>
+  <tr><td>Skewed or unimodal histogram</td><td>Triangle method (<code>THRESH_TRIANGLE</code>) or adaptive</td></tr>
+</table>
+<pre><code>import cv2
+img = cv2.imread("doc.jpg", cv2.IMREAD_GRAYSCALE)
+blur = cv2.GaussianBlur(img, (5, 5), 0)                       # reduce noise first
+
+_, g  = cv2.threshold(blur, 127, 255, cv2.THRESH_BINARY)      # global: fixed T = 127; pixels &gt; 127 become 255
+t, o  = cv2.threshold(blur, 0, 255,                           # Otsu: T argument ignored...
+                      cv2.THRESH_BINARY + cv2.THRESH_OTSU)    # ...best T is calculated and returned in t
+a = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                          cv2.THRESH_BINARY, 11, 2)           # per-pixel T from an 11x11 block minus C = 2</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q26 -->
+  <div class="tab-content" id="tab-5">
+    <div class="question-block" data-qid="cv-u3-q26">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q26', 5)" aria-label="Mark as done"></button>
+        <h2 class="q-title">26. Design a custom image filter and explain how different border-handling methods affect the filtering result.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q26', 5)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>custom filter</strong> is a kernel whose weights are chosen by the designer to produce a particular effect that the standard library filters (box blur, Gaussian, Sobel) do not provide. Convolution with a custom kernel lets the developer target very specific visual effects such as directional edge emphasis, embossing, or line detection at a chosen angle. It is applied with <code>cv2.filter2D</code>, which slides the kernel over the image and computes the weighted sum at each position. When the kernel is centred on a pixel near the image border, some of the positions the kernel covers fall outside the image, so a <strong>border-handling</strong> (padding) rule must supply those missing values. The choice of border rule noticeably changes the filtered result along the edges, and selecting the wrong one can introduce dark frames, false edges or ringing artefacts that propagate inward.</p>
+<h3>Designing a custom filter</h3>
+<ul>
+  <li><strong>Size:</strong> usually odd (3&times;3, 5&times;5) so that the kernel has a centre; a larger size affects a larger neighbourhood and costs more computation.</li>
+  <li><strong>Weights decide the effect:</strong> all positive and summing to 1 gives smoothing (brightness unchanged); a large positive centre with negative neighbours summing to 1 gives sharpening; positive and negative weights summing to 0 give edge detection (flat areas become 0); a diagonal line of weights gives motion blur; an asymmetric pattern gives emboss.</li>
+  <li><strong>Normalise</strong> (divide by the sum of all weights) when the overall brightness of the image must be preserved; without normalisation a smoothing kernel will brighten or darken the output.</li>
+</ul>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg", cv2.IMREAD_GRAYSCALE)
+
+edge_h = np.array([[-1, -2, -1],                  # custom horizontal-edge kernel (Sobel-like): sum = 0
+                   [ 0,  0,  0],
+                   [ 1,  2,  1]], dtype=np.float32)
+
+motion = np.eye(9, dtype=np.float32) / 9.0        # 9x9 diagonal line, divided by 9 so the sum = 1: motion blur
+
+e = cv2.filter2D(img, cv2.CV_32F, edge_h,         # CV_32F keeps negative results (8-bit would clip them)
+                 borderType=cv2.BORDER_REFLECT_101)   # border rule (see table)
+m = cv2.filter2D(img, -1, motion, borderType=cv2.BORDER_REPLICATE)</code></pre>
+<h3>Border-handling methods and their effect</h3>
+<p>For the row of pixels <code>1 2 3 4</code> extended by two pixels on each side:</p>
+<table>
+  <tr><th>Method (OpenCV flag)</th><th>Padded row</th><th>Effect on the filtered result</th></tr>
+  <tr><td>Constant, zeros (<code>BORDER_CONSTANT</code>)</td><td><code>0 0 | 1 2 3 4 | 0 0</code></td><td>Simple, but darkens the border after smoothing and creates false edges</td></tr>
+  <tr><td>Replicate (<code>BORDER_REPLICATE</code>)</td><td><code>1 1 | 1 2 3 4 | 4 4</code></td><td>Edge pixel repeated; no new values, mild streaking</td></tr>
+  <tr><td>Reflect (<code>BORDER_REFLECT</code>)</td><td><code>2 1 | 1 2 3 4 | 4 3</code></td><td>Mirror including the edge pixel; smooth transition</td></tr>
+  <tr><td>Reflect 101 (<code>BORDER_REFLECT_101</code>, default)</td><td><code>3 2 | 1 2 3 4 | 3 2</code></td><td>Mirror without repeating the edge pixel; usually the most natural</td></tr>
+  <tr><td>Wrap (<code>BORDER_WRAP</code>)</td><td><code>3 4 | 1 2 3 4 | 1 2</code></td><td>Opposite side used; good only for periodic images</td></tr>
+</table>
+<p>Border handling matters only for pixels within half a kernel width of the border, but with a large kernel (e.g. 15&times;15 for a strong blur) those border pixels can form a substantial frame around the image, making the artefacts clearly visible. A wrong choice produces dark or bright frames after smoothing, false edges when an edge-detection kernel is used, or a visible seam at the image boundary. For natural photographs, reflect or replicate produce the most seamless transitions because they maintain local continuity. Constant (zero) padding is appropriate for binary masks and synthetic images where the background truly is zero. Wrap padding suits periodic signals such as tiled textures. As a practical rule, always visually inspect the border region after filtering, especially when chaining multiple convolutions where border errors accumulate.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q27 -->
+  <div class="tab-content" id="tab-6">
+    <div class="question-block" data-qid="cv-u3-q27">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q27', 6)" aria-label="Mark as done"></button>
+        <h2 class="q-title">27. Analyze and compare Sobel, Laplacian, and Canny edge-detection methods in terms of their working principles, strengths, and limitations.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q27', 6)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>An <strong>edge</strong> is a place where the intensity changes sharply, marking the boundary between two regions of different brightness. Edges carry the most important structural information in an image: object outlines, texture boundaries, shadow boundaries, and depth discontinuities are all encoded as edges. They can be located mathematically using derivatives of the image. The first derivative (gradient) peaks where intensity changes fastest, so Sobel detects edges by looking for large gradient magnitudes. The second derivative changes sign exactly at the edge location, so the Laplacian detects edges by finding zero-crossings. The figure below shows an intensity profile across a single edge with both derivative responses.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 560 262" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a27" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="30" y1="84" x2="550" y2="84" stroke="var(--text-muted)" stroke-width="1"/><line x1="30" y1="6" x2="30" y2="84" stroke="var(--text-muted)" stroke-width="1"/><path d="M30.0,80.0 L35.2,80.0 L40.4,80.0 L45.6,80.0 L50.8,80.0 L56.0,80.0 L61.2,80.0 L66.4,80.0 L71.6,80.0 L76.8,80.0 L82.0,80.0 L87.2,80.0 L92.4,79.9 L97.6,79.9 L102.8,79.9 L108.0,79.9 L113.2,79.9 L118.4,79.9 L123.6,79.8 L128.8,79.8 L134.0,79.7 L139.2,79.7 L144.4,79.6 L149.6,79.6 L154.8,79.5 L160.0,79.4 L165.2,79.2 L170.4,79.1 L175.6,78.9 L180.8,78.7 L186.0,78.4 L191.2,78.1 L196.4,77.7 L201.6,77.2 L206.8,76.7 L212.0,76.0 L217.2,75.3 L222.4,74.4 L227.6,73.3 L232.8,72.1 L238.0,70.7 L243.2,69.1 L248.4,67.2 L253.6,65.2 L258.8,62.8 L264.0,60.3 L269.2,57.5 L274.4,54.6 L279.6,51.5 L284.8,48.3 L290.0,45.0 L295.2,41.7 L300.4,38.5 L305.6,35.4 L310.8,32.5 L316.0,29.7 L321.2,27.2 L326.4,24.8 L331.6,22.8 L336.8,20.9 L342.0,19.3 L347.2,17.9 L352.4,16.7 L357.6,15.6 L362.8,14.7 L368.0,14.0 L373.2,13.3 L378.4,12.8 L383.6,12.3 L388.8,11.9 L394.0,11.6 L399.2,11.3 L404.4,11.1 L409.6,10.9 L414.8,10.8 L420.0,10.6 L425.2,10.5 L430.4,10.4 L435.6,10.4 L440.8,10.3 L446.0,10.3 L451.2,10.2 L456.4,10.2 L461.6,10.1 L466.8,10.1 L472.0,10.1 L477.2,10.1 L482.4,10.1 L487.6,10.1 L492.8,10.0 L498.0,10.0 L503.2,10.0 L508.4,10.0 L513.6,10.0 L518.8,10.0 L524.0,10.0 L529.2,10.0 L534.4,10.0 L539.6,10.0 L544.8,10.0 L550.0,10.0" fill="none" stroke="var(--text)" stroke-width="2.2"/><text x="546" y="18" text-anchor="end" fill="var(--text)" font-size="10" font-weight="600">intensity across an edge</text><line x1="30" y1="170" x2="550" y2="170" stroke="var(--text-muted)" stroke-width="1"/><line x1="30" y1="92" x2="30" y2="170" stroke="var(--text-muted)" stroke-width="1"/><path d="M30.0,166.0 L35.2,166.0 L40.4,166.0 L45.6,166.0 L50.8,166.0 L56.0,165.9 L61.2,165.9 L66.4,165.9 L71.6,165.9 L76.8,165.9 L82.0,165.9 L87.2,165.8 L92.4,165.8 L97.6,165.8 L102.8,165.7 L108.0,165.7 L113.2,165.6 L118.4,165.5 L123.6,165.4 L128.8,165.3 L134.0,165.2 L139.2,165.0 L144.4,164.8 L149.6,164.5 L154.8,164.2 L160.0,163.9 L165.2,163.5 L170.4,163.0 L175.6,162.3 L180.8,161.6 L186.0,160.8 L191.2,159.7 L196.4,158.5 L201.6,157.1 L206.8,155.5 L212.0,153.5 L217.2,151.3 L222.4,148.8 L227.6,145.9 L232.8,142.6 L238.0,139.1 L243.2,135.3 L248.4,131.2 L253.6,127.0 L258.8,122.8 L264.0,118.8 L269.2,115.2 L274.4,112.0 L279.6,109.7 L284.8,108.2 L290.0,107.7 L295.2,108.2 L300.4,109.7 L305.6,112.0 L310.8,115.2 L316.0,118.8 L321.2,122.8 L326.4,127.0 L331.6,131.2 L336.8,135.3 L342.0,139.1 L347.2,142.6 L352.4,145.9 L357.6,148.8 L362.8,151.3 L368.0,153.5 L373.2,155.5 L378.4,157.1 L383.6,158.5 L388.8,159.7 L394.0,160.8 L399.2,161.6 L404.4,162.3 L409.6,163.0 L414.8,163.5 L420.0,163.9 L425.2,164.2 L430.4,164.5 L435.6,164.8 L440.8,165.0 L446.0,165.2 L451.2,165.3 L456.4,165.4 L461.6,165.5 L466.8,165.6 L472.0,165.7 L477.2,165.7 L482.4,165.8 L487.6,165.8 L492.8,165.8 L498.0,165.9 L503.2,165.9 L508.4,165.9 L513.6,165.9 L518.8,165.9 L524.0,165.9 L529.2,166.0 L534.4,166.0 L539.6,166.0 L544.8,166.0 L550.0,166.0" fill="none" stroke="var(--accent)" stroke-width="2.2"/><text x="546" y="104" text-anchor="end" fill="var(--accent)" font-size="10" font-weight="600">1st derivative: PEAK at edge (Sobel)</text><line x1="30" y1="256" x2="550" y2="256" stroke="var(--text-muted)" stroke-width="1"/><line x1="30" y1="178" x2="30" y2="256" stroke="var(--text-muted)" stroke-width="1"/><path d="M30.0,217.0 L35.2,217.0 L40.4,217.0 L45.6,217.0 L50.8,217.0 L56.0,216.9 L61.2,216.9 L66.4,216.9 L71.6,216.9 L76.8,216.9 L82.0,216.9 L87.2,216.8 L92.4,216.8 L97.6,216.7 L102.8,216.7 L108.0,216.6 L113.2,216.6 L118.4,216.5 L123.6,216.4 L128.8,216.2 L134.0,216.1 L139.2,215.9 L144.4,215.7 L149.6,215.4 L154.8,215.1 L160.0,214.7 L165.2,214.2 L170.4,213.7 L175.6,213.0 L180.8,212.3 L186.0,211.4 L191.2,210.3 L196.4,209.2 L201.6,207.8 L206.8,206.3 L212.0,204.6 L217.2,202.7 L222.4,200.7 L227.6,198.7 L232.8,196.7 L238.0,194.8 L243.2,193.2 L248.4,192.1 L253.6,191.7 L258.8,192.2 L264.0,193.8 L269.2,196.5 L274.4,200.4 L279.6,205.3 L284.8,210.9 L290.0,217.0 L295.2,223.1 L300.4,228.7 L305.6,233.6 L310.8,237.5 L316.0,240.2 L321.2,241.8 L326.4,242.3 L331.6,241.9 L336.8,240.8 L342.0,239.2 L347.2,237.3 L352.4,235.3 L357.6,233.3 L362.8,231.3 L368.0,229.4 L373.2,227.7 L378.4,226.2 L383.6,224.8 L388.8,223.7 L394.0,222.6 L399.2,221.7 L404.4,221.0 L409.6,220.3 L414.8,219.8 L420.0,219.3 L425.2,218.9 L430.4,218.6 L435.6,218.3 L440.8,218.1 L446.0,217.9 L451.2,217.8 L456.4,217.6 L461.6,217.5 L466.8,217.4 L472.0,217.4 L477.2,217.3 L482.4,217.3 L487.6,217.2 L492.8,217.2 L498.0,217.1 L503.2,217.1 L508.4,217.1 L513.6,217.1 L518.8,217.1 L524.0,217.1 L529.2,217.0 L534.4,217.0 L539.6,217.0 L544.8,217.0 L550.0,217.0" fill="none" stroke="var(--success)" stroke-width="2.2"/><line x1="30" y1="217.0" x2="550" y2="217.0" stroke="var(--text-dim)" stroke-width="0.8" stroke-dasharray="4 3"/><text x="546" y="190" text-anchor="end" fill="var(--success)" font-size="10" font-weight="600">2nd derivative: ZERO-CROSSING at edge (Laplacian)</text><line x1="290.0" y1="6" x2="290.0" y2="256" stroke="var(--warning)" stroke-width="1" stroke-dasharray="4 4"/></svg>
+</div>
+<h3>Working principles</h3>
+<p><strong>Sobel</strong> convolves the image with two 3&times;3 kernels that estimate the horizontal and vertical derivatives (with some smoothing across the perpendicular direction), then combines them:</p>
+<div class="formula">\[ G=\sqrt{G_x^{2}+G_y^{2}},\qquad \theta=\tan^{-1}\!\left(\frac{G_y}{G_x}\right) \]</div>
+<p>\(G_x\) and \(G_y\) are the changes in intensity along x and y, \(G\) is the edge strength (large on edges, near 0 in flat regions) and \(\theta\) is the edge direction. In practice \(G\) is often approximated as \(|G_x|+|G_y|\) for speed.</p>
+<p><strong>Laplacian</strong> uses the second derivative, which is the same in every direction:</p>
+<div class="formula">\[ \nabla^{2}f=\frac{\partial^{2}f}{\partial x^{2}}+\frac{\partial^{2}f}{\partial y^{2}} \]</div>
+<p>It is implemented with a single kernel such as \(\begin{bmatrix}0&1&0\\1&-4&1\\0&1&0\end{bmatrix}\). The sum of its weights is 0, so flat regions give 0; the response is positive on one side of an edge and negative on the other, and edges lie at the zero-crossing.</p>
+<p><strong>Canny</strong> is a multi-step detector: (1) Gaussian smoothing to reduce noise; (2) gradient magnitude and direction with Sobel; (3) <em>non-maximum suppression</em>, keeping only the pixels that are local maxima along the gradient direction, which thins edges to one pixel; (4) <em>double thresholding</em> with a high and a low value to mark strong and weak edges; (5) <em>hysteresis</em>: weak edges are kept only if they are connected to strong edges.</p>
+<h3>Comparison</h3>
+<table>
+  <tr><th></th><th>Sobel</th><th>Laplacian</th><th>Canny</th></tr>
+  <tr><td>Principle</td><td>First derivative (gradient)</td><td>Second derivative</td><td>Gradient plus smoothing, thinning and hysteresis</td></tr>
+  <tr><td>Direction information</td><td>Yes (x and y, magnitude and angle)</td><td>No (all directions together)</td><td>Yes (uses gradient direction)</td></tr>
+  <tr><td>Noise sensitivity</td><td>Moderate (some smoothing)</td><td>High (second derivative amplifies noise)</td><td>Low (Gaussian smoothing, hysteresis)</td></tr>
+  <tr><td>Edge quality</td><td>Thick edges</td><td>Thin, but noisy double edges</td><td>Thin, well-localised, connected</td></tr>
+  <tr><td>Parameters</td><td>Kernel size, direction</td><td>Kernel size</td><td>Two thresholds, sigma</td></tr>
+  <tr><td>Cost</td><td>Low</td><td>Low</td><td>Higher</td></tr>
+  <tr><td>Best for</td><td>Quick gradient estimate, edge direction</td><td>Fine detail, blob detection, sharpening (after blur)</td><td>Accurate boundaries for detection and segmentation</td></tr>
+</table>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg", cv2.IMREAD_GRAYSCALE)
+blur = cv2.GaussianBlur(img, (5, 5), 0)                  # smooth first; essential for Laplacian
+
+gx = cv2.Sobel(blur, cv2.CV_64F, 1, 0, ksize=3)          # d/dx: responds to vertical edges (CV_64F keeps negatives)
+gy = cv2.Sobel(blur, cv2.CV_64F, 0, 1, ksize=3)          # d/dy: responds to horizontal edges
+sobel = cv2.convertScaleAbs(cv2.magnitude(gx, gy))       # strength sqrt(gx^2+gy^2) scaled back to 8-bit
+
+lap = cv2.convertScaleAbs(cv2.Laplacian(blur, cv2.CV_64F))   # second derivative, absolute value
+
+canny = cv2.Canny(blur, 100, 200)                        # low threshold 100, high threshold 200 (ratio about 1:2 or 1:3)</code></pre>
+<p><strong>Choice:</strong> use Canny when clean, thin, connected boundaries are needed — it is the standard in contour-based object detection and segmentation pipelines where subsequent steps (e.g. <code>findContours</code>) require single-pixel-wide edge maps. Use Sobel when the gradient direction or a quick magnitude estimate is sufficient, such as computing the gradient orientation for HOG features or feeding into a custom edge-linking algorithm. Use Laplacian (always after Gaussian smoothing to suppress noise) for fine detail enhancement, blob detection, or as part of a Laplacian-of-Gaussian (LoG) scheme. In practice, Canny's two-threshold hysteresis gives the best trade-off between detecting true edges and suppressing noise, but at the cost of needing careful threshold tuning — a common approach is to compute Otsu's threshold on the image and set the Canny thresholds at 0.5× and 1.0× that value.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q28 -->
+  <div class="tab-content" id="tab-7">
+    <div class="question-block" data-qid="cv-u3-q28">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q28', 7)" aria-label="Mark as done"></button>
+        <h2 class="q-title">28. Apply remapping and affine transformation techniques to transform an image, explaining the steps and expected output.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q28', 7)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>Both remapping and affine transformation are <strong>geometric transformations</strong>: they change where pixels appear in the output without altering their intensity values. Unlike filtering operations that modify pixel brightness, geometric transforms relocate pixels to new spatial positions. Because the computed source coordinates are almost never exact integers, the output pixel values must be calculated through interpolation — typically bilinear (<code>INTER_LINEAR</code>) for a good balance of speed and quality, or bicubic (<code>INTER_CUBIC</code>) for smoother results at higher computational cost. Nearest-neighbour interpolation (<code>INTER_NEAREST</code>) is fastest but produces blocky results and is mainly used for label maps where averaging between classes would be meaningless.</p>
+<h3>Affine transformation</h3>
+<p>An affine transformation is a linear transformation plus a shift. It keeps straight lines straight and parallel lines parallel, and combines translation, rotation, scaling and shear. It is defined by a \(2\times3\) matrix:</p>
+<div class="formula">\[ \begin{bmatrix}x'\\y'\end{bmatrix}=\begin{bmatrix}a&b\\c&d\end{bmatrix}\begin{bmatrix}x\\y\end{bmatrix}+\begin{bmatrix}t_x\\t_y\end{bmatrix} \]</div>
+<p>\((x,y)\) is a pixel position in the input image and \((x',y')\) is its position in the output. The \(2\times2\) block \(a,b,c,d\) sets rotation, scaling and shear (for scaling \(a=s_x,\ d=s_y,\ b=c=0\); for no change \(a=d=1\)), and \(t_x,t_y\) shift the image (translation). Six unknowns are needed, so the matrix is found from <strong>three pairs of corresponding points</strong>, as in the figure.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 480 190" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a28" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><path d="M30,40 L170,40 L170,140 L30,140 Z" fill="var(--surface2)" stroke="var(--text-muted)" stroke-width="1.6"/><text x="100" y="94" text-anchor="middle" fill="var(--text)" font-size="11">input</text><path d="M290,60 L420,30 L450,120 L320,150 Z" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/><text x="370" y="94" text-anchor="middle" fill="var(--text)" font-size="11">output</text><circle cx="30" cy="40" r="4" fill="var(--warning)"/><circle cx="290" cy="60" r="4" fill="var(--warning)"/><line x1="35" y1="40" x2="284" y2="60" stroke="var(--warning)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a28)"/><circle cx="170" cy="40" r="4" fill="var(--warning)"/><circle cx="420" cy="30" r="4" fill="var(--warning)"/><line x1="175" y1="40" x2="414" y2="30" stroke="var(--warning)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a28)"/><circle cx="30" cy="140" r="4" fill="var(--warning)"/><circle cx="320" cy="150" r="4" fill="var(--warning)"/><line x1="35" y1="140" x2="314" y2="150" stroke="var(--warning)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#a28)"/><text x="100" y="28" text-anchor="middle" fill="var(--warning)" font-size="9.5">3 points before</text><text x="370" y="22" text-anchor="middle" fill="var(--warning)" font-size="9.5">same 3 points after</text><text x="240" y="176" text-anchor="middle" fill="var(--text-muted)" font-size="10">parallel lines stay parallel; straight lines stay straight</text></svg>
+</div>
+<h3>Remapping</h3>
+<div class="formula">\[ \text{dst}(x,y)=\text{src}\big(\text{map}_x(x,y),\ \text{map}_y(x,y)\big) \]</div>
+<p>Remapping is the most general geometric transformation available: for every pixel \((x,y)\) of the <em>output</em>, two floating-point maps \(\text{map}_x\) and \(\text{map}_y\) specify exactly which position in the <em>source</em> image to sample. Because the maps are arbitrary arrays, any spatial transformation can be encoded — flips, sinusoidal wave distortions, barrel and pincushion lens-distortion corrections, and full perspective warps. Affine transformation is simply one special case where the map values follow a linear equation. The key advantage of the inverse mapping approach (looking up source coordinates for each output pixel) is that every output pixel gets a value, avoiding the holes that would appear if pixels were pushed forward from source to destination with no guarantee of full coverage.</p>
+<h3>Steps and code</h3>
+<ol>
+  <li>Choose the transformation (three point pairs, or a formula for the maps).</li>
+  <li>Compute the matrix with <code>getAffineTransform</code>, or build <code>map_x</code>, <code>map_y</code> arrays.</li>
+  <li>Apply <code>warpAffine</code> or <code>remap</code> with an interpolation method and a border mode.</li>
+  <li>Check the output size and the result.</li>
+</ol>
+<pre><code>import cv2, numpy as np
+img = cv2.imread("photo.jpg")
+h, w = img.shape[:2]
+
+src = np.float32([[0, 0], [w - 1, 0], [0, h - 1]])        # three points in the input (top-left, top-right, bottom-left)
+dst = np.float32([[50, 40], [w - 60, 20], [30, h - 30]])  # where they should land in the output
+M = cv2.getAffineTransform(src, dst)                      # solves for the 2x3 matrix
+out = cv2.warpAffine(img, M, (w, h))                      # apply it; output size is (width, height)
+
+# ---- remap: flip horizontally using maps ----
+map_x = np.zeros((h, w), np.float32)                      # map_x[y, x] = source column to read
+map_y = np.zeros((h, w), np.float32)                      # map_y[y, x] = source row to read
+for y in range(h):
+    for x in range(w):
+        map_x[y, x] = w - 1 - x                           # read from the mirrored column
+        map_y[y, x] = y                                   # same row
+flip = cv2.remap(img, map_x, map_y, cv2.INTER_LINEAR)     # dst(x, y) = src(map_x, map_y)</code></pre>
+<p>Expected output: the affine warp gives a slanted, shifted, scaled copy of the image in which straight lines remain straight and parallel edges remain parallel — it cannot model perspective foreshortening where parallel lines converge. The remap example produces a clean horizontal mirror image. For the full perspective case, where parallel lines in the scene converge (e.g. correcting a photograph taken at an angle to a whiteboard), a 3&times;3 homography matrix with eight degrees of freedom is needed, computed from four point correspondences instead of three. The choice of interpolation method and border mode in both <code>warpAffine</code> and <code>remap</code> directly affects the visual quality of the output, especially near the boundaries where source coordinates may fall outside the image.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q29 -->
+  <div class="tab-content" id="tab-8">
+    <div class="question-block" data-qid="cv-u3-q29">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q29', 8)" aria-label="Mark as done"></button>
+        <h2 class="q-title">29. Explain histogram equalization and describe how it improves image contrast.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q29', 8)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p><strong>Histogram equalization</strong> is a contrast-enhancement technique that redistributes the intensity values of an image so that they span the full available range more uniformly. A low-contrast image — one captured in fog, poor lighting, or with a narrow dynamic range sensor — has its histogram squeezed into a narrow band, meaning large portions of the 0–255 range are unused. Equalization stretches and flattens this histogram so that the output uses the full range, making previously invisible dark and bright details clearly visible. It is one of the most commonly used preprocessing steps in computer vision, applied before edge detection, feature extraction, and object recognition to normalise images captured under varying lighting conditions.</p>
+<h3>Method</h3>
+<ol>
+  <li>Compute the histogram: \(n_k\) is the number of pixels with intensity \(r_k\).</li>
+  <li>Normalise it to a probability: \(p(r_k)=n_k/N\), where \(N\) is the total number of pixels.</li>
+  <li>Compute the cumulative distribution (CDF): \(c_k=\sum_{j=0}^{k}p(r_j)\).</li>
+  <li>Map each level to a new one: \(s_k=\text{round}\big((L-1)\,c_k\big)\), where \(L\) is the number of grey levels (256 for 8-bit).</li>
+  <li>Replace every pixel of value \(r_k\) by \(s_k\).</li>
+</ol>
+<div class="formula">\[ s_k=\text{round}\Big((L-1)\sum_{j=0}^{k}\frac{n_j}{N}\Big) \]</div>
+<p>The CDF is used as the mapping function because it has two essential properties. First, intensity levels that hold many pixels occupy a proportionally large share of the output range, which is exactly what flattens the histogram — the heavily populated bins get spread apart, increasing the visual separation between those intensities. Second, the CDF is non-decreasing, which guarantees that the brightness ordering is preserved: a pixel that was brighter than its neighbour in the input will remain brighter (or equal) in the output, so no intensity inversion occurs. The ideal result is a perfectly uniform histogram, but in practice with discrete integer levels the output histogram will only approximate uniformity because multiple input levels can map to the same output level.</p>
+<h3>Worked example (8 levels, 0&ndash;7, N = 60)</h3>
+<table>
+  <tr><th>level r</th><th>count n</th><th>p = n/60</th><th>CDF</th><th>7 &times; CDF</th><th>new level s</th></tr>
+  <tr><td>2</td><td>12</td><td>0.20</td><td>0.20</td><td>1.4</td><td>1</td></tr>
+  <tr><td>3</td><td>18</td><td>0.30</td><td>0.50</td><td>3.5</td><td>4</td></tr>
+  <tr><td>4</td><td>14</td><td>0.23</td><td>0.73</td><td>5.1</td><td>5</td></tr>
+  <tr><td>5</td><td>10</td><td>0.17</td><td>0.90</td><td>6.3</td><td>6</td></tr>
+  <tr><td>6</td><td>6</td><td>0.10</td><td>1.00</td><td>7.0</td><td>7</td></tr>
+</table>
+<p>The pixels were concentrated in levels 2&ndash;6; after mapping they spread over levels 1&ndash;7, so the contrast increases.</p><div style="display:flex;flex-wrap:wrap;gap:8px"><div style="flex:1 1 300px;min-width:280px"><div class="svg-wrap">
+<svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a29" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="64" y1="26" x2="64" y2="124" stroke="var(--text-muted)" stroke-width="1"/><line x1="64" y1="124" x2="284" y2="124" stroke="var(--text-muted)" stroke-width="1"/><text x="58" y="127.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><line x1="64" y1="99.5" x2="284" y2="99.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="103.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">5.5</text><line x1="64" y1="75.0" x2="284" y2="75.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="78.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">11</text><line x1="64" y1="50.5" x2="284" y2="50.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="54.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">16.5</text><line x1="64" y1="26.0" x2="284" y2="26.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="29.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">22</text><rect x="70.9" y="124.0" width="13.8" height="0.0" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="77.8" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="77.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">0</text><rect x="98.4" y="124.0" width="13.8" height="0.0" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="105.2" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="105.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">1</text><rect x="125.9" y="70.5" width="13.8" height="53.5" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="132.8" y="64.5" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">12</text><text x="132.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">2</text><rect x="153.4" y="43.8" width="13.8" height="80.2" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="160.2" y="37.8" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">18</text><text x="160.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">3</text><rect x="180.9" y="61.6" width="13.8" height="62.4" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="187.8" y="55.6" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">14</text><text x="187.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">4</text><rect x="208.4" y="79.5" width="13.8" height="44.5" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="215.2" y="73.5" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">10</text><text x="215.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">5</text><rect x="235.9" y="97.3" width="13.8" height="26.7" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="242.8" y="91.3" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">6</text><text x="242.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">6</text><rect x="263.4" y="124.0" width="13.8" height="0.0" fill="var(--accent)" fill-opacity="0.22" stroke="var(--accent)" stroke-width="1.5"/><text x="270.2" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="270.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">7</text><text transform="rotate(-90 14 75.0)" x="14" y="75.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">pixels</text></svg>
+</div></div><div style="flex:1 1 300px;min-width:280px"><div class="svg-wrap">
+<svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a30" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><line x1="64" y1="26" x2="64" y2="124" stroke="var(--text-muted)" stroke-width="1"/><line x1="64" y1="124" x2="284" y2="124" stroke="var(--text-muted)" stroke-width="1"/><text x="58" y="127.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">0</text><line x1="64" y1="99.5" x2="284" y2="99.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="103.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">5.5</text><line x1="64" y1="75.0" x2="284" y2="75.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="78.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">11</text><line x1="64" y1="50.5" x2="284" y2="50.5" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="54.0" text-anchor="end" fill="var(--text-muted)" font-size="9.5">16.5</text><line x1="64" y1="26.0" x2="284" y2="26.0" stroke="var(--border)" stroke-width="0.6" stroke-dasharray="3 3"/><text x="58" y="29.5" text-anchor="end" fill="var(--text-muted)" font-size="9.5">22</text><rect x="70.9" y="124.0" width="13.8" height="0.0" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="77.8" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="77.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">0</text><rect x="98.4" y="70.5" width="13.8" height="53.5" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="105.2" y="64.5" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">12</text><text x="105.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">1</text><rect x="125.9" y="124.0" width="13.8" height="0.0" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="132.8" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="132.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">2</text><rect x="153.4" y="124.0" width="13.8" height="0.0" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="160.2" y="118.0" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">0</text><text x="160.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">3</text><rect x="180.9" y="43.8" width="13.8" height="80.2" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="187.8" y="37.8" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">18</text><text x="187.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">4</text><rect x="208.4" y="61.6" width="13.8" height="62.4" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="215.2" y="55.6" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">14</text><text x="215.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">5</text><rect x="235.9" y="79.5" width="13.8" height="44.5" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="242.8" y="73.5" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">10</text><text x="242.8" y="139" text-anchor="middle" fill="var(--text)" font-size="10">6</text><rect x="263.4" y="97.3" width="13.8" height="26.7" fill="var(--success)" fill-opacity="0.22" stroke="var(--success)" stroke-width="1.5"/><text x="270.2" y="91.3" text-anchor="middle" fill="var(--text)" font-size="10.5" font-weight="600">6</text><text x="270.2" y="139" text-anchor="middle" fill="var(--text)" font-size="10">7</text><text transform="rotate(-90 14 75.0)" x="14" y="75.0" text-anchor="middle" fill="var(--text-muted)" font-size="10">pixels</text></svg>
+</div></div></div><p class="source-note">Left: before (levels 2&ndash;6). Right: after mapping (levels 1, 4, 5, 6, 7), spread over the range.</p><p></p>
+<pre><code>import cv2
+img = cv2.imread("dark.jpg", cv2.IMREAD_GRAYSCALE)
+eq = cv2.equalizeHist(img)                                # global equalization (8-bit single channel only)
+
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))  # adaptive version: limits contrast, works per tile
+local = clahe.apply(img)                                  # avoids over-amplifying noise in flat areas
+
+color = cv2.imread("dark.jpg")
+ycc = cv2.cvtColor(color, cv2.COLOR_BGR2YCrCb)            # equalize brightness only, not the colours
+ycc[:, :, 0] = cv2.equalizeHist(ycc[:, :, 0])             # channel 0 is Y (luminance)
+out = cv2.cvtColor(ycc, cv2.COLOR_YCrCb2BGR)</code></pre>
+<p><strong>Limits and CLAHE:</strong> global equalization applies the same mapping to every pixel, so it can over-amplify noise in flat regions and wash out images that already have reasonable contrast. It also fails on images with uneven illumination, where one part of the image is dark and another is bright — a single global transform cannot fix both. <strong>CLAHE</strong> (Contrast-Limited Adaptive Histogram Equalization) addresses these problems by dividing the image into small tiles (e.g. 8&times;8 grid), equalizing each tile independently, and then bilinearly interpolating across tile boundaries to avoid visible seams. The <code>clipLimit</code> parameter caps the maximum amplification in any tile, preventing noise from being excessively boosted. For colour images, equalize only the luminance channel (Y in YCrCb or V in HSV) and leave the chrominance channels untouched; equalizing R, G and B independently would shift the colour balance unpredictably.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q30 -->
+  <div class="tab-content" id="tab-9">
+    <div class="question-block" data-qid="cv-u3-q30">
+      <div class="q-header">
+        <button class="q-check" onclick="toggleDone('cv-u3-q30', 9)" aria-label="Mark as done"></button>
+        <h2 class="q-title">30. Analyze how contours, convex hulls, bounding shapes, and image moments can be used to describe and measure objects.</h2>
+        <button class="q-skip" onclick="toggleSkip('cv-u3-q30', 9)" aria-label="Mark as the question I will skip" title="Mark as the question I will skip (only one per unit)">Skip</button>
+      </div>
+      <div class="answer-body">
+<p>A <strong>contour</strong> is a curve joining all the continuous boundary points of an object that share the same intensity — essentially, the outline of a connected region in a binary image. Contours are the foundation of shape analysis in computer vision: once extracted, they provide access to a rich set of geometric descriptors including area, perimeter, bounding boxes, centroids and shape-matching scores. These descriptors drive practical tasks such as counting objects on a conveyor belt, classifying shapes (circle vs. rectangle), measuring physical dimensions from a calibrated camera, and recognising hand gestures. Unlike pixel-level analysis, contour-based methods represent an object compactly as a sequence of boundary points, making them efficient for both storage and downstream processing.</p>
+<div class="svg-wrap">
+<svg viewBox="0 0 520 196" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a31" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-muted)"/></marker></defs><path d="M60,150 L90,60 L150,35 L210,70 L220,140 L160,165 Z" fill="var(--surface2)" stroke="var(--accent)" stroke-width="2.2"/><path d="M60,150 L90,60 L150,35 L220,140 L160,165 Z" fill="none" stroke="var(--success)" stroke-width="1.6" stroke-dasharray="5 3"/><rect x="55" y="30" width="175" height="140" rx="0" fill="none" stroke="var(--warning)" stroke-dasharray="4 3"/><circle cx="148" cy="100" r="4" fill="var(--important)"/><text x="148" y="119" text-anchor="middle" fill="var(--important)" font-size="9.5">centroid</text><text x="145" y="185" text-anchor="middle" fill="var(--accent)" font-size="10">contour (solid)</text><text x="330" y="70" text-anchor="start" fill="var(--success)" font-size="10">convex hull (green dashed)</text><text x="330" y="95" text-anchor="start" fill="var(--warning)" font-size="10">bounding rectangle (orange)</text><text x="330" y="120" text-anchor="start" fill="var(--important)" font-size="10">centroid from moments</text></svg>
+</div>
+<h3>Steps for finding contours</h3>
+<ol>
+  <li>Convert to grey and threshold (or run Canny) to get a binary image, because the contour finder works on white objects over black.</li>
+  <li>Call <code>cv2.findContours</code> to get the list of contours (each a list of boundary points).</li>
+  <li>Filter by area to remove tiny noise, then compute the properties needed.</li>
+</ol>
+<h3>Shape properties</h3>
+<ul>
+  <li><strong>Area and perimeter:</strong> <code>contourArea</code>, <code>arcLength</code>.</li>
+  <li><strong>Convex hull:</strong> the smallest convex polygon that contains the contour, like a rubber band stretched round it (<code>convexHull</code>). The difference between hull and contour reveals concavities (convexity defects), for example the gaps between fingers.</li>
+  <li><strong>Bounding shapes:</strong> upright rectangle (<code>boundingRect</code>), rotated minimum-area rectangle (<code>minAreaRect</code>) and minimum enclosing circle (<code>minEnclosingCircle</code>).</li>
+  <li><strong>Approximation:</strong> <code>approxPolyDP</code> reduces a contour to few vertices, useful to recognise triangles, rectangles, etc.</li>
+  <li><strong>Moments:</strong> weighted sums of pixel positions that describe the shape.</li>
+</ul>
+<div class="formula">\[ M_{pq}=\sum_{x}\sum_{y}x^{p}y^{q}\,I(x,y),\qquad C_x=\frac{M_{10}}{M_{00}},\quad C_y=\frac{M_{01}}{M_{00}} \]</div>
+<p>\(I(x,y)\) is the pixel value (1 inside the shape for a binary image), and \(p,q\) are the orders. \(M_{00}\) is simply the area, \(M_{10}\) and \(M_{01}\) are the sums of x and y positions, so dividing gives the average position, i.e. the centroid (centre of mass) of the shape. In practice it is used to place a marker at the centre of every detected object.</p>
+<pre><code>import cv2
+img = cv2.imread("shapes.png")
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+_, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY_INV)   # objects white on black
+
+contours, hier = cv2.findContours(binary, cv2.RETR_EXTERNAL,       # only outer contours
+                                  cv2.CHAIN_APPROX_SIMPLE)        # store only corner points
+
+for c in contours:
+    if cv2.contourArea(c) &lt; 100:                                  # ignore tiny noise blobs
+        continue
+    hull = cv2.convexHull(c)                                      # convex hull points
+    x, y, w, h = cv2.boundingRect(c)                              # upright bounding box
+    M = cv2.moments(c)                                            # dictionary: m00, m10, m01, ...
+    cx = int(M["m10"] / M["m00"])                                 # centroid x = M10 / M00
+    cy = int(M["m01"] / M["m00"])                                 # centroid y = M01 / M00
+    cv2.drawContours(img, [hull], -1, (0, 255, 0), 2)             # draw hull in green
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 165, 255), 2)  # draw bounding box in orange
+    cv2.circle(img, (cx, cy), 4, (0, 0, 255), -1)                 # mark centroid in red</code></pre>
+<p><strong>Applications:</strong> contour analysis is used for object counting (counting cells in a microscope image or pills on a tray), shape classification (recognising coins by circularity or identifying polygons through vertex count from <code>approxPolyDP</code>), measuring physical sizes (when combined with a known reference object for pixel-to-millimetre calibration), gesture recognition (counting raised fingers by examining convexity defects between the hull and the contour), and determining robot grasp points by placing the gripper at the centroid of the target object.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showTab(i) {
+  document.querySelectorAll('.tab-content').forEach((el, idx) => {
+    el.classList.toggle('active', idx === i);
+  });
+  document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+    btn.classList.toggle('active', idx === i);
+  });
+}
+function toggleDone(qid, tabIdx) {
+  const block = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const isDone = block.classList.toggle('q-done');
+  const btn = document.querySelectorAll('.tab-btn')[tabIdx];
+  btn.classList.toggle('done', isDone);
+  try { localStorage.setItem('done-' + qid, isDone ? '1' : ''); } catch (e) {}
+}
+document.querySelectorAll('.question-block').forEach((block, idx) => {
+  let saved = false;
+  try { saved = !!localStorage.getItem('done-' + block.dataset.qid); } catch (e) {}
+  if (saved) {
+    block.classList.add('q-done');
+    const btn = document.querySelectorAll('.tab-btn')[idx];
+    if (btn) btn.classList.add('done');
+  }
+});
+function toggleSkip(qid, tabIdx) {
+  const blocks = document.querySelectorAll('.question-block');
+  const btns = document.querySelectorAll('.tab-btn');
+  const target = document.querySelector('.question-block[data-qid="' + qid + '"]');
+  const wasSkipped = target.classList.contains('q-skipped');
+  blocks.forEach((b, i) => { b.classList.remove('q-skipped'); if (btns[i]) btns[i].classList.remove('skipped'); });
+  try { localStorage.removeItem('skip:' + location.pathname); } catch (e) {}
+  if (!wasSkipped) {
+    target.classList.add('q-skipped');
+    btns[tabIdx].classList.add('skipped');
+    try { localStorage.setItem('skip:' + location.pathname, qid); } catch (e) {}
+  }
+}
+(function () {
+  let saved = null;
+  try { saved = localStorage.getItem('skip:' + location.pathname); } catch (e) {}
+  if (!saved) return;
+  document.querySelectorAll('.question-block').forEach((b, i) => {
+    if (b.dataset.qid === saved) {
+      b.classList.add('q-skipped');
+      const btn = document.querySelectorAll('.tab-btn')[i];
+      if (btn) btn.classList.add('skipped');
+    }
+  });
+})();
+showTab(0);
+</script>
+</body>
+</html>
